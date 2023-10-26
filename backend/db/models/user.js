@@ -13,38 +13,52 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    username: {
-      type: DataTypes.STRING(30),
-      allowNull : false,
-      unique : true,
-      validate : {
-        len : [4,30],
-        isNotEmail(value) {
-          if (Validator.isEmail(value)) {
-            throw new Error("Cannot be an email.");
+
+      username: {
+        type: DataTypes.STRING(30),
+        allowNull : false,
+        unique : true,
+        validate : {
+          len : [4,30],
+          isNotEmail(value) {
+            if (Validator.isEmail(value)) {
+              throw new Error("Cannot be an email.");
+            }
           }
         }
-      }
 
-    },
-    email: {
-      type: DataTypes.STRING(256),
+      },
+      email: {
+        type: DataTypes.STRING(256),
+        allowNull : false,
+        unique : true,
+        validate: { 
+          len : [3,256],
+          isEmail : true
+        }
+      },
+      hashedPassword: {
+      type : DataTypes.STRING,
       allowNull : false,
-      unique : true,
-      validate: { 
-        len : [3,256],
-        isEmail : true
+      validate : {
+        min : 60,
+        max : 60  
       }
+    
     },
-    hashedPassword: {
-    type : DataTypes.STRING,
-    allowNull : false,
-    validate : {
-      min : 60,
-      max : 60  
-    }
-  
-  }
+    
+    firstName : {
+      type : DataTypes.STRING,
+      allowNull : false
+    },
+
+    lastName : { 
+      type : DataTypes.STRING,
+      allowNull : false
+    },
+    
+
+
   }, {
     sequelize,
       modelName: "User",

@@ -9,27 +9,6 @@ const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-// router.post(
-//     '/',
-//     async (req, res) => {
-//       const { email, password, username } = req.body;
-//       const hashedPassword = bcrypt.hashSync(password);
-//       const user = await User.create({ email, username, hashedPassword });
-  
-//       const safeUser = {
-//         id: user.id,
-//         email: user.email,
-//         username: user.username,
-//       };
-  
-//       await setTokenCookie(res, safeUser);
-  
-//       return res.json({
-//         user: safeUser
-//       });
-//     }
-//   );
-
 
   const validateSignup = [
     check('email')
@@ -56,14 +35,17 @@ const { handleValidationErrors } = require('../../utils/validation');
     '/',
     validateSignup,
     async (req, res) => {
-      const { email, password, username } = req.body;
+      const { email, password, username,firstName,lastName } = req.body;
       const hashedPassword = bcrypt.hashSync(password);
-      const user = await User.create({ email, username, hashedPassword });
+      const user = await User.create({ email, username, hashedPassword,firstName,lastName });
   
       const safeUser = {
         id: user.id,
         email: user.email,
         username: user.username,
+        firstName : user.firstName,
+        lastName : user.lastName
+
       };
   
       await setTokenCookie(res, safeUser);
