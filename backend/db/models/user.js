@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey : 'userId',
             otherKey : 'spotId'
         })
+
+        User.hasMany(models.Review, {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE'
+        })
     }
   }
   User.init({
