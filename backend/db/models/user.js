@@ -13,9 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         {
           foreignKey : 'ownerId',
           onDelete : 'CASCADE'
-        },
-        
-        )
+        },)
+
+      User.belongsToMany(models.Spot,
+        {
+            through : models.Booking,
+            foreignKey : 'userId',
+            otherKey : 'spotId'
+        })
     }
   }
   User.init({
