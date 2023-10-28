@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         
         )
+
+   
     }
   }
   User.init({
