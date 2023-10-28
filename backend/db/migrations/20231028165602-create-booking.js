@@ -55,12 +55,10 @@ module.exports = {
       }
     },options);
 
-    await queryInterface.addIndex('Bookings', ['spotId','startDate','endDate'], {
-      unique : true
-    })
+    
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeIndex('Bookings', ['spotId','startDate','endDate'])
+ 
     options.tableName = "Bookings";
     return queryInterface.dropTable(options);
   }
