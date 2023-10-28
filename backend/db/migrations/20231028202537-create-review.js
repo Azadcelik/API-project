@@ -20,19 +20,19 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { 
-          model : 'Spots',
-          key : 'id'
+          model: { tableName: 'Spots', schema: options.schema },  // Using schema here
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull : false,
+        allowNull: false,
         references: { 
-          model : 'Users',
-          key : 'id'
+          model: { tableName: 'Users', schema: options.schema },  // Using schema here
+          key: 'id'
         },
-        onDelete : 'CASCADE'
+        onDelete: 'CASCADE'
       },
       review: {
         type: Sequelize.STRING,
