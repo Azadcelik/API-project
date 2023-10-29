@@ -22,7 +22,7 @@ module.exports = {
         references: { 
 
           model: 'Spots',
-          // schema: options.schema,  // Using schema here
+          // schema: options.schema,  // Using schema herea
           key: 'id'
         },
         onDelete: 'CASCADE'
