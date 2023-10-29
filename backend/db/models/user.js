@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         {
           foreignKey : 'ownerId',
           onDelete : 'CASCADE'
-        },)
+        })
 
       User.belongsToMany(models.Spot,
         {
