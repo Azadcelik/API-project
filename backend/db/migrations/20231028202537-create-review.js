@@ -54,10 +54,12 @@ module.exports = {
       }
     });
 
- 
+    await queryInterface.addIndex('Reviews', ['spotId', 'userId'], {
+      unique: true
+    });
   },
   async down(queryInterface, Sequelize) {
-   
+    await queryInterface.removeIndex('Reviews', ['spotId', 'userId']);
     options.tableName = "Reviews";
     return queryInterface.dropTable(options);
   }
