@@ -56,7 +56,7 @@ module.exports = {
         email: 'user4@user.io',
         username: 'FakeUser4',
         hashedPassword: bcrypt.hashSync('password5'),
-        firstName : 'Sergio',
+        firstName : 'Sergioo',
         lastName : 'Ramos'
       }
     ], { validate: true }).catch(err => {
