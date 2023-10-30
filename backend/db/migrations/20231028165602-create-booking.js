@@ -9,6 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    options.tableName = "Bookings";
     await queryInterface.createTable('Bookings', {
       id: {
         allowNull: false,
@@ -55,13 +56,13 @@ module.exports = {
       }
     },options);
 
-    // await queryInterface.addIndex('Bookings', ['spotId', 'startDate', 'endDate'], {
-    //   unique: true
-    // });
+    await queryInterface.addIndex(options, ['spotId', 'startDate', 'endDate'], {
+      unique: true
+    });
   },
   async down(queryInterface, Sequelize) {
-    // await queryInterface.removeIndex("Bookings", ['spotId', 'startDate', 'endDate']);
     options.tableName = "Bookings";
+    await queryInterface.removeIndex(options, ['spotId', 'startDate', 'endDate']);
     return queryInterface.dropTable(options);
   }
 };
