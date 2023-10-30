@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Reviews", {
+    await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false,
         references: { 
 
-          model: "Spots",
+          model: 'Spots',
           // schema: options.schema,  // Using schema herea
           key: 'id'
         },
@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false,
         references: { 
 
-          model: "Users",
+          model: 'Users',
           // schema: options.schema,  // Using schema here
           key: 'id'
         },
@@ -58,12 +58,12 @@ module.exports = {
       }
     });
 
-    await queryInterface.addIndex("Reviews", ['spotId', 'userId'], {
+    await queryInterface.addIndex('Reviews', ['spotId', 'userId'], {
       unique: true
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeIndex("Reviews", ['spotId', 'userId']);
+    await queryInterface.removeIndex('Reviews', ['spotId', 'userId']);
     options.tableName = "Reviews";
     return queryInterface.dropTable(options);
   }

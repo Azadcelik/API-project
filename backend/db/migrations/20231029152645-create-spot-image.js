@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up(queryInterface, Sequelize) {
     
-    await queryInterface.createTable("SpotImages", {
+    await queryInterface.createTable('SpotImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "Spots",
+            tableName: 'Spots',
             schema: options.schema
           },
           key: 'id'

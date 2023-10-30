@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Bookings", {
+    await queryInterface.createTable('Bookings', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull : false,
         references : { 
-          model : "Spots",
+          model : 'Spots',
           key : 'id'
         },
         onDelete : 'CASCADE'
@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull : false,
         references : {
-          model : "Users",
+          model : 'Users',
           key : 'id'
         },
         onDelete : 'CASCADE'
@@ -55,12 +55,12 @@ module.exports = {
       }
     },options);
 
-    await queryInterface.addIndex("Bookings", ['spotId', 'startDate', 'endDate'], {
-      unique: true
-    });
+    // await queryInterface.addIndex('Bookings', ['spotId', 'startDate', 'endDate'], {
+    //   unique: true
+    // });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeIndex("Bookings", ['spotId', 'startDate', 'endDate']);
+    // await queryInterface.removeIndex("Bookings", ['spotId', 'startDate', 'endDate']);
     options.tableName = "Bookings";
     return queryInterface.dropTable(options);
   }
