@@ -9,7 +9,16 @@ const router = express.Router()
 const {check} = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation');
 
-
+const validateReview = [
+    check('review')
+    .exists({checkFalsy: true})
+    .withMessage('Review text is required'),
+    check('stars')
+    .exists({checkFalsy: true})
+    .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors,
+ ]
+ 
 
 
 //get reviewId because you are gonna associate images to reviewId even you are not gonna return reviewId
@@ -70,10 +79,72 @@ router.post('/:reviewId/images',requireAuth, async (req,res) => {
 })
 
 
+/* Update and return an existing review.
+
+Require Authentication: true
+
+Require proper authorization: Review must belong to the current user
+
+Reques */ 
+
+// Find user id from request 
+//retrieve reviewId and do not forget to parseInt 
+// retrive request body 
+//add id userId and spotId to the response body
+// add requireAth and validateReview error middleware
+
+
+router.put('/:reviewId', requireAuth,validateReview, async (req,res) => { 
+   const userId = req.user.id
+   const reviewId = parseInt(req.params.reviewId)
+   const {review,stars} = req.body
+
+   const reviews  = await Review.findOne({ 
+    where : { 
+        id : reviewId,
+        userId : userId
+
+    }
+   })
+   
+   if (!reviews) { 
+    return  res.status(404).json({
+        message: "Review couldn't be found"
+      })
+   }
+
+  await reviews.update({ 
+     review: review,
+     stars : stars
+  })
+
+   res.json({ 
+    
+    id : reviews.id,
+    userId: userId,
+    spotId: reviews.spotId,
+    review: review,
+    stars: stars,
+    createdAt: reviews.createdAt,
+    updatedAt: reviews.updatedAt
+  
+   })
+
+})
+
+
+
+
+
+
+
+
+
+
 
 //Get all Reviews of the Current User
 
-router.get('/current', async (req,res) => { 
+router.get('/current',requireAuth,validateReview, async (req,res) => { 
     const userId = req.user.id
   
     const reviews = await Review.findAll({ 
