@@ -166,7 +166,7 @@ router.get('/:spotId', async (req,res) => {
 router.post('/', async (req,res) => { 
     const {address,city,state,country,lat,lng,name,description,price} = req.body;
 
-    const spots = await Spot.create({ 
+    try { const spots = await Spot.create({ 
       ownerId: req.user.id,
       address,
       city,
@@ -178,11 +178,12 @@ router.post('/', async (req,res) => {
       description,
       price
     })
-    if (!spots) { 
-      res.status(400).json({message: "Bad Request"})
-    }
+   
     res.status(201).json({spots})
-
+   } 
+   catch(error) { 
+       return res.status(400).json({message: "Bad Request"})
+   }
 })
 
 
@@ -197,6 +198,7 @@ router.post('/:spotId/images', async (req,res) => {
    if (!spots) {
      return res.status(404).json({message : "Spot couldn't be found"})
    }
+
    
    const image = await SpotImage.create({ 
       spotId,
@@ -214,6 +216,57 @@ router.post('/:spotId/images', async (req,res) => {
 })
 
 
+//spot must belong to the current user remember you can find user id from req 
+//put body in your request so later on you will be changing 
+//include owner id with updated method
+//you will later use validation error no need to set up now 
+//if spot is not found which try to find out byId just return a message spot could not found 
+
+router.put('/:spotId', async (req,res) => { 
+   const {spotId} = req.params
+   const userId = req.user.id
+   const {address,city,state,country,lat,lng,name,description,price} = req.body
+
+   const spot = await Spot.findByPk(spotId)
+
+  console.log(spot)
+  if (!spot) {
+   return res.status(404).json({
+      message: "Spot couldn't be found"
+    })
+  }
+    //ask if you need this because you are alredt authenticating
+//   if (spot.ownerId !== userId) { 
+//    res.status(403).json({message: "No permission to update"})
+//   }
+ 
+
+   
+ 
+
+  await spot.update({
+
+   address,city,state,country,lat,lng,name,description,price
+ })
+  res.json(spot)
+})
+
+
+router.delete('/:spotId', async (req,res) => { 
+   const {spotId} = req.params
+   const spot = await Spot.findByPk(spotId)
+
+   if (!spot) { 
+      return res.status(404).json({
+         message : "Spot couldn't be found"
+       })
+   }
+
+   await spot.destroy()
+   res.json({
+      message: "Succesfully deleted"
+   })
+})
 
 
 module.exports = router;
