@@ -12,6 +12,65 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 
+//get reviewId because you are gonna associate images to reviewId even you are not gonna return reviewId
+// do not forget parseInt id because it is always string
+//if review does not exist then just return error.Do not forget error again because 
+// your code will be keep working
+// find the number of reviewImage by count aggregate function which is associated to the reviewId!!!!!
+//if it is greater than 10 return another error.Do not forget return!!!!!!
+//you are just gonna add image url and id  in your body 
+//use findByPk if not found say return error review not found
+
+//Add an Image to a Review based on the Review's id
+
+router.post('/:reviewId/images',requireAuth, async (req,res) => { 
+    const {url} = req.body
+    const reviewId = parseInt(req.params.reviewId)
+    const userId = req.user.id
+//We need to check if review exist and also we need to check if it belongs to the current user
+//read carefully what it asks for at the beginning it says must belong to the curret user
+
+
+    const review = await Review.findOne({ 
+        where : { 
+            id : reviewId,
+            userId: userId
+        }
+    })
+
+    if (!review) { 
+       return res.status(404).json({ 
+            message: "Review couldn't be found"
+        })
+    }
+
+  const reviewImageCount = await ReviewImage.count({
+    where : { 
+        reviewId : review.id
+    }
+  })
+
+  if (reviewImageCount >= 10) { 
+   return res.status(404).json({
+    message: "Maximum number of images for this resource was reached"
+   })
+  }
+
+
+
+ const reviewImages = await ReviewImage.create({
+    reviewId,
+    url: url
+ })
+   res.json({
+     id : reviewImages.id,
+     url : reviewImages.url
+   })
+
+})
+
+
+
 //Get all Reviews of the Current User
 
 router.get('/current', async (req,res) => { 
@@ -71,6 +130,9 @@ router.get('/current', async (req,res) => {
       
    res.json({Reviews})
 })
+
+
+
 
 
 
