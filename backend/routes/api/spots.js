@@ -10,8 +10,68 @@ const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-//Get all Reviews by a Spot's id
 
+const validateReview = [
+   check('review')
+   .exists({checkFalsy: true})
+   .withMessage('Review text is required'),
+   check('stars')
+   .exists({checkFalsy: true})
+   .withMessage('Stars must be an integer from 1 to 5'),
+   handleValidationErrors,
+]
+
+
+
+
+
+
+// in your body just add review and stars when you send a request
+//succesful response should include id userId and spotId as well
+//so retrive id and spotid form endRoute 
+//response status code should be 201 
+//if there is validation error let it hit the validation errors
+// if no spot found just res.json message that spot could not found
+// if userId has already existed for the given spot then say user already exist for that id
+
+router.post('/:spotId/reviews',requireAuth,validateReview, async (req,res) => {  
+   const {review,stars} = req.body
+   const usersId = req.user.id
+   const spotsId = parseInt(req.params.spotId)
+  
+   const spots = await Spot.findByPk(spotsId)
+   if (!spots) { 
+     return res.status(404).json({
+         message : "Spot couldn't be found"
+      })
+   }
+   const reviews = await Review.findOne({ 
+       
+      where : { 
+         userId: usersId,
+         spotId : spotsId
+      }
+   })
+
+   if (reviews) { 
+    return  res.status(500).json({ 
+         message : "User already has a review for this spot"
+      })
+   }
+
+   const newReview = await Review.create({ 
+      userId : usersId,
+      spotId : spotsId,
+      review,
+      stars
+   })
+  
+    res.json(newReview)
+})
+
+
+
+//Get all Reviews by a Spot's id
 router.get('/:spotId/reviews', async (req,res) =>{ 
    
    const id  = req.params.spotId
