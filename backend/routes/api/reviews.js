@@ -95,6 +95,7 @@ Reques */
 
 
 router.put('/:reviewId', requireAuth,validateReview, async (req,res) => { 
+    
    const userId = req.user.id
    const reviewId = parseInt(req.params.reviewId)
    const {review,stars} = req.body
@@ -134,9 +135,44 @@ router.put('/:reviewId', requireAuth,validateReview, async (req,res) => {
 
 
 
+/*  Delete a Review
+Delete an existing review.
+
+Require Authentication: true
+
+Require proper authorization: Review must belong to the current use */
 
 
+//find userid from request 
+//it should be existing review and must belong to user so use where
+// use destroy and delete then send a succesful message
+//if no review found return no review could be found 
 
+router.delete('/:reviewId', requireAuth, async (req,res) => { 
+     
+    const userId = req.user.id
+    const reviewId = req.params.reviewId
+ 
+ const reviews = await Review.findOne({ 
+    where : { 
+        id: reviewId,
+        userId: userId
+    }
+ })
+
+  if (!reviews) { 
+     res.status(404).json({ 
+        message: "Review couldn't be found"
+     })
+  }
+
+ await reviews.destroy()
+
+  res.json({
+    "message": "Successfully deleted"
+  })
+
+})
 
 
 
