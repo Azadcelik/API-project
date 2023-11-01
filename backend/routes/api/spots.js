@@ -10,6 +10,38 @@ const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+//Get all Reviews by a Spot's id
+
+router.get('/:spotId/reviews', async (req,res) =>{ 
+   
+   const id  = req.params.spotId
+
+   const Reviews = await Review.findAll({ 
+       where : { 
+           spotId : id
+       },
+       include : [{ 
+           model : User,
+           attributes : ['id','firstName','lastName']
+       },
+       {
+           model : ReviewImage,
+           attributes : ['id', 'url']
+       }
+   ]
+   })
+
+  
+   if (!Reviews.length < 1) { 
+     return res.status(404).json({ 
+         message : "Spot couldn't be found"
+      })
+   }
+
+   res.json({Reviews})
+
+
+})
 
 
 //Get all Spots
