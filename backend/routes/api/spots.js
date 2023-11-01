@@ -12,7 +12,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 
-
+//Get all Spots
 router.get('/', async (req,res) => { 
 
  let spots = await Spot.findAll({ 
@@ -59,6 +59,8 @@ router.get('/', async (req,res) => {
 
 })
 
+
+//Get all Spots owned by the Current User
 
 router.get('/current', async (req,res) => { 
    const currentId = req.user.id
@@ -114,6 +116,7 @@ router.get('/current', async (req,res) => {
 //you need to add user as well But need to change user table to the owner and include
 //just first and last name 
 
+//Get details of a Spot from an id
 
 router.get('/:spotId', async (req,res) => { 
    const {spotId }= req.params
@@ -162,6 +165,7 @@ router.get('/:spotId', async (req,res) => {
 // specify each error but ask where to specify to instructor later 
 
 
+//Create a Spot
 
 router.post('/', async (req,res) => { 
     const {address,city,state,country,lat,lng,name,description,price} = req.body;
@@ -187,7 +191,7 @@ router.post('/', async (req,res) => {
 })
 
 
-
+//Add an Image to a Spot based on the Spot's id
 
 router.post('/:spotId/images', async (req,res) => { 
    const {url,preview} = req.body
@@ -222,6 +226,8 @@ router.post('/:spotId/images', async (req,res) => {
 //you will later use validation error no need to set up now 
 //if spot is not found which try to find out byId just return a message spot could not found 
 
+//Edit a Spot
+
 router.put('/:spotId', async (req,res) => { 
    const {spotId} = req.params
    const userId = req.user.id
@@ -241,8 +247,7 @@ router.put('/:spotId', async (req,res) => {
 //   }
  
 
-   
- 
+
 
   await spot.update({
 
@@ -251,6 +256,9 @@ router.put('/:spotId', async (req,res) => {
   res.json(spot)
 })
 
+
+  
+ //Delete a Spot
 
 router.delete('/:spotId', async (req,res) => { 
    const {spotId} = req.params
