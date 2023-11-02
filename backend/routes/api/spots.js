@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot,Review,ReviewImage,SpotImage, User } = require('../../db/models')
+const { Spot,Review,ReviewImage,SpotImage, User, Booking } = require('../../db/models')
 
 const router = express.Router();
 
@@ -102,6 +102,72 @@ router.get('/:spotId/reviews', async (req,res) =>{
 
 
 })
+
+
+
+/*
+Get all Bookings for a Spot based on the Spot's id
+Return all the bookings for a spot specified by id.
+
+Require Authentication: true
+
+Request
+
+Method: GET
+URL: /api/spots/:spotId/bookings
+Body: none
+Successful Response: If you ARE NOT the owner of the spot.
+*/
+
+// first find user id from req
+//second use findall method on booking specified but spotId
+//i think when you include spot check if there is owner id match with user id
+//if it matches then add user info with th bookings as well
+//if not matches only include bookings sit spotid and startdata and enddate
+//if could not find a spot with specidied id return spot could not find
+
+router.get('/:spotId/bookings',requireAuth, async (req,res) => { 
+     const userId = req.user.id
+     const spotId = parseInt(req.params.spotId)
+
+     const spots = await Spot.findByPk(spotId)
+     if (!spots) { 
+   return   res.status(404).json({
+         message: "Spot couldn't be found"
+      })
+     }
+   
+    let bookings;
+     if (spots.ownerId === userId) { 
+       bookings = await Booking.findAll({
+         where : { 
+            spotId : spotId
+         },
+         attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'], // ask why not implicitly returning the id
+         include : { 
+            model : User,
+            attributes : ['id', 'firstName', 'lastName']
+         }
+      })
+     }
+   else {  //ask how to test this with non user who is authenticated
+      bookings = await Booking.findAll({
+         where : {
+            spotId : spotId
+         },
+         attributes : ['spotId', 'startDate', 'endDate']
+      })
+   }
+   
+ 
+
+res.json({Bookings : bookings})
+
+
+})
+
+
+
 
 
 //Get all Spots
