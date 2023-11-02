@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-
+const {Op} = require('sequelize')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Spot,Review,ReviewImage,SpotImage, User, Booking } = require('../../db/models')
@@ -102,6 +102,100 @@ router.get('/:spotId/reviews', async (req,res) =>{
 
 
 })
+
+
+/*Create a Booking from a Spot based on the Spot's id
+Create and return a new booking from a spot specified by id.
+
+Require Authentication: true
+
+Require proper authorization: Spot must NOT belong to the current user
+*/
+
+
+//first retrieve user from req 
+//then retrive spotId with params 
+//find spot from spotId by findByPk 
+//basically if spot not found just return typical error 
+//compare returned spot's ownerId does not match with the userId 
+//if it matches then send your res.json error 
+
+
+
+router.post('/:spotId/bookings', requireAuth, async (req,res) =>{ 
+
+   const userId = req.user.id
+   const spotId = parseInt(req.params.spotId)
+   const {startDate,endDate} = req.body
+
+   const spots = await Spot.findByPk(spotId)
+   
+   if (!spots) { 
+   return   res.status(404).json({
+         message: "Spot couldn't be found"
+       })
+   }
+   
+
+   if (spots.ownerId === userId) { 
+       
+       res.status(403).json({
+         message: "Spot must not belong to the current user"
+       })
+   }
+
+
+   const existingBookings = await Booking.findOne({
+      where : { 
+         spotId : spotId,
+
+      [Op.or] : [
+           {
+            startDate : { 
+               [Op.between] : [startDate,endDate]
+            }
+           },
+           {
+            endDate: { 
+               [Op.between] : [startDate,endDate]
+            }
+           }
+
+      ]
+   },
+   })
+
+ if (existingBookings) { 
+      res.status(403).json({
+         message: "Sorry, this spot is already booked for the specified dates",
+         errors: {
+           startDate: "Start date conflicts with an existing booking",
+           endDate: "End date conflicts with an existing booking"
+         }
+       })
+   }
+
+
+
+
+  const  createdBooking =  await Booking.create({ 
+      
+      spotId: spotId,
+      userId: userId,
+      startDate: startDate,
+      endDate: endDate
+
+   })
+    res.json({createdBooking})
+
+
+
+})
+
+
+
+
+
 
 
 
