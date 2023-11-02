@@ -126,8 +126,8 @@ router.post('/:spotId/bookings', requireAuth, async (req,res) =>{
 
    const userId = req.user.id
    const spotId = parseInt(req.params.spotId)
-   const {startDate,endDate} = req.body
-
+   let {startDate,endDate} = req.body
+  
    const spots = await Spot.findByPk(spotId)
    
    if (!spots) { 
@@ -143,8 +143,9 @@ router.post('/:spotId/bookings', requireAuth, async (req,res) =>{
          message: "Spot must not belong to the current user"
        })
    }
-
-
+    startDate = new Date(startDate)
+    endDate = new Date(endDate)
+    console.log(startDate,endDate)
    const existingBookings = await Booking.findOne({
       where : { 
          spotId : spotId,
@@ -161,12 +162,24 @@ router.post('/:spotId/bookings', requireAuth, async (req,res) =>{
             }
            }
 
-      ]
+      ],
+      [Op.and]: [
+         {
+           startDate: {
+             [Op.lte]: endDate
+           }
+         },
+         {
+           endDate: {
+             [Op.gte]: startDate
+           }
+         }
+       ]
    },
    })
-
+   
  if (existingBookings) { 
-      res.status(403).json({
+     return  res.status(403).json({
          message: "Sorry, this spot is already booked for the specified dates",
          errors: {
            startDate: "Start date conflicts with an existing booking",
@@ -186,7 +199,7 @@ router.post('/:spotId/bookings', requireAuth, async (req,res) =>{
       endDate: endDate
 
    })
-    res.json({createdBooking})
+    res.json(createdBooking)
 
 
 
@@ -321,32 +334,39 @@ router.get('/current', async (req,res) => {
       where: { 
          ownerId: currentId
       },
-      include : { 
+      include : [
+       { 
          model : Review,
-         include : { 
-            model : ReviewImage
-         }
-      }
+         
+       },
+       {
+         model : SpotImage,
+         where : { 
+            preview : true
+         },
+         limit : 1,
+         required: false
+       }
+   ]
    })
 
    
    spots = spots.map(spot => { 
       const spotObj = spot.toJSON() // you need ot jsonize because of sending back need to be in json format not js object
   
-  
+       console.log(spotObj)
        //think of combining avg and previewimage later to refactor your code
       if (spotObj.Reviews && spotObj.Reviews.length > 0) { 
         const total = spotObj.Reviews.reduce((acc,review) => acc + review.stars, 0)
         spotObj.avgRating = total / spotObj.Reviews.length
       }
       //think of combining avg and previewimage later to refactor your code
-      if (spotObj.Reviews[0].ReviewImages && spotObj.Reviews[0].ReviewImages.length > 0) { 
-         spotObj.previewImage = spotObj.Reviews[0].ReviewImages[0].url
-      }
-      
+       if (spotObj.SpotImages.length > 0) { 
+         spotObj.previewImage = spotObj.SpotImages[0].url
+       }
       //use delete method to delete unwanted Model in your response
       delete spotObj.Reviews
-     //  delete spotObj.Reviews.ReviewImages
+      delete spotObj.SpotImages
   
       return spotObj
       
