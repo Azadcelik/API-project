@@ -185,7 +185,7 @@ Require Authentication: true
 //you will get url and add it to the previewImage
 
 
-router.get('/current', requireAuth, handleValidationErrors, async(req,res) => { 
+router.get('/current', requireAuth , async(req,res) => { 
     const userId = req.user.id
 
     const bookings = await Booking.findAll({

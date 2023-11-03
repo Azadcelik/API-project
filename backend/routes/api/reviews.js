@@ -94,7 +94,7 @@ Reques */
 // add requireAth and validateReview error middleware
 
 
-router.put('/:reviewId', requireAuth,validateReview, async (req,res) => { 
+router.put('/:reviewId', requireAuth , async (req,res) => { 
     
    const userId = req.user.id
    const reviewId = parseInt(req.params.reviewId)

@@ -91,7 +91,7 @@ const validateQueryFilters = [
 // if no spot found just res.json message that spot could not found
 // if userId has already existed for the given spot then say user already exist for that id
 
-router.post('/:spotId/reviews',requireAuth,validateReview, async (req,res) => {  
+router.post('/:spotId/reviews',requireAuth , async (req,res) => {  
    const {review,stars} = req.body
    const usersId = req.user.id
    const spotsId = parseInt(req.params.spotId)
@@ -334,7 +334,7 @@ res.json({Bookings : bookings})
 
 
 //Get all Spots
-router.get('/', validateQueryFilters, async (req,res) => { 
+router.get('/',  async (req,res) => { 
 
 let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
 // console.log(minLat)
@@ -537,7 +537,7 @@ router.get('/:spotId', async (req,res) => {
 
 //Create a Spot
 
-router.post('/', requireAuth,validateSpot,  async (req,res) => { 
+router.post('/', requireAuth ,  async (req,res) => { 
     const {address,city,state,country,lat,lng,name,description,price} = req.body;
 
     try { const spots = await Spot.create({ 
@@ -598,7 +598,7 @@ router.post('/:spotId/images', requireAuth,  async (req,res) => {
 
 //Edit a Spot
 
-router.put('/:spotId', requireAuth, validateSpot, async (req,res) => { 
+router.put('/:spotId', requireAuth , async (req,res) => { 
    const {spotId} = req.params
    const userId = req.user.id
    const {address,city,state,country,lat,lng,name,description,price} = req.body
