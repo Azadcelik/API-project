@@ -58,24 +58,6 @@ router.put('/:bookingId', requireAuth, async (req,res) => {
       }
   
  
- //  convert to date string first  
-// const parsedStartDate = new Date(startDate).toDateString();
-// const parsedEndDate = new Date(endDate).toDateString();
-
-// // convert today you will change 
-// const today = new Date().toDateString();
-
-// // get tht 
-// const timeOfParsedStartDate = new Date(parsedStartDate).getTime();
-// const timeOfParsedEndDate = new Date(parsedEndDate).getTime();
-// const timeOfToday = new Date(today).getTime();
-
-// // Get the time value of the booking's end date
-// const timeOfBookingsEndDate = new Date(bookings.endDate).toDateString();
-// const timeOfBookingsEndDateAtMidnight = new Date(timeOfBookingsEndDate).getTime();
-// console.log(timeOfBookingsEndDateAtMidnight,timeOfToday)
-
-
 
 const date = new Date();
 if (new Date(bookings.endDate) < date) {
@@ -87,55 +69,48 @@ return  res.status(403).json({
 
 startDate = new Date(startDate)
 endDate = new Date(endDate)
-const conflictingBooking = await Booking.findOne({
-    where: {
-      spotId: bookings.spotId,
-    //   id: { [Op.ne]: bookingId }, // Exclude the current booking from the check
-      [Op.or]: [
-        {
-          [Op.and]: [
-            { startDate: { [Op.lt]: endDate } },
-            { endDate: { [Op.gt]: startDate } },
-          ],
-        },
-        {
-          [Op.and]: [
-            { startDate: { [Op.lte]: startDate } },
-            { endDate: { [Op.gte]: endDate } },
-          ],
-        },
-      ],
-    },
-  });
-  
 
-   if (conflictingBooking) {
-  return  res.status(403).json({
-         message: "Sorry, this spot is already booked for the specified dates",
-         errors: {
-           startDate: "Start date conflicts with an existing booking",
-           endDate: "End date conflicts with an existing booking"
-         }
-       })
-    }
 
-   await bookings.update({
-    startDate: startDate,
-    endDate: endDate
-   })
-
-   
-   res.json(
-    {
-    id : bookings.id,
+const conflict = await Booking.findOne({
+  where: {
     spotId: bookings.spotId,
-    userId,
-    startDate : bookings.startDate,
-    endDate: bookings.endDate
-})
+    id: { [Op.ne]: bookingId }, // Exclude the current booking
+    [Op.or]: [
+      {
+        startDate: {
+          [Op.lte]: endDate,
+          [Op.gt]: startDate,
+        }
+      },
+      {
+        endDate: {
+          [Op.lt]: endDate,
+          [Op.gte]: startDate,
+        }
+      }
+    ]
+  }
+});
 
-})
+if (conflict) {
+  return res.status(403).json({
+    message: "Sorry, this spot is already booked for the specified dates",
+    errors: {
+      startDate: "Start date conflicts with an existing booking",
+      endDate: "End date conflicts with an existing booking"
+    }
+  });
+}
 
+// If no conflicts, update the booking
+const updatedBooking = await bookings.update({
+  startDate: startDate,
+  endDate: endDate
+});
+
+// Return the updated booking details
+res.status(200).json(updatedBooking);
+});
 
 /*
 Delete a Booking
@@ -257,6 +232,24 @@ router.get('/current', requireAuth, handleValidationErrors, async(req,res) => {
 })
 
 
+
+
+ //  convert to date string first  
+// const parsedStartDate = new Date(startDate).toDateString();
+// const parsedEndDate = new Date(endDate).toDateString();
+
+// // convert today you will change 
+// const today = new Date().toDateString();
+
+// // get tht 
+// const timeOfParsedStartDate = new Date(parsedStartDate).getTime();
+// const timeOfParsedEndDate = new Date(parsedEndDate).getTime();
+// const timeOfToday = new Date(today).getTime();
+
+// // Get the time value of the booking's end date
+// const timeOfBookingsEndDate = new Date(bookings.endDate).toDateString();
+// const timeOfBookingsEndDateAtMidnight = new Date(timeOfBookingsEndDate).getTime();
+// console.log(timeOfBookingsEndDateAtMidnight,timeOfToday)
 
 
 
