@@ -7,7 +7,7 @@ const { Spot,Review,ReviewImage,SpotImage, User, Booking } = require('../../db/m
 
 const router = express.Router();
 
-const { check } = require('express-validator');
+const { check,query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 
@@ -21,7 +21,63 @@ const validateReview = [
    handleValidationErrors,
 ]
 
+const validateSpot = [
+   check('adress')
+   .exists({checkFalsy : true})
+   .withMessage( "Street address is required"),
+   check('city')
+   .exists({checkFalsy:true})
+   .withMessage("City is required"),
+   check('state')
+   .exists({checkFalsy: true})
+   .withMessage("State is required"),
+   check('country')
+   .exists({checkFalsy: true})
+   .withMessage("Country is required"),
+   check('lat')
+   .exists({checkFalsy: true})
+   .withMessage("Latitude is not valid"),
+   check('lng')
+   .exists({checkFalsy: true})
+   .withMessage("Longitude is not valid"),
+   check('name')
+   .exists({checkFalsy: true})
+   .withMessage("Name must be less than 50 characters"),
+   check('description')
+   .exists({checkFalsy: true})
+   .withMessage("Description is required"),
+   check('price')
+   .exists({checkFalsy: true})
+   .withMessage("Price per day is required"),
+   
+]
 
+const validateQueryFilters = [ 
+   query('page')
+   .isInt({min: 1})
+   .withMessage("Page must be greater than or equal to 1"),
+   query('size')
+   .isInt({min: 1})
+   .withMessage("Size must be greater than or equal to 1"),
+   query('maxLat')
+   .optional().isFloat({ min: -90, max: 90 })
+   .withMessage("Maximum latitude is invalid"),
+   query('minLat')
+   .optional().isFloat({ min: -90, max: 90 })
+   ,withMessage("Minimum latitude is invalid"),
+   query('minLng')
+   .optional().isFloat({ min: -180, max: 180 })
+   .withMessage("Maximum longitude is invalid"),
+   query('maxLng')
+   .optional().isFloat({ min: -180, max: 180 })
+   .withMessage("Minimum longitude is invalid"),
+   query('minPrice')
+   .optional().isFloat({min : 0})
+   .withMessage("Minimum price must be greater than or equal to 0"),
+   query('maxPrice')
+   .optional().isFloat({min : 0})
+   .withMessage("Maximum price must be greater than or equal to 0")
+]
 
 
 
@@ -277,20 +333,50 @@ res.json({Bookings : bookings})
 
 
 //Get all Spots
-router.get('/', async (req,res) => { 
+router.get('/', validateQueryFilters, async (req,res) => { 
+
+let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
+   page = parseInt(page),
+   size = parseInt(size)
+ 
+   if (page < 1 || isNaN(page) || !page) page = 1
+   if (page > 10) page = 10
+
+   if (size < 1 || isNaN(size) || !size) size = 20
+   if (size > 20) size = 20
+
+    
+   const whereObj = {}
+  
+   if (minLat) whereObj.lat = {[Op.gte] : parseFloat(minLat)}
+   if (maxLat) whereObj.lat = {...whereObj.lat,[Op.lte] : parseFloat(maxLat)}
+   if (minLng) whereObj.lng = {[Op.gte] : parseFloat(minLng)}
+   if (maxLng) whereObj.lng = {...whereObj.lng, [Op.lte] : parseFloat(maxLng)}
+   if (minPrice) whereObj.price = {[Op.gte] : parseFloat(minPrice)}
+   if (maxPrice) whereObj.price = {...whereObj.price, [Op.lte] : parseFloat(maxPrice)}
+   
+
 
  let spots = await Spot.findAll({ 
+    where : whereObj,
     include : [
        {
          model : Review,
-         include : [
+       }
 
-          { 
-            model: ReviewImage
-          }
-         ]
-      }
-    ]
+       { 
+            model: SpotImage,
+            where : { 
+               preview : true
+            },
+            limit : 1,
+            required: false
+       }
+         ],
+
+      limit : size,
+      offset : (page - 1) * size
+    
  })
   
  spots = spots.map(spot => { 
@@ -302,13 +388,22 @@ router.get('/', async (req,res) => {
       const total = spotObj.Reviews.reduce((acc,review) => acc + review.stars, 0)
       spotObj.avgRating = total / spotObj.Reviews.length
     }
+
+    /*
     //think of combining avg and previewimage later to refactor your code
-    if (spotObj.Reviews[0].ReviewImages && spotObj.Reviews[0].ReviewImages.length > 0) { 
-       spotObj.previewImage = spotObj.Reviews[0].ReviewImages[0].url
+   //  if (spotObj.Reviews[0].ReviewImages && spotObj.Reviews[0].ReviewImages.length > 0) { 
+      //  spotObj.previewImage = spotObj.Reviews[0].ReviewImages[0].url
+   //  } 
+   */
+
+
+   if (spotObj.SpotImages.length > 0) { 
+      spotObj.previewImage = spotObj.SpotImages[0].url
     }
     
-    //use delete method to delete unwanted Model in your response
+    
     delete spotObj.Reviews
+    delete spotObj.SpotImages
    //  delete spotObj.Reviews.ReviewImages
 
     return spotObj
@@ -326,7 +421,7 @@ router.get('/', async (req,res) => {
 
 //Get all Spots owned by the Current User
 
-router.get('/current', async (req,res) => { 
+router.get('/current' ,requireAuth,  async (req,res) => { 
    const currentId = req.user.id
    
    let spots = await Spot.findAll({ 
@@ -438,7 +533,7 @@ router.get('/:spotId', async (req,res) => {
 
 //Create a Spot
 
-router.post('/', async (req,res) => { 
+router.post('/', requireAuth,validateSpot,  async (req,res) => { 
     const {address,city,state,country,lat,lng,name,description,price} = req.body;
 
     try { const spots = await Spot.create({ 
@@ -464,7 +559,7 @@ router.post('/', async (req,res) => {
 
 //Add an Image to a Spot based on the Spot's id
 
-router.post('/:spotId/images', async (req,res) => { 
+router.post('/:spotId/images', requireAuth,  async (req,res) => { 
    const {url,preview} = req.body
    const {spotId} = req.params
   
@@ -499,7 +594,7 @@ router.post('/:spotId/images', async (req,res) => {
 
 //Edit a Spot
 
-router.put('/:spotId', async (req,res) => { 
+router.put('/:spotId', requireAuth, validateSpot, async (req,res) => { 
    const {spotId} = req.params
    const userId = req.user.id
    const {address,city,state,country,lat,lng,name,description,price} = req.body
@@ -530,7 +625,7 @@ router.put('/:spotId', async (req,res) => {
   
  //Delete a Spot
 
-router.delete('/:spotId', async (req,res) => { 
+router.delete('/:spotId', requireAuth, async (req,res) => { 
    const {spotId} = req.params
    const spot = await Spot.findByPk(spotId)
 

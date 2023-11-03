@@ -180,7 +180,7 @@ router.delete('/:reviewId', requireAuth, async (req,res) => {
 
 //Get all Reviews of the Current User
 
-router.get('/current',requireAuth,validateReview, async (req,res) => { 
+router.get('/current',requireAuth, async (req,res) => { 
     const userId = req.user.id
   
     const reviews = await Review.findAll({ 
