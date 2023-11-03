@@ -150,19 +150,18 @@ router.post('/:spotId/bookings', requireAuth, async (req,res) =>{
       where : { 
          spotId : spotId,
 
-      [Op.or] : [
-           {
-            startDate : { 
-               [Op.between] : [startDate,endDate]
-            }
-           },
-           {
-            endDate: { 
-               [Op.between] : [startDate,endDate]
-            }
-           }
-
-      ],
+    [Op.and]: [ // Both conditions in this array should be true
+      {
+        startDate: {
+          [Op.lt]: endDate, // Existing bookings that start before the new booking ends
+        },
+      },
+      {
+        endDate: {
+          [Op.gt]: startDate, // Existing bookings that end after the new booking starts
+        },
+      },
+    ],
       [Op.and]: [
          {
            startDate: {
