@@ -49,6 +49,7 @@ const validateSpot = [
    check('price')
    .exists({checkFalsy: true})
    .withMessage("Price per day is required"),
+   handleValidationErrors
    
 ]
 
@@ -64,7 +65,7 @@ const validateQueryFilters = [
    .withMessage("Maximum latitude is invalid"),
    query('minLat')
    .optional().isFloat({ min: -90, max: 90 })
-   ,withMessage("Minimum latitude is invalid"),
+   .withMessage("Minimum latitude is invalid"),
    query('minLng')
    .optional().isFloat({ min: -180, max: 180 })
    .withMessage("Maximum longitude is invalid"),
@@ -76,9 +77,9 @@ const validateQueryFilters = [
    .withMessage("Minimum price must be greater than or equal to 0"),
    query('maxPrice')
    .optional().isFloat({min : 0})
-   .withMessage("Maximum price must be greater than or equal to 0")
+   .withMessage("Maximum price must be greater than or equal to 0"),
+   handleValidationErrors
 ]
-
 
 
 
@@ -336,6 +337,7 @@ res.json({Bookings : bookings})
 router.get('/', validateQueryFilters, async (req,res) => { 
 
 let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
+// console.log(minLat)
    page = parseInt(page),
    size = parseInt(size)
  
@@ -355,14 +357,14 @@ let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
    if (minPrice) whereObj.price = {[Op.gte] : parseFloat(minPrice)}
    if (maxPrice) whereObj.price = {...whereObj.price, [Op.lte] : parseFloat(maxPrice)}
    
-
+//   console.log(whereObj)
 
  let spots = await Spot.findAll({ 
     where : whereObj,
     include : [
        {
          model : Review,
-       }
+       },
 
        { 
             model: SpotImage,
@@ -381,7 +383,7 @@ let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
   
  spots = spots.map(spot => { 
     const spotObj = spot.toJSON() // you need ot jsonize because of sending back need to be in json format not js object
-
+    console.log('spotObj', spotObj)
 
      //think of combining avg and previewimage later to refactor your code
     if (spotObj.Reviews && spotObj.Reviews.length > 0) { 
@@ -405,14 +407,16 @@ let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
     delete spotObj.Reviews
     delete spotObj.SpotImages
    //  delete spotObj.Reviews.ReviewImages
-
+ 
     return spotObj
     
  })
  
    
  res.json({ 
-    Spots : spots
+    Spots : spots,
+    page : page,
+    size : size
    
  })
 
