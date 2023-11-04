@@ -60,7 +60,7 @@ router.post('/:reviewId/images',requireAuth, async (req,res) => {
   })
 
   if (reviewImageCount >= 10) { 
-   return res.status(404).json({
+   return res.status(403).json({
     message: "Maximum number of images for this resource was reached"
    })
   }
@@ -94,25 +94,26 @@ Reques */
 // add requireAth and validateReview error middleware
 
 
-router.put('/:reviewId', requireAuth , async (req,res) => { 
+router.put('/:reviewId', requireAuth ,validateReview, async (req,res) => { 
     
    const userId = req.user.id
    const reviewId = parseInt(req.params.reviewId)
    const {review,stars} = req.body
 
-   const reviews  = await Review.findOne({ 
-    where : { 
-        id : reviewId,
-        userId : userId
+   const reviews = await Review.findByPk(reviewId);
 
-    }
-   })
+   if (!reviews) {
+    return res.status(404).json({
+      message: "Review couldn't be found"
+    });
+  }
    
-   if (!reviews) { 
-    return  res.status(404).json({
-        message: "Review couldn't be found"
-      })
-   }
+  if (reviews.userId !== userId) {
+    return res.status(403).json({
+      message: "Forbidden: You do not have permission to edit this review"
+    });
+  }
+
 
   await reviews.update({ 
      review: review,
@@ -153,17 +154,20 @@ router.delete('/:reviewId', requireAuth, async (req,res) => {
     const userId = req.user.id
     const reviewId = req.params.reviewId
  
- const reviews = await Review.findOne({ 
-    where : { 
-        id: reviewId,
-        userId: userId
-    }
- })
+  // Find the review by id only.otherwise you fail for correct response
+  const reviews = await Review.findByPk(reviewId);
 
-  if (!reviews) { 
-     res.status(404).json({ 
-        message: "Review couldn't be found"
-     })
+   // If the review does not exist.
+   if (!reviews) {
+    return res.status(404).json({
+      message: "Review couldn't be found"
+    });
+  }
+
+  if (reviews.userId !== userId) {
+    return res.status(403).json({
+      message: "Forbidden: You do not have permission to delete this review"
+    });
   }
 
  await reviews.destroy()
@@ -203,7 +207,8 @@ router.get('/current',requireAuth, async (req,res) => {
                model : SpotImage,
                where : {
                 preview: true
-               }
+               },
+               required : false
             }
         },
         {
@@ -220,6 +225,9 @@ router.get('/current',requireAuth, async (req,res) => {
     //    console.log(reviewJsonObj.Spot.SpotImages.length) //spotImage is an array
     // debugged why image SpotImage returned undefined 
     //   do not forget plural s. Sequelize autotically adding s if more than one data is inside.
+
+    // spotObj.previewImage = spotObj.SpotImages.length > 0 ? spotObj.SpotImages[0].url : null;
+
         if (reviewJsonObj.Spot.SpotImages && reviewJsonObj.Spot.SpotImages.length > 0) { 
                 
             // spotImages is an array you need to iterate to access its url
@@ -228,6 +236,9 @@ router.get('/current',requireAuth, async (req,res) => {
                 reviewJsonObj.Spot.previewImage = image.url
             }
             
+        }
+        else { 
+            reviewJsonObj.Spot.previewImage = null
         }
     
         delete reviewJsonObj.Spot.SpotImages

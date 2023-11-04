@@ -13,16 +13,17 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const validateReview = [
    check('review')
-   .exists({checkFalsy: true})
-   .withMessage('Review text is required'),
+     .exists({ checkFalsy: true })
+     .withMessage('Review text is required'),
    check('stars')
-   .exists({checkFalsy: true})
-   .withMessage('Stars must be an integer from 1 to 5'),
-   handleValidationErrors,
-]
+     .exists({ checkFalsy: true })
+     .isInt({ min: 1, max: 5 })
+     .withMessage('Stars must be an integer from 1 to 5'),
+   handleValidationErrors
+ ];
 
 const validateSpot = [
-   check('adress')
+   check('address')
    .exists({checkFalsy : true})
    .withMessage( "Street address is required"),
    check('city')
@@ -36,18 +37,22 @@ const validateSpot = [
    .withMessage("Country is required"),
    check('lat')
    .exists({checkFalsy: true})
+   .isFloat({ min: -90, max: 90 })
    .withMessage("Latitude is not valid"),
    check('lng')
    .exists({checkFalsy: true})
+   .isFloat({ min: -180, max: 180 })
    .withMessage("Longitude is not valid"),
    check('name')
-   .exists({checkFalsy: true})
-   .withMessage("Name must be less than 50 characters"),
+   .exists({ checkFalsy: true }).withMessage("Name is required")  // Checks that the name exists and is not falsy (e.g., not an empty string, not null, etc.)
+   .isLength({ min: 1 }).withMessage("Name must be at least 1 character") // Checks that the name is at least 1 character long
+   .isLength({ max: 50 }).withMessage("Name must be less than 50 characters"), // Checks that the name is no more than 50 characters long
    check('description')
    .exists({checkFalsy: true})
    .withMessage("Description is required"),
    check('price')
    .exists({checkFalsy: true})
+   .isFloat({min : 0})
    .withMessage("Price per day is required"),
    handleValidationErrors
    
@@ -91,7 +96,7 @@ const validateQueryFilters = [
 // if no spot found just res.json message that spot could not found
 // if userId has already existed for the given spot then say user already exist for that id
 
-router.post('/:spotId/reviews',requireAuth , async (req,res) => {  
+router.post('/:spotId/reviews',requireAuth ,validateReview, async (req,res) => {  
    const {review,stars} = req.body
    const usersId = req.user.id
    const spotsId = parseInt(req.params.spotId)
@@ -129,13 +134,22 @@ router.post('/:spotId/reviews',requireAuth , async (req,res) => {
 
 
 //Get all Reviews by a Spot's id
-router.get('/:spotId/reviews', async (req,res) =>{ 
+router.get('/:spotId/reviews' , async (req,res) =>{ 
    
-   const id  = req.params.spotId
+   const spotId  = parseInt(req.params.spotId)
+
+   const spot = await Spot.findByPk(spotId);
+
+   if (!spot) {
+      return res.status(404).json({ 
+          message: "Spot couldn't be found"
+      });
+   }
+     
 
    const Reviews = await Review.findAll({ 
        where : { 
-           spotId : id
+           spotId : spotId
        },
        include : [{ 
            model : User,
@@ -147,13 +161,9 @@ router.get('/:spotId/reviews', async (req,res) =>{
        }
    ]
    })
-
+ console.log(Reviews)
   
-   if (!Reviews.length < 1) { 
-     return res.status(404).json({ 
-         message : "Spot couldn't be found"
-      })
-   }
+  // If no reviews are found, this should not be an error, simply return an empty array.
 
    res.json({Reviews})
 
@@ -334,7 +344,7 @@ res.json({Bookings : bookings})
 
 
 //Get all Spots
-router.get('/',  async (req,res) => { 
+router.get('/', validateQueryFilters,  async (req,res) => { 
 
 let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
 // console.log(minLat)
@@ -383,7 +393,7 @@ let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
   
  spots = spots.map(spot => { 
     const spotObj = spot.toJSON() // you need ot jsonize because of sending back need to be in json format not js object
-    console.log('spotObj', spotObj)
+    c
 
      //think of combining avg and previewimage later to refactor your code
     if (spotObj.Reviews && spotObj.Reviews.length > 0) { 
@@ -398,11 +408,13 @@ let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
    //  } 
    */
 
-
-   if (spotObj.SpotImages.length > 0) { 
-      spotObj.previewImage = spotObj.SpotImages[0].url
-    }
-    
+   
+   spotObj.previewImage = spotObj.SpotImages.length > 0 ? spotObj.SpotImages[0].url : null;
+   
+   // if (spotObj.SpotImages.length > 0) { 
+   //    spotObj.previewImage = spotObj.SpotImages[0].url
+   //  }
+  
     
     delete spotObj.Reviews
     delete spotObj.SpotImages
@@ -537,8 +549,12 @@ router.get('/:spotId', async (req,res) => {
 
 //Create a Spot
 
-router.post('/', requireAuth ,  async (req,res) => { 
-    const {address,city,state,country,lat,lng,name,description,price} = req.body;
+router.post('/', requireAuth , validateSpot,   async (req,res) => { 
+    let {address,city,state,country,lat,lng,name,description,price} = req.body;
+   
+    lat = parseInt(lat)
+    lng = parseInt(lng)
+    price = parseInt(price)
 
     try { const spots = await Spot.create({ 
       ownerId: req.user.id,
@@ -561,18 +577,31 @@ router.post('/', requireAuth ,  async (req,res) => {
 })
 
 
-//Add an Image to a Spot based on the Spot's id
+/*
+Add an Image to a Spot based on the Spot's id
+Create and return a new image for a spot specified by id.
+
+Require Authentication: true
+
+Require proper authorization: Spot must belong to the current user
+
+*/
 
 router.post('/:spotId/images', requireAuth,  async (req,res) => { 
    const {url,preview} = req.body
-   const {spotId} = req.params
+   const userId = req.user.id
+   const spotId = req.params.spotId
   
    const spots = await Spot.findByPk(spotId)
 
    if (!spots) {
      return res.status(404).json({message : "Spot couldn't be found"})
    }
-
+   if (spots.ownerId !== userId) {
+      return res.status(403).json({
+        message: "You do not have permission to add images to this spot."
+      });
+    }
    
    const image = await SpotImage.create({ 
       spotId,
@@ -598,10 +627,13 @@ router.post('/:spotId/images', requireAuth,  async (req,res) => {
 
 //Edit a Spot
 
-router.put('/:spotId', requireAuth , async (req,res) => { 
+router.put('/:spotId', requireAuth, validateSpot, async (req,res) => { 
    const {spotId} = req.params
    const userId = req.user.id
-   const {address,city,state,country,lat,lng,name,description,price} = req.body
+   let {address,city,state,country,lat,lng,name,description,price} = req.body
+   lat = parseInt(lat)
+   lng = parseInt(lng)
+   price = parseInt(price)
 
    const spot = await Spot.findByPk(spotId)
 
@@ -611,10 +643,12 @@ router.put('/:spotId', requireAuth , async (req,res) => {
     })
   }
     //ask if you need this because you are alredt authenticating
-//   if (spot.ownerId !== userId) { 
-//    res.status(403).json({message: "No permission to update"})
-//   }
- 
+    if (spot.ownerId !== userId) {
+      return res.status(403).json({
+        message: "No permission to update this spot"
+      });
+    }
+
 
 
 
@@ -630,7 +664,8 @@ router.put('/:spotId', requireAuth , async (req,res) => {
  //Delete a Spot
 
 router.delete('/:spotId', requireAuth, async (req,res) => { 
-   const {spotId} = req.params
+   const spotId = parseInt(req.params.spotId)
+   const userId = req.user.id
    const spot = await Spot.findByPk(spotId)
 
    if (!spot) { 
@@ -638,6 +673,11 @@ router.delete('/:spotId', requireAuth, async (req,res) => {
          message : "Spot couldn't be found"
        })
    }
+   if (spot.ownerId !== userId) {
+      return res.status(403).json({
+        message: "You do not have permission to delete this spot."
+      });
+    }
 
    await spot.destroy()
    res.json({

@@ -67,30 +67,60 @@ return  res.status(403).json({
   
 }
 
+// where: {
+//   spotId: bookings.spotId,
+//   id: { [Op.ne]: bookingId }, // Exclude the current booking
+//   [Op.or]: [
+//     {
+//       startDate: {
+//         [Op.lte]: endDate,
+//         [Op.gt]: startDate,
+//       }
+//     },
+//     {
+//       endDate: {
+//         [Op.lt]: endDate,
+//         [Op.gte]: startDate,
+//       }
+//     }
+//   ]
+// }
 startDate = new Date(startDate)
 endDate = new Date(endDate)
 
 
 const conflict = await Booking.findOne({
-  where: {
-    spotId: bookings.spotId,
-    id: { [Op.ne]: bookingId }, // Exclude the current booking
-    [Op.or]: [
-      {
-        startDate: {
-          [Op.lte]: endDate,
-          [Op.gt]: startDate,
-        }
-      },
-      {
-        endDate: {
-          [Op.lt]: endDate,
-          [Op.gte]: startDate,
-        }
+  where : { 
+    spotId : bookings.spotId,
+    id: { [Op.ne]: bookingId },
+
+[Op.and]: [ // Both conditions in this array should be true
+ {
+   startDate: {
+     [Op.lt]: endDate, // Existing bookings that start before the new booking ends
+   },
+ },
+ {
+   endDate: {
+     [Op.gt]: startDate, // Existing bookings that end after the new booking starts
+   },
+ },
+],
+ [Op.and]: [
+    {
+      startDate: {
+        [Op.lte]: endDate
       }
-    ]
-  }
-});
+    },
+    {
+      endDate: {
+        [Op.gte]: startDate
+      }
+    }
+  ]
+},
+})
+
 
 if (conflict) {
   return res.status(403).json({
@@ -205,12 +235,12 @@ router.get('/current', requireAuth , async(req,res) => {
                 where : { 
                     preview : true
                 },
-                
+                required: false
             }
         }
     ]
     })
-  const bookingObj = bookings.map(booking => { 
+  const Bookings = bookings.map(booking => { 
    const  bookingJsonObj = booking.toJSON()
     
  // come back and set logic for the case when preview is set to false
@@ -226,7 +256,7 @@ router.get('/current', requireAuth , async(req,res) => {
   })
 
   res.json({ 
-     bookingObj
+     Bookings
   })
   
 })
