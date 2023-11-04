@@ -60,10 +60,10 @@ const validateSpot = [
 
 const validateQueryFilters = [ 
    query('page')
-   .isInt({min: 1})
+   .optional().isInt({min: 1})
    .withMessage("Page must be greater than or equal to 1"),
    query('size')
-   .isInt({min: 1})
+   .optional().isInt({min: 1})
    .withMessage("Size must be greater than or equal to 1"),
    query('maxLat')
    .optional().isFloat({ min: -90, max: 90 })
@@ -344,8 +344,8 @@ res.json({Bookings : bookings})
 
 
 //Get all Spots
-router.get('/', validateQueryFilters,  async (req,res) => { 
-
+router.get('/', validateQueryFilters, async (req,res) => { 
+   console.log('validations error', req.query);
 let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
 // console.log(minLat)
    page = parseInt(page),
@@ -393,7 +393,7 @@ let  {page,size,minLat,maxLat,minLng,maxLng,minPrice,maxPrice} =  req.query
   
  spots = spots.map(spot => { 
     const spotObj = spot.toJSON() // you need ot jsonize because of sending back need to be in json format not js object
-    c
+    
 
      //think of combining avg and previewimage later to refactor your code
     if (spotObj.Reviews && spotObj.Reviews.length > 0) { 
@@ -553,11 +553,11 @@ router.get('/:spotId', async (req,res) => {
 router.post('/', requireAuth , validateSpot,   async (req,res) => { 
     let {address,city,state,country,lat,lng,name,description,price} = req.body;
    
-    lat = parseInt(lat)
-    lng = parseInt(lng)
+    lat = parseFloat(lat)
+    lng = parseFloat(lng)
     price = parseInt(price)
 
-    try { const spots = await Spot.create({ 
+     const spots = await Spot.create({ 
       ownerId: req.user.id,
       address,
       city,
@@ -570,11 +570,8 @@ router.post('/', requireAuth , validateSpot,   async (req,res) => {
       price
     })
    
-    res.status(201).json({spots})
-   } 
-   catch(error) { 
-       return res.status(400).json({message: "Bad Request"})
-   }
+    res.status(201).json(spots)
+   
 })
 
 
