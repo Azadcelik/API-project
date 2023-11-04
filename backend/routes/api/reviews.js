@@ -15,6 +15,7 @@ const validateReview = [
     .withMessage('Review text is required'),
     check('stars')
     .exists({checkFalsy: true})
+    .isInt({ min: 1, max: 5 })
     .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors,
  ]
@@ -200,7 +201,7 @@ router.get('/current',requireAuth, async (req,res) => {
         { 
             model : Spot,
             attributes : {
-                exclude : ['description']
+                exclude : ['description','createdAt','updatedAt']
             },
             
             include : { 
@@ -232,7 +233,7 @@ router.get('/current',requireAuth, async (req,res) => {
                 
             // spotImages is an array you need to iterate to access its url
             for (let image of reviewJsonObj.Spot.SpotImages) { 
-                console.log(image)
+                // console.log(image)
                 reviewJsonObj.Spot.previewImage = image.url
             }
             

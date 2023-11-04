@@ -128,7 +128,7 @@ router.post('/:spotId/reviews',requireAuth ,validateReview, async (req,res) => {
       stars
    })
   
-    res.json(newReview)
+    res.status(201).json(newReview)
 })
 
 
@@ -471,9 +471,10 @@ router.get('/current' ,requireAuth,  async (req,res) => {
         spotObj.avgRating = total / spotObj.Reviews.length
       }
       //think of combining avg and previewimage later to refactor your code
-       if (spotObj.SpotImages.length > 0) { 
-         spotObj.previewImage = spotObj.SpotImages[0].url
-       }
+       // Set preview image if images are available, otherwise set to null
+       spotObj.previewImage = spotObj.SpotImages && spotObj.SpotImages.length > 0 
+       ? spotObj.SpotImages[0].url 
+      : null;
       //use delete method to delete unwanted Model in your response
       delete spotObj.Reviews
       delete spotObj.SpotImages
