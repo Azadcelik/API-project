@@ -72,5 +72,16 @@ export const restoreUser = () => async (dispatch) => {
   };
   
 
+// todo: first we are fetching through csrfFetch function handling errors and url match for us
+// todo: then we match api method with delete and finally we are dispatching actionCreator remover and then returning the removed data which probbably need to be user null
+
+  export const logout = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session', {
+      method: 'DELETE'
+    });
+    dispatch(removeUser());
+    return response;
+  };
+
 export default sessionReducer;
 
