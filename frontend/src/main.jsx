@@ -4,13 +4,13 @@ import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import configureStore from './store';
+import * as sessionActions from './store/session';
 
-// frontend/src/main.jsx
 
-// ... other imports
+
 import { restoreCSRF, csrfFetch } from './store/csrf';
 
-// ... const store = configureStore();
+
 
 
 
@@ -21,6 +21,7 @@ if (import.meta.env.MODE !== 'production') {
 
   window.csrfFetch = csrfFetch;
   window.store = store;
+  window.sessionActions = sessionActions;
 }
 
 // if (import.meta.env.MODE !== 'production') {
