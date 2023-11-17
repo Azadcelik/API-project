@@ -5,11 +5,29 @@ import App from './App';
 import './index.css';
 import configureStore from './store';
 
+// frontend/src/main.jsx
+
+// ... other imports
+import { restoreCSRF, csrfFetch } from './store/csrf';
+
+// ... const store = configureStore();
+
+
+
 const store = configureStore();
 
 if (import.meta.env.MODE !== 'production') {
+  restoreCSRF();
+
+  window.csrfFetch = csrfFetch;
   window.store = store;
 }
+
+// if (import.meta.env.MODE !== 'production') {
+//   window.store = store;
+// }
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
