@@ -7,10 +7,11 @@ import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import './Navigation.css';
 
 import { useState,useRef } from 'react';
+import ListOfSpots from '../ListOfSpots/ListOfSpots';
 
 
 function Navigation({ isLoaded }) {
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user); //that is how you are getting updated data from combineReducer key
   const ulRef = useRef();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -32,6 +33,7 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
+<>    
     <div className='login-page'>
      <button onClick={toggleMenu} className='button-navigation'>
         <i className="fa-sharp fa-solid fa-bars"  id='bar'/>
@@ -53,6 +55,11 @@ function Navigation({ isLoaded }) {
           </li>
         </ul>
     </div>
+    <div>
+      <ListOfSpots />
+    </div>
+ </>
+
     );
   }
 
