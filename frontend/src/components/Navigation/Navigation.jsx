@@ -6,9 +6,23 @@ import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import './Navigation.css';
 
+import { useState,useRef } from 'react';
+
+
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const ulRef = useRef();
+  const [showMenu, setShowMenu] = useState(false);
 
+  const toggleMenu = (e) => {
+    e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
+    // if (!showMenu) setShowMenu(true);
+    setShowMenu(!showMenu);
+  };
+
+  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
+  
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -18,20 +32,27 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-    <>
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
-      </li>
-      <li>
-        <OpenModalButton
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-        />
-      </li>
-    </>
+    <div className='login-page'>
+     <button onClick={toggleMenu} className='button-navigation'>
+        <i className="fa-sharp fa-solid fa-bars"  id='bar'/>
+        <i className="fas fa-user-circle" />
+        
+      </button>
+       <ul className={ulClassName} ref={ulRef}>
+          <li>
+            <OpenModalButton
+              buttonText="Log In"
+              modalComponent={<LoginFormModal />}
+            />
+          </li>
+          <li>
+            <OpenModalButton
+              buttonText="Sign Up"
+              modalComponent={<SignupFormModal />}
+            />
+          </li>
+        </ul>
+    </div>
     );
   }
 
