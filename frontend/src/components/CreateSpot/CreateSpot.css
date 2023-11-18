@@ -1,0 +1,5 @@
+label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px; /* Adds some space after each label */
+  }
