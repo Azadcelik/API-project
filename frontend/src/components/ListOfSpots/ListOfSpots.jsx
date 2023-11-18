@@ -7,7 +7,7 @@
 
 
 import {useSelector,useDispatch } from "react-redux"
-import { getAllSpots } from "../../store/session"
+import { getAllSpots } from "../../store/spots"
 import { useEffect } from "react"
 
 
@@ -16,11 +16,12 @@ const ListOfSpots = () => {
 const dispatch = useDispatch()
 
 const spotsData = useSelector(state => state.spots.Spots) 
+// console.log(spotsData) // spotsdata is an array of objects 
 
 useEffect(() => { 
     dispatch(getAllSpots())
 }, [dispatch])
-// console.log(spotsData.state) //spotsData is an object which keying state array
+
 
     return (
         <div>   
