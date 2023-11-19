@@ -2,14 +2,16 @@
 //todo: do not forget dispatch with thunk action so then to be send to your backend
 
 import { useState } from "react";
-import { useDispatch } from "react-redux"
+import { useDispatch,useSelector } from "react-redux"
 import { thunkCreateSpot } from "../../store/createSpot";
+// import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css'
 
 
 const CreateSpot = () => {
+
 const dispatch = useDispatch()
-// const selectedData = useSelector(state => state)
+// const navigate = useNavigate()
 
 const [country,setCountry] = useState('')
 const [address,setAdress] = useState('')
@@ -22,11 +24,39 @@ const [body,setBody] = useState('')
 const [name,setName] = useState('')
 const [price,setPrice] = useState()
 const [preview,setPreview] = useState('')
-// const [errors,setErrors] = useState({})
+// const [validationErrors,setValidationErrors] = useState({})
 
 
 
-const handleSubmit = (e) => {
+ 
+//todo: ask if you can syncronously create your error below and set or you need to return error from backend 
+// todo: and need to use that error you returned from back end  askkkkkkkkkkk
+const errorData = useSelector(state => state.createSpotState.error)
+
+
+
+
+// useEffect(() => {
+//   const errors = {};
+//   if (!name.length) errors.name='Please enter your Name';
+//   if (!email.includes('@')) errors.email='Please provide a valid Email';
+//   setValidationErrors(errors);
+// }, [name, email])
+
+// const onSubmit = e => {
+//   // Prevent the default form behavior so the page doesn't reload.
+//   e.preventDefault();
+//   if (Object.values(validationErrors).length) { 
+//     return alert(`The following errors were found:
+    
+//     ${validationErrors.name ? "* " + validationErrors.name : ""}
+//     ${validationErrors.email ? "* " + validationErrors.email : ""}`);
+//   }
+  
+
+
+
+const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
       country,
@@ -41,7 +71,10 @@ const handleSubmit = (e) => {
       SpotImages: [image, /* other image URLs if necessary */], //search for it because not hundred percent sure
     };
   
-    dispatch(thunkCreateSpot(formData)); // Assuming thunkCreateSpot is your thunk action
+    await dispatch(thunkCreateSpot(formData)); // Assuming thunkCreateSpot is your thunk action
+    //  navigate('/')
+
+
   };
 
 
@@ -49,6 +82,7 @@ const handleSubmit = (e) => {
 
   return (
     <>
+    
       <h1>Create a New Spot</h1>
       <h2>Where&apos;s your place located?</h2>
       <h3>
@@ -65,7 +99,9 @@ const handleSubmit = (e) => {
             onChange={(e) => setCountry(e.target.value)}
           />
         </label>
-
+        {errorData.error && (
+     <h1>this is  an error </h1>
+    )}
         <label >
           Street Address
           <input
@@ -168,6 +204,7 @@ const handleSubmit = (e) => {
 
         <h2>Liven up your spot with photos</h2>
         <h3>Submit a link to at least one photo to publish your spot</h3>
+      <div className="image-url">
         <input
           type="text"
           placeholder="Preview Image URL"
@@ -198,6 +235,7 @@ const handleSubmit = (e) => {
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />
+    </div>
         <br />
         <button>Create Spot</button>
       </form>

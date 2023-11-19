@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import { NavLink } from 'react-router-dom';
+
 import './Navigation.css'
 
 function ProfileButton({ user }) {
@@ -38,6 +40,14 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
+
+   <div className='main-container'>    
+   <div>
+    <NavLink to='/spots/new'>
+    Create a New Spot
+    </NavLink>
+
+    </div>
     <div className='profile-container'>
       <button onClick={toggleMenu} className='profile-button'>
         <i className="fa-sharp fa-solid fa-bars"  id='bar'/>
@@ -54,6 +64,9 @@ function ProfileButton({ user }) {
         </li>
       </ul>
     </div>
+  
+    </div>
+
   );
 }
 

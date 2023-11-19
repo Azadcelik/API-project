@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotsReducer,
   spotDetails: spotDetailsReducer,
-  createSpot: createSpotReducer
+  createSpotState: createSpotReducer
 });
 
 let enhancer;
