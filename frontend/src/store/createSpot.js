@@ -26,7 +26,7 @@ export const thunkCreateSpot = (formData) => async (dispatch) => {  //spotDetail
   const response = await fetch("/api/spots", {
     method: "POST",
     headers: {'Content-Type': 'application/json',
-    "XSRF-TOKEN": "XfgyLkWx-gDTUBCi-EYjqsJIfptCqlA-WJfM"
+    "XSRF-TOKEN": "rIMpaxR7-yycVguiD013HwqceKst8tq-31UU"
   },
     
     body: JSON.stringify(formData),
@@ -56,7 +56,7 @@ catch(error) {
 // todo: reducer function
 
 const initialState = {
-  error: {}
+  
 };
 
 const createSpotReducer = (state = initialState, action) => {

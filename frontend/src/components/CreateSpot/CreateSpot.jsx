@@ -1,17 +1,36 @@
 //todo: create useState for all variables that will be changed
 //todo: do not forget dispatch with thunk action so then to be send to your backend
 
+//todo: realize that adding image prop to the data will not add in my backend createspot because i do not have that column
+//todo: i shoul probably extract spotid, get images that user uplodaed and then dispatch to the thunk for being fetched 
+//todo: critical point is add spotId and data that is going to be posted images exactly same as in your backend data style(obj)here
+
+
 import { useState } from "react";
-import { useDispatch,useSelector } from "react-redux"
+import { ReactReduxContext, useDispatch,useSelector } from "react-redux"
 import { thunkCreateSpot } from "../../store/createSpot";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css'
+import {useParams} from 'react-router-dom'
+
+
 
 
 const CreateSpot = () => {
 
+const {id} = useParams()
+
+const navigate = useNavigate()
+
+const spotsData = useSelector(state => state.createSpotState)
+
+const data = Object.values(spotsData)
+const createdSpotId = data[0].id
+
+
 const dispatch = useDispatch()
-// const navigate = useNavigate()
+
 
 const [country,setCountry] = useState('')
 const [address,setAdress] = useState('')
@@ -63,8 +82,8 @@ const handleSubmit = async (e) => {
       address,
       city,
       state,
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
+      lat: parseFloat(latitude),
+      lng: parseFloat(longitude),
       description: body,
       name,
       price: parseFloat(price),
@@ -72,7 +91,7 @@ const handleSubmit = async (e) => {
     };
   
     await dispatch(thunkCreateSpot(formData)); // Assuming thunkCreateSpot is your thunk action
-    //  navigate('/')
+     navigate(`/spots/${createdSpotId}`)
 
 
   };

@@ -29,7 +29,7 @@ return (
     <div className="grid-container">   
         {spotsData.map(spot => (
             <div key={spot.id} className="grid-item">
-                <span className="tooltip">{spot.name}</span> {/* Custom tooltip */}
+                <span className="tooltip">{spot.name}</span> 
                 <img src={spot.previewImage} alt={spot.name}/>
                 <h2>{spot.state}</h2>
                 <h2>{spot.price}</h2>

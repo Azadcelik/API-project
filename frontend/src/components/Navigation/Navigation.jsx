@@ -21,7 +21,7 @@ function Navigation({ isLoaded }) {
     setShowMenu(!showMenu);
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = `profile-dropdown ${showMenu ? 'show-menu' : 'hidden'}`;
 
   
   let sessionLinks;
@@ -41,8 +41,8 @@ function Navigation({ isLoaded }) {
         
       </button>
        <ul className={ulClassName} ref={ulRef}>
-          <li>
-            <OpenModalButton
+          <li> 
+            <OpenModalButton className="hey"
               buttonText="Log In"
               modalComponent={<LoginFormModal />}
             />
