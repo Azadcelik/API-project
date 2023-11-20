@@ -10,10 +10,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSpotDetails } from "../../store/spotDetails";
 import "./SpotDetails.css";
+import PostReview from "../PostReview/PostReview";
+import {useModal} from '../../context/Modal'
+
 
 const SpotDetails = () => {
+
+
   const dispatch = useDispatch();
   const { spotId } = useParams();
+  const  {setModalContent} = useModal()
+
+
+  const handleOpenModalContent = () => { 
+    setModalContent(<PostReview />)
+  }
 
   const spotDetails = useSelector((state) => state.spotDetails);
   console.log("spotdetails returned from", spotDetails);
@@ -66,8 +77,10 @@ const SpotDetails = () => {
  
 </div>
      <hr />
-      <h2>{spotDetails.preview}</h2>
+     <button onClick={handleOpenModalContent}>Post Your Review</button>
+      
     </>
+
   );
 };
 

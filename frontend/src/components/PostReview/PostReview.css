@@ -1,0 +1,27 @@
+textarea { 
+   margin: 0 20px;
+}
+
+button { 
+    margin-left: 25px;
+    width: 500px;
+}
+
+h3 { 
+    margin-left: 170px;
+}
+
+.star {
+    font-size: 24px;
+    cursor: pointer;
+  
+  }
+  
+  .filled {
+    color: gold;
+    
+  }
+
+  .star-rating { 
+    padding-left: 140px;
+  }
