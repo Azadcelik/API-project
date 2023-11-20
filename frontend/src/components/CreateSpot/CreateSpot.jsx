@@ -4,7 +4,7 @@
 //todo: realize that adding image prop to the data will not add in my backend createspot because i do not have that column
 //todo: i shoul probably extract spotid, get images that user uplodaed and then dispatch to the thunk for being fetched 
 //todo: critical point is add spotId and data that is going to be posted images exactly same as in your backend data style(obj)here
-
+//todo: add your state images which is beeing collected to your handle submit so you can send data 
 
 import { useState } from "react";
 import { ReactReduxContext, useDispatch,useSelector } from "react-redux"
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css'
 import {useParams} from 'react-router-dom'
+import { thunkaddImage } from "../../store/addSpotImage";
 
 
 
@@ -24,9 +25,10 @@ const {id} = useParams()
 const navigate = useNavigate()
 
 const spotsData = useSelector(state => state.createSpotState)
-
+console.log('why created spot id returns undefined ask',spotsData)
 const data = Object.values(spotsData)
-const createdSpotId = data[0].id
+const createdSpotId = data[0]?.id
+console.log('createdid,.dasasd',createdSpotId)
 
 
 const dispatch = useDispatch()
@@ -36,24 +38,30 @@ const [country,setCountry] = useState('')
 const [address,setAdress] = useState('')
 const [city,setCity] = useState('')
 const [state,setState] = useState('')
-const [image,setImage] = useState('')
 const [latitude,setLatitude] = useState()
 const [longitude,setLongitude] = useState()
 const [body,setBody] = useState('')
 const [name,setName] = useState('')
 const [price,setPrice] = useState()
-const [preview,setPreview] = useState('')
+
+
 // const [validationErrors,setValidationErrors] = useState({})
 
+//create differnt iamges 
 
+const [image1,setImage1] = useState("")
+const [image2,setImage2] = useState("")
+const [image3,setImage3] = useState("")
+const [image4,setImage4] = useState("")
+const [preview,setPreview] = useState('')
 
  
 //todo: ask if you can syncronously create your error below and set or you need to return error from backend 
 // todo: and need to use that error you returned from back end  askkkkkkkkkkk
-const errorData = useSelector(state => state.createSpotState.error)
+// const errorData = useSelector(state => state.createSpotState.error)
 
 
-console.log(errorData)
+// console.log(errorData)
 
 // useEffect(() => {
 //   const errors = {};
@@ -86,16 +94,32 @@ const handleSubmit = async (e) => {
       lng: parseFloat(longitude),
       description: body,
       name,
-      price: parseFloat(price),
-      SpotImages: [image, /* other image URLs if necessary */], //search for it because not hundred percent sure
+      price: parseFloat(price)
     };
   
-    await dispatch(thunkCreateSpot(formData)); // Assuming thunkCreateSpot is your thunk action
-     navigate(`/spots/${createdSpotId}`)
+  
+    await dispatch(thunkCreateSpot(formData)); 
 
+    if (createdSpotId) {
+
+      const newImage = [image1,image2,image3,image4]
+       newImage.forEach(img => { 
+         if (img) { 
+           const newImgObj = { 
+            url: img,
+            preview: img === preview
+           }
+           dispatch(thunkaddImage(createdSpotId,newImgObj))
+         }
+      })
+
+      navigate(`/spots/${createdSpotId}`)
+
+
+
+    }
 
   };
-
 
 
 
@@ -118,9 +142,10 @@ const handleSubmit = async (e) => {
             onChange={(e) => setCountry(e.target.value)}
           />
         </label>
-        {errorData && (
+        {/* {errorData && (
      <h1>this is  an error </h1>
-    )}
+
+    )} */}
         <label >
           Street Address
           <input
@@ -234,26 +259,26 @@ const handleSubmit = async (e) => {
         <input
           type="text"
           placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={image1}
+          onChange={(e) => setImage1(e.target.value)}
         />
         <input
           type="text"
           placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={image2}
+          onChange={(e) => setImage2(e.target.value)}
         />
         <input
           type="text"
           placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={image3}
+          onChange={(e) => setImage3(e.target.value)}
         />
         <input
           type="text"
           placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={image4}
+          onChange={(e) => setImage4(e.target.value)}
         />
     </div>
         <br />

@@ -26,7 +26,7 @@ export const thunkCreateSpot = (formData) => async (dispatch) => {  //spotDetail
   const response = await fetch("/api/spots", {
     method: "POST",
     headers: {'Content-Type': 'application/json',
-    "XSRF-TOKEN": "rIMpaxR7-yycVguiD013HwqceKst8tq-31UU"
+    "XSRF-TOKEN": "xsmaXpRJ-wR7SEPhQZi_2XSnM3Kam_MzAM00"
   },
     
     body: JSON.stringify(formData),

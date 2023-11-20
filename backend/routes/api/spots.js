@@ -587,6 +587,7 @@ Require proper authorization: Spot must belong to the current user
 
 router.post('/:spotId/images', requireAuth,  async (req,res) => { 
    const {url,preview} = req.body
+   console.log('-----------------------------------------------------------------' ,req.body, '--------------------------------------------------------------------------')
    const userId = req.user.id
    const spotId = req.params.spotId
   
@@ -606,7 +607,9 @@ router.post('/:spotId/images', requireAuth,  async (req,res) => {
       url,
       preview
    })
-  
+   
+   console.log('created iamge,', image)
+
    res.json(
     {
       id: image.id,

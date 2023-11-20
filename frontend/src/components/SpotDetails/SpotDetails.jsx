@@ -27,7 +27,7 @@ const SpotDetails = () => {
   }
 
   const spotDetails = useSelector((state) => state.spotDetails);
-  console.log("spotdetails returned from", spotDetails);
+  // console.log("spotdetails returned from", spotDetails);
   useEffect(() => {
     dispatch(getSpotDetails(spotId));
   }, [dispatch, spotId]);
