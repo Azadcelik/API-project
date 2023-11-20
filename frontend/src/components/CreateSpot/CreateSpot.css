@@ -9,3 +9,48 @@ label {
     flex-direction: column;
     margin-bottom: 10px; /* Adds some space after each label */
   }
+
+  .city-state { 
+    display: flex;
+    flex-direction: row;
+    width: 179px;
+  }
+  .lat-long { 
+    display: flex;
+    flex-direction: row;
+  }
+
+
+
+
+  input { 
+    width: 500px;
+    height: 30px;
+  }
+
+
+  .main-contain { 
+    /* width: 90%; Or a specific pixel value */
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 20px; /* Equal padding on all sides */
+    
+  }
+
+
+ 
+
+  .city-state input, .lat-long input {
+    /* Adjust input width and height */
+    width: 230px; /* Adjust as needed */
+    height: 20px; /* Adjust as needed */
+    padding: 5px;
+    margin: 5px;
+}
+
+textarea { 
+  width: 500px
+}
+
+
+

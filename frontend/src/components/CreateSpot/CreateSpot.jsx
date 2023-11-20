@@ -34,7 +34,7 @@ const [preview,setPreview] = useState('')
 const errorData = useSelector(state => state.createSpotState.error)
 
 
-
+console.log(errorData)
 
 // useEffect(() => {
 //   const errors = {};
@@ -81,7 +81,7 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <>
+    <div className="main-contain">
     
       <h1>Create a New Spot</h1>
       <h2>Where&apos;s your place located?</h2>
@@ -99,7 +99,7 @@ const handleSubmit = async (e) => {
             onChange={(e) => setCountry(e.target.value)}
           />
         </label>
-        {errorData.error && (
+        {errorData && (
      <h1>this is  an error </h1>
     )}
         <label >
@@ -111,10 +111,11 @@ const handleSubmit = async (e) => {
             onChange={(e) => setAdress(e.target.value)}
           />
         </label>
+
     <div className="city-state">
         <label>
           City
-          <input
+          <input className="city"
             type="text"
             value={city}
             placeholder="City"
@@ -124,7 +125,7 @@ const handleSubmit = async (e) => {
 
         <label>
           State
-          <input
+          <input className="state"
             type="text"
             value={state}
             placeholder="STATE"
@@ -136,7 +137,7 @@ const handleSubmit = async (e) => {
         <div className="lat-long">
           <label>
             Latitude
-            <input
+            <input className="lat"
               type="text"
               value={latitude}
               placeholder="40.730610"
@@ -146,7 +147,7 @@ const handleSubmit = async (e) => {
 
           <label>
             Longitude
-            <input
+            <input className="long"
               type="text"
               value={longitude}
               placeholder="-73.935242"
@@ -239,7 +240,7 @@ const handleSubmit = async (e) => {
         <br />
         <button>Create Spot</button>
       </form>
-    </>
+    </div>
   );
 };
 

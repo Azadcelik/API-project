@@ -19,7 +19,7 @@ export const getSpotDetails = (spotId) => async (dispatch) => {
   const response = await fetch(`/api/spots/${spotId}`, {
     method: "GET",
   });
-//   console.log(response) // response after you hit api
+  console.log('after you hit api',response) // response after you hit api
   if (response.ok) {
     const data = await response.json();
     dispatch(actionGetSpotDetails(data));

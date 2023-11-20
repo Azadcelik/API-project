@@ -10,6 +10,8 @@ import {useSelector,useDispatch } from "react-redux"
 import { getAllSpots } from "../../store/spots"
 import { useEffect } from "react"
 
+import './ListOfSpots.css'
+
 
 const ListOfSpots = () => { 
 
@@ -17,28 +19,25 @@ const dispatch = useDispatch()
 
 const spotsData = useSelector(state => state.spots.Spots) 
 // console.log(spotsData) // spotsdata is an array of objects 
-
+console.log(spotsData)
 useEffect(() => { 
     dispatch(getAllSpots())
 }, [dispatch])
 
 
-    return (
-        <div>   
-           
-            {spotsData.map(spots => (
-            <>
-                <h2>{spots.name}</h2>
-                <img src={spots.previewImage}/>
-                <h2>{spots.state}</h2>
-                <h2>{spots.price}</h2>
-            </>
-            ))}
-            
-           
-        </div>
-    )
-}
+return (
+    <div className="grid-container">   
+        {spotsData.map(spot => (
+            <div key={spot.id} className="grid-item">
+                <span className="tooltip">{spot.name}</span> {/* Custom tooltip */}
+                <img src={spot.previewImage} alt={spot.name}/>
+                <h2>{spot.state}</h2>
+                <h2>{spot.price}</h2>
+            </div>
+        ))}
+    </div>
+)
 
+}
 
 export default ListOfSpots

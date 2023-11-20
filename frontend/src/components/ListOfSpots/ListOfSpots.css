@@ -1,0 +1,34 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
+    grid-gap: 20px; /* Space between grid items */
+}
+
+.grid-item img {
+    width: 90%; /* Make images responsive */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove any extra space below the image */
+}
+
+.grid-item {
+    position: relative; /* Needed for absolute positioning of the tooltip */
+    /* Other styles... */
+}
+
+.tooltip {
+    display: none; /* Initially hidden */
+    position: absolute;
+    z-index: 1;
+    bottom: 90%; /* Position above the item */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust horizontal centering */
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.grid-item:hover .tooltip {
+    display: block; /* Show on hover */
+}
