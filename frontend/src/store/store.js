@@ -4,12 +4,14 @@ import sessionReducer from './session';
 import { spotsReducer } from './spots';
 import spotDetailsReducer from './spotDetails';
 import createSpotReducer from './createSpot';
+import currentSpotReducer from './currentSpot';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotsReducer,
   spotDetails: spotDetailsReducer,
-  createSpotState: createSpotReducer
+  createSpotState: createSpotReducer,
+  currentSpot: currentSpotReducer
 });
 
 let enhancer;
