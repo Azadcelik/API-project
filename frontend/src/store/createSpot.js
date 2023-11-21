@@ -1,3 +1,6 @@
+import { csrfFetch } from "./csrf";
+
+
 const CREATE_SPOT = "createSpot/actionCreateSpot";
 const CREATE_ERROR = "createSpot/createErrorAction"
 
@@ -23,10 +26,9 @@ const createErrorAction = (errorData) => {
 
 export const thunkCreateSpot = (formData) => async (dispatch) => {  //spotDetails will be passed by dispatching thunk  after form submitted
   try {
-  const response = await fetch("/api/spots", {
+  const response = await csrfFetch("/api/spots", {
     method: "POST",
-    headers: {'Content-Type': 'application/json',
-    "XSRF-TOKEN": "xsmaXpRJ-wR7SEPhQZi_2XSnM3Kam_MzAM00"
+    headers: {'Content-Type': 'application/json'
   },
     
     body: JSON.stringify(formData),

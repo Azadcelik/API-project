@@ -1,5 +1,5 @@
 
-
+import { csrfFetch } from "./csrf"
 
 const ADD_IMAGE =  'addImage/addImage/action'
 
@@ -17,10 +17,11 @@ export const addImageAction = (image) => {
 export const thunkaddImage = (spotId,image) => async dispatch => { 
 
     console.log('spotid and image in thunk',spotId,image)
-    const response = await fetch(`/api/spots/${spotId}/images`, { 
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, { 
        method: "POST",
-       headers : {"XSRF-TOKEN":"xsmaXpRJ-wR7SEPhQZi_2XSnM3Kam_MzAM00"},
-       body: JSON.stringify({...image})
+       headers : {  "Content-Type": "application/json",
+    },
+       body: JSON.stringify(image)
     }) 
 
     try { 
