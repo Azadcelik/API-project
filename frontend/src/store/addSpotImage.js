@@ -15,7 +15,7 @@ export const addImageAction = (image) => {
 
 
 export const thunkaddImage = (spotId,image) => async dispatch => { 
-
+    console.log('Uploading image:', image, 'to spot:', spotId); // Add this li
     console.log('spotid and image in thunk',spotId,image)
     const response = await csrfFetch(`/api/spots/${spotId}/images`, { 
        method: "POST",
@@ -23,6 +23,8 @@ export const thunkaddImage = (spotId,image) => async dispatch => {
     },
        body: JSON.stringify(image)
     }) 
+
+    
 
     try { 
     if (response.ok) { 

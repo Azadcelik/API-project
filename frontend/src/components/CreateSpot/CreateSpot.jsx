@@ -98,29 +98,31 @@ const handleSubmit = async (e) => {
     };
   
   
-    await dispatch(thunkCreateSpot(formData)); 
+      // Dispatch thunkCreateSpot and get the response
+    const createSpotResponse = await dispatch(thunkCreateSpot(formData));
+    const newSpotId = createSpotResponse?.id; // Retrieve new spot ID from the response
 
-    if (createdSpotId) {
+    // Check if we got a valid new spot ID
+    if (newSpotId) {
+      // Handle image uploading logic
+      const imageUploadPromises = [image1, image2, image3, image4].map((img) => {
+        if (img) {
+          const newImgObj = { url: img, preview: img === preview };
+          return dispatch(thunkaddImage(newSpotId, newImgObj));
+        }
+        return Promise.resolve();
+      });
 
-      const newImage = [image1,image2,image3,image4]
-       newImage.forEach(img => { 
-         if (img) { 
-           const newImgObj = { 
-            url: img,
-            preview: img === preview
-           }
-           dispatch(thunkaddImage(createdSpotId,newImgObj))
-         }
-      })
+      // Wait for all image uploads to complete
+      await Promise.all(imageUploadPromises);
 
-      navigate(`/spots/${createdSpotId}`)
-
-
-
+      // Navigate to the newly created spot's page
+      navigate(`/spots/${newSpotId}`);
+    } else {
+      // Handle the case where spot creation failed
+      console.error('Failed to create the spot');
     }
-
-  };
-
+};
 
 
   return (

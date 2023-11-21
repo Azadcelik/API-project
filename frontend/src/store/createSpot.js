@@ -43,6 +43,7 @@ export const thunkCreateSpot = (formData) => async (dispatch) => {  //spotDetail
   }
   else { 
      dispatch(actionCreateSpot(spotData)) 
+     return spotData;
   }
 
 }
