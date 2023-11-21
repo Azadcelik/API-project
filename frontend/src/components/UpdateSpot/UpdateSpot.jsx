@@ -11,7 +11,7 @@
 
 
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ReactReduxContext, useDispatch,useSelector } from "react-redux"
 import { thunkUpdateSpot } from "../../store/updateSpot";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 
 import {useParams} from 'react-router-dom'
 import { thunkaddImage } from "../../store/addSpotImage";
-import { getSpotDetails } from "../../store/spotDetails";
 // import { thunkaddImage } from "../../store/addSpotImage";
 
     
@@ -39,12 +38,9 @@ const updatedSpotId = data[0]?.id
 console.log('createdid,.dasasd',updatedSpotId)
 
 
-
-const spotDetails = useSelector(state => state.spotDetails)
-
 const dispatch = useDispatch()
 
-const [isLoading,setIsLoading] = useState(true)
+
 const [country,setCountry] = useState(data[0]?.country)
 const [address,setAdress] = useState(data[0]?.address)
 const [city,setCity] = useState(data[0]?.city)
@@ -66,28 +62,6 @@ const [image2,setImage2] = useState("")
 const [image3,setImage3] = useState("")
 const [image4,setImage4] = useState("")
 const [preview,setPreview] = useState('')
-
-
-
-
-//probably need to wait for sometimes assskkkkkkkk
-
-useEffect(() => {
-    dispatch(getSpotDetails(spotId))
-      .then(() => setIsLoading(false)) // Set loading to false once data is fetched
-      .catch(error => {
-        console.error("Error fetching details:", error);
-        setIsLoading(false); // Also set loading to false in case of error
-      });
-  }, [dispatch, spotId]);
-  if (isLoading) {
-    return <div>Loading...</div>; // Show a loading message or spinner
-  }
-
-  console.log("imaginadadadsadsad",spotDetails) // returns empty obj and empty spotImages array and owner obj all empty 
-
-
-
 
  
 //todo: ask if you can syncronously create your error below and set or you need to return error from backend 
@@ -143,7 +117,7 @@ const handleSubmit = async (e) => {
     const newSpotId = updateSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
 
     if (newSpotId) {
-      // Create an array of all images including the preview image
+    //   Create an array of all images including the preview image
       const allImages = [preview, image1, image2, image3, image4];
   
      //i do not tink i need this one come to refactor 
@@ -157,7 +131,7 @@ const handleSubmit = async (e) => {
           return dispatch(thunkaddImage(newSpotId, newImgObj));
       });
   
-      // Wait for all image uploads to complete
+      //i do not tink i need this one come to refactor 
       // await Promise.all(imageUploadPromises);
   
       // Navigate to the newly created spot's page

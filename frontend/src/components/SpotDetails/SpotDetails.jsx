@@ -32,7 +32,7 @@ const SpotDetails = () => {
     dispatch(getSpotDetails(spotId));
   }, [dispatch, spotId]);
 
-
+console.log('spotdetailsectionis',spotDetails)
   
 
   const imageUrl = spotDetails.SpotImages[0]?.url;
@@ -45,13 +45,18 @@ const SpotDetails = () => {
       </h2>
       <div className="image-container">
         <div className="main-image">
-          <img src={imageUrl} alt="Main Spot" />
+          {spotDetails.SpotImages && spotDetails.SpotImages.length > 0 && (
+             
+            <img src={spotDetails.SpotImages[0].url} alt="Main Spot" />
+
+          )}
         </div>
         <div className="small-images">
-          <img src={imageUrl} alt="Spot Image" />
-          <img src={imageUrl} alt="Spot Image" />
-          <img src={imageUrl} alt="Spot Image" />
-          <img src={imageUrl} alt="Spot Image" />
+         
+         {spotDetails.SpotImages && spotDetails.SpotImages.slice(1).map(image => (
+           <img key={image.id} src={image.url} alt="Spot Image" />
+         ))}
+          
         </div>
       </div>
 

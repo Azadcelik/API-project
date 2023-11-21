@@ -53,7 +53,7 @@ const [image1,setImage1] = useState("")
 const [image2,setImage2] = useState("")
 const [image3,setImage3] = useState("")
 const [image4,setImage4] = useState("")
-const [preview,setPreview] = useState('')
+const [previeww,setPreview] = useState('')
 
  
 //todo: ask if you can syncronously create your error below and set or you need to return error from backend 
@@ -104,7 +104,7 @@ const handleSubmit = async (e) => {
 
     if (newSpotId) {
       // Create an array of all images including the preview image
-      const allImages = [preview, image1, image2, image3, image4];
+      const allImages = [previeww,image1, image2, image3, image4];
   
      //i do not tink i need this one come to refactor 
       const filteredImages = allImages.filter(img => img); // i think i do not need this section
@@ -112,8 +112,8 @@ const handleSubmit = async (e) => {
       // Map over the images and create a promise for each upload
       const imageUploadPromises = filteredImages.map(img => {
           // Mark the image object with preview: true only if it's the preview image
-          const isPreview = img === preview;
-          const newImgObj = { url: img, preview: isPreview };
+          // const isPreview = img === preview;
+          const newImgObj = { url: img, preview: true };
           return dispatch(thunkaddImage(newSpotId, newImgObj));
       });
   
@@ -261,7 +261,7 @@ const handleSubmit = async (e) => {
         <input
           type="text"
           placeholder="Preview Image URL"
-          value={preview}
+          value={previeww}
           onChange={(e) => setPreview(e.target.value)}
         />
         <input
