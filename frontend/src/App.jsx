@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import Navigation from './components/Navigation/Navigation';
-import * as sessionActions from './store/session';
-import SpotDetails from './components/SpotDetails/SpotDetails';
-import CreateSpot from './components/CreateSpot/CreateSpot';
-import CurrentSpot from './components/CurrentSpot/CurrentSpot';
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Navigation from "./components/Navigation/Navigation";
+import * as sessionActions from "./store/session";
+import SpotDetails from "./components/SpotDetails/SpotDetails";
+import CreateSpot from "./components/CreateSpot/CreateSpot";
+import CurrentSpot from "./components/CurrentSpot/CurrentSpot";
+import UpdateSpot from "./components/UpdateSpot/UpdateSpot";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function Layout() {
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
-      setIsLoaded(true)
+      setIsLoaded(true);
     });
   }, [dispatch]);
 
@@ -30,23 +31,27 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <h1>Welcome!</h1>
+        path: "/",
+        element: <h1>Welcome!</h1>,
       },
       {
-        path: '/spots/:spotId',
-        element: <SpotDetails />
+        path: "/spots/:spotId",
+        element: <SpotDetails />,
       },
       {
-        path: '/spots/new',
-        element: <CreateSpot />
+        path: "/spots/new",
+        element: <CreateSpot />,
       },
       {
-        path: '/spots/current',
-        element: <CurrentSpot />
+        path: "/spots/current",
+        element: <CurrentSpot />,
+      },
+      
+      { path: "/spots/:spotId/edit", 
+        element: <UpdateSpot /> 
       }
-    ]
-  }
+    ],
+  },
 ]);
 
 function App() {

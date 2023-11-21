@@ -1,60 +1,58 @@
-//todo: you need to create your action thunkaction and reducer to get your data from your store by your state 
-//todo : create your component here which will have same layout as your home page 
-//todo: add additional button such as Create a new spot update or delete 
+//todo: you need to create your action thunkaction and reducer to get your data from your store by your state
+//todo : create your component here which will have same layout as your home page
+//todo: add additional button such as Create a new spot update or delete
 //todo: that is all  after that you are good to go :)
 
-import { useEffect } from "react"
-import { useSelector } from "react-redux"
-import { thunkCurrentSpot } from "../../store/currentSpot"
-import { useDispatch } from "react-redux"
-import './CurrentSpot.css'
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { thunkCurrentSpot } from "../../store/currentSpot";
+import { useDispatch } from "react-redux";
+ import { useNavigate } from "react-router-dom";
 
-const CurrentSpot = () => { 
+import "./CurrentSpot.css";
 
-const dispatch = useDispatch()
+const CurrentSpot = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-const currentData = useSelector(state => state.currentSpot)
+  const currentData = useSelector((state) => state.currentSpot);
 
-const data = Object.values(currentData)
+  const data = Object.values(currentData);
+  
 
-useEffect(() => { 
-    dispatch(thunkCurrentSpot())
-}, [dispatch])
- 
+  useEffect(() => {
+    dispatch(thunkCurrentSpot());
+  }, [dispatch]);
 
 
-    return (
+ const handleUpdateClick = (spotId) => { 
+   
+  navigate(`/spots/${spotId}/edit`)
+ }
+
+
+  return (
+    <div className="main-current-container">
+      {data.map((current) => (
         
+        <div className="second-container" key={current.id}>
+            {console.log('currentssalo ', current.previewImage)}
+          <h2>Manage Your Spots</h2>
+          <button>Create a New Spot</button>
 
-<>
-        <h1>Manage Your Spots</h1>
-        <button>Create a New Spot</button>
-        {data.map(dat => { 
+          <img src={current.previewImage} alt="image not found" />
 
-          return  <img src={dat.previewImage} alt="" />
-
-        })}
-        <h2>city, state</h2>
-        <h2>price night</h2>
-        <h3>*avgRating ##</h3>
-    <div className="update-delete-button"> 
-        <button>Update</button>
-        <button>Delete</button>
+          <p>{current.city} {current.state}</p>
+          <h2>{current.price } {current.night}</h2>
+          <h3> *{current.avgRating }  ##</h3>
+          <div className="update-delete-button">
+            <button onClick={() => handleUpdateClick(current.id)}>Update</button>
+            <button>Delete</button>
+          </div>
+        </div>
+      ))}
     </div>
-</>
- 
-   )
-}
+  );
+};
 
-
-
-
-
-
-
-
-
-
-
-
-export default CurrentSpot
+export default CurrentSpot;

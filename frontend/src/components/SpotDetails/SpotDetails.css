@@ -20,10 +20,12 @@
     grid-template-columns: 1fr 1fr; /* Two smaller images per row */
     grid-template-rows: 1fr 1fr; /* Two rows of smaller images */
     grid-gap: 10px; /* Space between smaller images */
+    
 }
 
 .small-images img {
     width: 100%; /* Full width of the container */
+    height: 400px;
     object-fit: cover; /* Adjusts the image to cover the element's box */
 }
 

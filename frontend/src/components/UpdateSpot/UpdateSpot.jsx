@@ -1,48 +1,56 @@
-//todo: create useState for all variables that will be changed
-//todo: do not forget dispatch with thunk action so then to be send to your backend
+//todo: when i click on update button i should navigate to the id/edit page 
+//todo: Use same form as you used in create form 
+//todo: send same data as you send in create form 
+//todo: think about how you are gonna upload images at the same time this looks very tricky 
+//todo: use same error validation as you used in create form 
+//todo: to update your data you need to send your data with in component file and your thunkfunction in js should use as a parameter and also critical is id
+//todo: after customer clicked on create navigate customer to the spot/id page with updated code 
+//todo: consider to retrieve data from image to update image photos from store or ask how to do it ?
 
-//todo: realize that adding image prop to the data will not add in my backend createspot because i do not have that column
-//todo: i shoul probably extract spotid, get images that user uplodaed and then dispatch to the thunk for being fetched 
-//todo: critical point is add spotId and data that is going to be posted images exactly same as in your backend data style(obj)here
-//todo: add your state images which is beeing collected to your handle submit so you can send data 
+
+
+
 
 import { useState } from "react";
 import { ReactReduxContext, useDispatch,useSelector } from "react-redux"
-import { thunkCreateSpot } from "../../store/createSpot";
+import { thunkUpdateSpot } from "../../store/updateSpot";
 import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
-import './CreateSpot.css'
+
 import {useParams} from 'react-router-dom'
 import { thunkaddImage } from "../../store/addSpotImage";
+// import { thunkaddImage } from "../../store/addSpotImage";
+
+    
 
 
+const UpdateSpot = () => {
 
-
-const CreateSpot = () => {
-
-const {id} = useParams()
+const {spotId} = useParams()
 
 const navigate = useNavigate()
 
 const spotsData = useSelector(state => state.createSpotState)
-console.log('why created spot id returns undefined ask',spotsData) //you need this section for updating not creating
+
+console.log('why created spot id returns undefined ask',spotsData)
 const data = Object.values(spotsData)
-const createdSpotId = data[0]?.id
-console.log('createdid,.dasasd',createdSpotId)
+const updatedSpotId = data[0]?.id
+console.log('createdid,.dasasd',updatedSpotId)
 
 
 const dispatch = useDispatch()
 
 
-const [country,setCountry] = useState('')
-const [address,setAdress] = useState('')
-const [city,setCity] = useState('')
-const [state,setState] = useState('')
-const [latitude,setLatitude] = useState()
-const [longitude,setLongitude] = useState()
-const [body,setBody] = useState('')
-const [name,setName] = useState('')
-const [price,setPrice] = useState()
+const [country,setCountry] = useState(data[0]?.country)
+const [address,setAdress] = useState(data[0]?.address)
+const [city,setCity] = useState(data[0]?.city)
+const [state,setState] = useState(data[0]?.state)
+const [latitude,setLatitude] = useState(data[0]?.latitude)
+const [longitude,setLongitude] = useState(data[0]?.longitude)
+const [body,setBody] = useState(data[0]?.body)
+const [name,setName] = useState(data[0]?.name)
+const [price,setPrice] = useState(data[0]?.price)
+const [error,setError] = useState({})
 
 
 // const [validationErrors,setValidationErrors] = useState({})
@@ -85,7 +93,7 @@ const [preview,setPreview] = useState('')
 
 const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
+    const updateFormData = {
       country,
       address,
       city,
@@ -99,8 +107,14 @@ const handleSubmit = async (e) => {
   
   
       // Dispatch thunkCreateSpot and get the response
-    const createSpotResponse = await dispatch(thunkCreateSpot(formData));
-    const newSpotId = createSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
+    const updateSpotResponse = await dispatch(thunkUpdateSpot(spotId,updateFormData));
+
+    //todo: definetely come back to refactor for error handling  this is very important 
+    // if (updateSpotResponse.error) { 
+    //      setError(updateSpotResponse.error) 
+    // }
+
+    const newSpotId = updateSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
 
     if (newSpotId) {
       // Create an array of all images including the preview image
@@ -121,10 +135,10 @@ const handleSubmit = async (e) => {
       // await Promise.all(imageUploadPromises);
   
       // Navigate to the newly created spot's page
-      navigate(`/spots/${newSpotId}`);
+      navigate(`/spots/${spotId}`);
   } else {
       // Handle the case where spot creation failed
-      console.error('Failed to create the spot');
+      console.error('Failed to update the spot');
  
     }
 
@@ -297,4 +311,4 @@ const handleSubmit = async (e) => {
 };
 
 
-export default CreateSpot;
+export default UpdateSpot;
