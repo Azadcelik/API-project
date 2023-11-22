@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_SPOTS = "spots/actionGetSpots";
 const DELETE_SPOT = "deletespot/actionDeleteSpot";
 const GET_SPOT_DETAILS = "spotDetails/actionGetSpotDetails";
+const UPDATE_SPOT = "updateSpot/actionUpdateSpot";
 
 //todo action creator
 export const actionGetSpots = (spots) => {
@@ -61,6 +62,50 @@ export const getSpotDetails = (spotId) => async (dispatch) => {
   }
 };
 
+// todo: action Creator for creating spot
+const actionUpdateSpot = (spotData) => {
+  return {
+    type: UPDATE_SPOT,
+    payload: spotData,
+  };
+};
+//todo : thunk update spot
+// Thunk action creator for updating a spot
+export const thunkUpdateSpot = (spotId, formData) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+      method: "PUT",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      const spotData = await response.json();
+      dispatch(actionUpdateSpot(spotData));
+
+      // Fetch full details after updating
+      dispatch(getSpotDetails(spotId));
+
+      return spotData;
+    }
+    else { 
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+  } catch (error) {
+    console.error('Error during update:', error);
+    return { error };
+  }
+};
+
+
+
+
+
+
+
+
+
 //todo: action creator
 export const actionDeleteSpot = (spotId) => {
   return {
@@ -108,7 +153,6 @@ export const spotsReducer = (state = spotsInitialState, action) => {
         ...normalizedByForEach,
       };
     }
-
     case GET_SPOT_DETAILS: {
       const spotDetails = action.payload
       const spotId = spotDetails.id
@@ -116,11 +160,27 @@ export const spotsReducer = (state = spotsInitialState, action) => {
         ...spotDetails, SpotImages: spotDetails.SpotImages, Owner: spotDetails.Owner
       }
       return {...state,  [spotId] : normalizedSpot}
-
-
-
-
     }
+    case UPDATE_SPOT: {
+      const updatedSpotData = action.payload;
+      const spotId = updatedSpotData.id;
+    
+      // Merge the updated spot data with the existing data to retain SpotImages and Owner
+      const existingSpotData = state[spotId] || {};
+      const mergedSpotData = {
+        ...existingSpotData,
+        ...updatedSpotData,
+        // Retain SpotImages and Owner from existing data
+        SpotImages: existingSpotData.SpotImages,
+        Owner: existingSpotData.Owner
+      };
+      return {
+        ...state,
+        [spotId]: mergedSpotData
+      };
+    }
+
+
 
     case DELETE_SPOT: {
       // Filter out the spot with the given ID

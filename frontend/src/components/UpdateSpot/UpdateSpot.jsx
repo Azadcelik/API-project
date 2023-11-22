@@ -13,7 +13,7 @@
 
 import { useState } from "react";
 import { ReactReduxContext, useDispatch,useSelector } from "react-redux"
-import { thunkUpdateSpot } from "../../store/updateSpot";
+import { thunkUpdateSpot } from "../../store/spots";
 import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 
@@ -30,12 +30,13 @@ const {spotId} = useParams()
 
 const navigate = useNavigate()
 
-const spotsData = useSelector(state => state.createSpotState)
+const spotsData = useSelector(state => state.spots)
 
-console.log('why created spot id returns undefined ask',spotsData)
+
+console.log('in update section component ',spotsData)
 const data = Object.values(spotsData)
 const updatedSpotId = data[0]?.id
-console.log('createdid,.dasasd',updatedSpotId)
+console.log('in update section component ',updatedSpotId)
 
 
 const dispatch = useDispatch()
@@ -50,7 +51,7 @@ const [longitude,setLongitude] = useState(data[0]?.longitude)
 const [body,setBody] = useState(data[0]?.body)
 const [name,setName] = useState(data[0]?.name)
 const [price,setPrice] = useState(data[0]?.price)
-const [error,setError] = useState({})
+const [error,setError] = useState(null)
 
 
 // const [validationErrors,setValidationErrors] = useState({})
@@ -110,9 +111,9 @@ const handleSubmit = async (e) => {
     const updateSpotResponse = await dispatch(thunkUpdateSpot(spotId,updateFormData));
 
     //todo: definetely come back to refactor for error handling  this is very important 
-    // if (updateSpotResponse.error) { 
-    //      setError(updateSpotResponse.error) 
-    // }
+    if (updateSpotResponse.error) { 
+         setError(updateSpotResponse.error) 
+    }
 
     const newSpotId = updateSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
 

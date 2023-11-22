@@ -4,7 +4,6 @@ import sessionReducer from './session';
 import { spotsReducer } from './spots';
 import createSpotReducer from './createSpot';
 import currentSpotReducer from './currentSpot';
-import updateSpotReducer from './updateSpot';
 import addImageReducer from './addSpotImage';
 
 
@@ -15,7 +14,6 @@ const rootReducer = combineReducers({
   createSpotState: createSpotReducer,
   currentSpot: currentSpotReducer,
   addImage: addImageReducer,
-  updateSpot: updateSpotReducer,
 });
 
 let enhancer;
