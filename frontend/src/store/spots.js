@@ -4,6 +4,8 @@ const GET_SPOTS = "spots/actionGetSpots";
 const DELETE_SPOT = "deletespot/actionDeleteSpot";
 const GET_SPOT_DETAILS = "spotDetails/actionGetSpotDetails";
 const UPDATE_SPOT = "updateSpot/actionUpdateSpot";
+const CURRENT_SPOT = 'current/currentSpot'
+const CREATE_SPOT = "createSpot/actionCreateSpot";
 
 //todo action creator
 export const actionGetSpots = (spots) => {
@@ -83,7 +85,7 @@ export const thunkUpdateSpot = (spotId, formData) => async (dispatch) => {
       const spotData = await response.json();
       dispatch(actionUpdateSpot(spotData));
 
-      // Fetch full details after updating
+      
       dispatch(getSpotDetails(spotId));
 
       return spotData;
@@ -99,6 +101,83 @@ export const thunkUpdateSpot = (spotId, formData) => async (dispatch) => {
 };
 
 
+//todo: action creator 
+
+export const actionCurrentSpot = (currentData) => { 
+  return { 
+      type: CURRENT_SPOT,
+      payload:currentData.Spots
+  }
+}
+
+
+
+//todo: thunk action creator 
+
+export const thunkCurrentSpot = () => async dispatch => { 
+  
+  try { 
+      const response =  await csrfFetch("/api/spots/current",{ 
+          method: "GET",
+          headers: {"Content-Type": "application/json"}
+      })
+  
+      if (response.ok) {
+          const jsonData = await response.json();
+          console.log('Fetched jsonData:', jsonData);  // Check the structure
+          dispatch(actionCurrentSpot(jsonData));
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        } 
+  }
+  catch (error) {
+      console.error('Error in thunkCurrentSpot:', error);
+      throw {error};  // Rethrow the original error, not a new Error
+    }
+  }
+
+
+
+// todo: action Creator for creating spot
+  export const actionCreateSpot = (spotData) => {
+    return {
+      type: CREATE_SPOT,
+      payload: spotData,
+    };
+  };
+
+
+//todo : thunk actionc creator
+
+export const thunkCreateSpot = (formData) => async (dispatch) => {  //spotDetails will be passed by dispatching thunk  after form submitted
+  try {
+  const response = await csrfFetch("/api/spots", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'
+  },
+    
+    body: JSON.stringify(formData),
+  });
+
+
+
+  if (response.ok) { 
+    const spotData = await response.json()
+    dispatch(actionCreateSpot(spotData)) 
+    return spotData;
+  }
+  else { 
+    throw new Error('error occured hey')
+  }
+
+}
+catch(error) { 
+
+   return {error}
+}
+
+};
 
 
 
@@ -106,6 +185,9 @@ export const thunkUpdateSpot = (spotId, formData) => async (dispatch) => {
 
 
 
+
+
+  
 //todo: action creator
 export const actionDeleteSpot = (spotId) => {
   return {
@@ -161,16 +243,34 @@ export const spotsReducer = (state = spotsInitialState, action) => {
       }
       return {...state,  [spotId] : normalizedSpot}
     }
+    case CURRENT_SPOT: { 
+      let normalizedCurrentSpots = {};
+      action.payload.forEach((spot) => {
+        normalizedCurrentSpots[spot.id] = { 
+          ...spot,
+          // Add any other normalization if needed
+        };
+      });
+    
+      return {
+        ...state,
+        ...normalizedCurrentSpots, // Merge the current user's spots into the state
+      };
+    }
+
     case UPDATE_SPOT: {
       const updatedSpotData = action.payload;
       const spotId = updatedSpotData.id;
-    
-      // Merge the updated spot data with the existing data to retain SpotImages and Owner
-      const existingSpotData = state[spotId] || {};
+      // Check if the existing data for this spot is available
+      const existingSpotData = state[spotId];
+      if (!existingSpotData) {
+        
+        return state;
+      }
       const mergedSpotData = {
         ...existingSpotData,
         ...updatedSpotData,
-        // Retain SpotImages and Owner from existing data
+        // Explicitly retain SpotImages and Owner from existing data
         SpotImages: existingSpotData.SpotImages,
         Owner: existingSpotData.Owner
       };
@@ -179,6 +279,29 @@ export const spotsReducer = (state = spotsInitialState, action) => {
         [spotId]: mergedSpotData
       };
     }
+
+    case CREATE_SPOT: {
+      const newSpotData = action.payload;
+      const spotId = newSpotData.id;
+      const existingSpotData = state[spotId];
+      if (!existingSpotData) {
+        
+        return state;
+      }
+      const mergedSpotData = {
+        ...existingSpotData,
+        ...newSpotData,
+        // Explicitly retain SpotImages and Owner from existing data
+        SpotImages: existingSpotData.SpotImages,
+        Owner: existingSpotData.Owner
+      };
+      return {
+        ...state,
+        [spotId]: newSpotData // Add the new spot to the state
+      };
+    }
+
+
 
 
 

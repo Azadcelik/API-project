@@ -5,7 +5,7 @@
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { thunkCurrentSpot } from "../../store/currentSpot";
+import { thunkCurrentSpot } from "../../store/spots";
 import { useDispatch } from "react-redux";
  import { useNavigate } from "react-router-dom";
  import { useModal } from "../../context/Modal";
@@ -25,7 +25,7 @@ const handleDeleteOpenModel = (spotId) => {
 
 
 
-  const currentData = useSelector((state) => state.currentSpot);
+  const currentData = useSelector((state) => state.spots);
 
   const data = Object.values(currentData);
   

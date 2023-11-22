@@ -40,7 +40,7 @@ const SpotDetails = () => {
   }, [dispatch, spotId]);
 
   if (!spotDetails) {
-    return <div>Loading...</div>; // Or any other loading state
+    return <div>Please try again</div>; // Or any other loading state
   }
 
   return (

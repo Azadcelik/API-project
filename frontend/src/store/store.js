@@ -2,8 +2,6 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import { spotsReducer } from './spots';
-import createSpotReducer from './createSpot';
-import currentSpotReducer from './currentSpot';
 import addImageReducer from './addSpotImage';
 
 
@@ -11,8 +9,6 @@ import addImageReducer from './addSpotImage';
 const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotsReducer,
-  createSpotState: createSpotReducer,
-  currentSpot: currentSpotReducer,
   addImage: addImageReducer,
 });
 

@@ -112,7 +112,7 @@ const handleSubmit = async (e) => {
 
     //todo: definetely come back to refactor for error handling  this is very important 
     if (updateSpotResponse.error) { 
-         setError(updateSpotResponse.error) 
+         setError('Please try again') 
     }
 
     const newSpotId = updateSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
@@ -148,7 +148,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="main-contain">
-    
+     {error && <p>{error}</p>}
       <h1>Create a New Spot</h1>
       <h2>Where&apos;s your place located?</h2>
       <h3>

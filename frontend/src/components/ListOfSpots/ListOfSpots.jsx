@@ -22,6 +22,7 @@ const dispatch = useDispatch()
 
 
 const spots = useSelector(state => state.spots) 
+console.log('spots in before object key', spots)
  const spotsData = Object.values(spots)
  console.log('in get spot section',spotsData) //array of objects id discarded
 
