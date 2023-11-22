@@ -1,6 +1,7 @@
+import { csrfFetch } from "./csrf";
+
 const GET_SPOTS = "spots/actionGetSpots";
-
-
+const DELETE_SPOT = "deletespot/actionDeleteSpot";
 
 
 //todo action creator
@@ -28,21 +29,66 @@ export const actionGetSpots = (spots) => {
       console.log(errors);
     }
   };
+
+
+
+  //todo: action creator
+  export const actionDeleteSpot = (spotId) => {
+    return {
+      type: DELETE_SPOT,
+      payload: spotId,
+    };
+  };
+  
+  //todo: thunk creator
+  
+  export const thunkDeleteSpot = (spotId) => async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Error occurred during  delete:", error);
+        return { error };
+      }
+  
+      dispatch(actionDeleteSpot(spotId));
+      return { spotId };
+    } catch (error) {
+      console.error("Error during delete:", error);
+      return { error };
+    }
+  };
+
+
+
+
+
+
+
+
+
   
   // todo: Spots Reducer
   const spotsInitialState =  {
     Spots: []
   }
   
-  export const spotsReducer = (state = spotsInitialState,action) => { 
-      switch(action.type) { 
-        case GET_SPOTS : { 
-          
-          return {...state, Spots: action.payload}
+  export const spotsReducer = (state = spotsInitialState, action) => { 
+    switch (action.type) { 
+        case GET_SPOTS: { 
+            return {...state, Spots: action.payload};
         }
-        default : { 
-          return state
+        case DELETE_SPOT: {
+            // Filter out the spot with the given ID
+            const updatedSpots = state.Spots.filter(spot => spot.id !== action.payload);
+            return {...state, Spots: updatedSpots};
         }
-      }
-     
-  }
+        default: { 
+            return state;
+        }
+    }
+};

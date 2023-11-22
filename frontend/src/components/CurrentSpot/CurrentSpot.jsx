@@ -8,12 +8,22 @@ import { useSelector } from "react-redux";
 import { thunkCurrentSpot } from "../../store/currentSpot";
 import { useDispatch } from "react-redux";
  import { useNavigate } from "react-router-dom";
+ import { useModal } from "../../context/Modal";
+ import DeleteSpot from "../DeleteSpot/DeleteSpot";
 
 import "./CurrentSpot.css";
 
 const CurrentSpot = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+
+const {setModalContent} = useModal()
+
+const handleDeleteOpenModel = (spotId) => { 
+  setModalContent(<DeleteSpot spotId={spotId}/>)
+}
+
+
 
   const currentData = useSelector((state) => state.currentSpot);
 
@@ -29,6 +39,8 @@ const CurrentSpot = () => {
    
   navigate(`/spots/${spotId}/edit`)
  }
+
+
 
 
   return (
@@ -47,7 +59,7 @@ const CurrentSpot = () => {
           <h3> *{current.avgRating }  ##</h3>
           <div className="update-delete-button">
             <button onClick={() => handleUpdateClick(current.id)}>Update</button>
-            <button>Delete</button>
+            <button onClick={() => handleDeleteOpenModel(current.id)}>Delete</button>
           </div>
         </div>
       ))}
