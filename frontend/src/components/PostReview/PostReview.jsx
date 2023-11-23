@@ -1,5 +1,5 @@
 
-import { thunkCreateReview } from '../../store/postReview';
+import { thunkCreateReview, thunkFetchReviewsForSpot } from '../../store/postReview';
 import './PostReview.css'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -73,6 +73,9 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
 
    onReviewPosted();
    closeModal()
+   
+   //todo: this is definitely working for everwhere i tried.After you deleted or updated or created dispatch your thunk for that data then you do not see page refresehed.
+   dispatch(thunkFetchReviewsForSpot(spotsId))
   }
 
 

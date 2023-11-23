@@ -3,7 +3,7 @@
 //todo: after paged poped up if user click on delete button then dispatch thunk so can delete on database 
 //todo: otherwise simply return to the current page 
 
-import { thunkDeleteSpot } from '../../store/spots'
+import { getSpotDetails, thunkDeleteSpot } from '../../store/spots'
 import './DeleteSpot.css'
 import { useDispatch } from 'react-redux'
 import {useModal} from '../../context/Modal'
@@ -20,9 +20,10 @@ const dispatch = useDispatch()
  const handleDeleteButton = async () =>  { 
 
  const response = await dispatch(thunkDeleteSpot(spotId))
-
+ 
  if (!response.error) { 
     closeModal()
+//    await dispatch(getSpotDetails(spotId))
  }
 
  console.log('response in delete', response)

@@ -139,7 +139,7 @@ const SpotDetails = () => {
     )}
     <p>{spotDetails.numReviews < 1 ? 'Be the first to post a review!' : ""}</p>
       </div>
-        <ReviewList reviews={reviews} />
+        <ReviewList reviews={reviews} spotId={spotId} />
     </div>
   );
 };

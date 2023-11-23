@@ -7,6 +7,8 @@ import { csrfFetch } from "./csrf"
 
 const FETCH_REVIEWS_FOR_SPOT = 'reviews/fetchForSpot';
 const POST_REVIEW  = 'review/actionAddReview'
+const DELETE_REVIEW = 'review/actionDeleteReview'
+
 
 
 
@@ -17,13 +19,13 @@ export const fetchReviewsForSpot = (spotId, reviews) => ({
   });
 
   // Thunk Function to Fetch Reviews
-export const thunkFetchReviewsForSpot = (spotId) => async dispatch => {
+  export const thunkFetchReviewsForSpot = (spotId) => async dispatch => {
     try {
       const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
       if (response.ok) {
-        const reviews = await response.json();
-        console.log('data from thunk fetch revieww',reviews)
-        dispatch(fetchReviewsForSpot(spotId, reviews));
+        const data = await response.json();
+        console.log('API response data:', data); // Log to check the structure
+        dispatch(fetchReviewsForSpot(spotId, data.Reviews));
       }
     } catch (error) {
       console.error('Failed to fetch reviews', error);
@@ -68,24 +70,64 @@ catch (error) {
 }
 }
 
+
+
+//todo: delete action 
+
+export const deleteActionReview = (reviewId) => { 
+  return {
+    type: DELETE_REVIEW,
+    payload: reviewId
+  }
+}
+
+//todo: thunk delete 
+
+export const thunkDeleteReview = (reviewId) => async dispatch => {
+  try {
+      const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+          dispatch(deleteActionReview(reviewId));
+          return { success: true };  // Indicate success
+      } else {
+          const error = await response.json();
+          return { error };
+      }
+  } catch (error) {
+      return { error };
+  }
+};
+
+
+
 const initialReview = {}
 const reviewReducer = (state=initialReview,action) => {
     switch (action.type) {
-        case FETCH_REVIEWS_FOR_SPOT: {
-          const { spotId, reviews } = action.payload;
-          let normalizedReviews = {};
-    
-          reviews.Reviews.forEach(review => {
-            normalizedReviews[review.id] = review;
-          });
-    
-          return { ...state, [spotId]: normalizedReviews };
-        }
+      case FETCH_REVIEWS_FOR_SPOT: {
+        const { spotId, reviews } = action.payload; // Assuming 'reviews' is an array
+        let normalizedReviews = {};
+      
+        reviews.forEach(review => {
+          normalizedReviews[review.id] = review;
+        });
+      
+        return { ...state, [spotId]: normalizedReviews };
+      }
         
         case POST_REVIEW : { 
          const newReviewData = action.payload
          const reviewId = newReviewData.id
          return {...state, [reviewId]: newReviewData}
+        }
+      
+        case DELETE_REVIEW: {
+        const newState = {...state}
+        delete newState[action.payload]
+        return newState
         }
 
         default : return state
