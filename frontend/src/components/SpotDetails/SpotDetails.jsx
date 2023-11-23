@@ -68,7 +68,7 @@ const SpotDetails = () => {
 
         <div className="name-review">
           <h2>
-            Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}
+            Hosted by {spotDetails?.Owner?.firstName} {spotDetails?.Owner?.lastName}
           </h2>
 
           <div className="second">

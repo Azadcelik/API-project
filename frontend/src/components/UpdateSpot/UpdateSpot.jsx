@@ -114,6 +114,8 @@ const handleSubmit = async (e) => {
     if (updateSpotResponse.error) { 
          setError('Please try again') 
     }
+    
+    // if (!updateSpotResponse) return
 
     const newSpotId = updateSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
 

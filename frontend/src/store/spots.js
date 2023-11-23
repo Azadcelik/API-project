@@ -180,13 +180,6 @@ catch(error) {
 };
 
 
-
-
-
-
-
-
-
   
 //todo: action creator
 export const actionDeleteSpot = (spotId) => {
@@ -300,17 +293,15 @@ export const spotsReducer = (state = spotsInitialState, action) => {
         [spotId]: newSpotData // Add the new spot to the state
       };
     }
-
-
-
-
-
     case DELETE_SPOT: {
-      // Filter out the spot with the given ID
-      const updatedSpots = state.Spots.filter(
-        (spot) => spot.id !== action.payload
-      );
-      return { ...state, Spots: updatedSpots };
+      console.log('Before deletion in reducer:', state);
+    
+      // Create a new state object excluding the spot with the given ID
+      const newState = { ...state };
+      delete newState[action.payload]; // action.payload should be the ID of the spot to delete
+    
+      console.log('After deletion in reducer:', newState);
+      return newState;
     }
     default: {
       return state;
