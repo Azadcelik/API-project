@@ -59,3 +59,8 @@ button {
     display: flex;
     justify-content: space-between;
 }
+
+
+.numRev { 
+    margin-left: 20px; /* Adjust the value as needed */
+}

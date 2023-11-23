@@ -13,7 +13,7 @@ import "./SpotDetails.css";
 import PostReview from "../PostReview/PostReview";
 import { useModal } from "../../context/Modal";
 import { thunkFetchReviewsForSpot } from "../../store/postReview";
-
+import ReviewList from "../ReviewList/ReviewList";
 
 
 
@@ -83,6 +83,13 @@ const SpotDetails = () => {
     return <div>Please try again</div>; // Or any other loading state
   }
 
+
+  
+
+  const ssss = spotDetails.numReviews < 2 ? 'review' : 'reviews'
+  const newReview = spotDetails.numReviews < 1 ? "☆  " + ' New' : "☆ " + `${spotDetails.avgRating.toFixed(2)}  `+ ` ${spotDetails.numReviews}` + `${ssss}`
+
+
   return (
     <div>
       {error && <p>{error}</p>}
@@ -118,17 +125,21 @@ const SpotDetails = () => {
               </h2>
 
               <h3>
-                ☆{spotDetails.avgRating} {spotDetails.numReviews} {spotDetails.numReviews === 1 ? 'review' : 'reviews'}
+                {newReview}
               </h3>
             </div>
             <button>Reserve</button>
           </div>
         </div>
+           <h2>{newReview}</h2>
         <hr />
+         
         {canPostReview() && (
       <button onClick={handleOpenModalContent}>Post Your Review</button>
     )}
+    <p>{spotDetails.numReviews < 1 ? 'Be the first to post a review!' : ""}</p>
       </div>
+        <ReviewList reviews={reviews} />
     </div>
   );
 };
