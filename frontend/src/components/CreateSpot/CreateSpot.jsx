@@ -303,9 +303,9 @@ const CreateSpot = () => {
               value={previeww}
               onChange={(e) => setPreview(e.target.value)}
             />
-            {validationErrors.previeww && (
+            {/* {validationErrors.previeww && (
               <span className="error-message">{validationErrors.previeww}</span>
-            )}
+            )} */}
           </label>
 
           <label htmlFor="">
@@ -315,9 +315,9 @@ const CreateSpot = () => {
               value={image1}
               onChange={(e) => setImage1(e.target.value)}
             />
-            {validationErrors.image1 && (
+            {/* {validationErrors.image1 && (
               <span className="error-message">{validationErrors.image1}</span>
-            )}
+            )} */}
           </label>
 
           <label htmlFor="">
@@ -327,9 +327,9 @@ const CreateSpot = () => {
               value={image2}
               onChange={(e) => setImage2(e.target.value)}
             />
-            {validationErrors.image2 && (
+            {/* {validationErrors.image2 && (
               <span className="error-message">{validationErrors.image2}</span>
-            )}
+            )} */}
           </label>
           <label htmlFor="">
             <input
@@ -338,9 +338,9 @@ const CreateSpot = () => {
               value={image3}
               onChange={(e) => setImage3(e.target.value)}
             />
-            {validationErrors.image3 && (
+            {/* {validationErrors.image3 && (
               <span className="error-message">{validationErrors.image3}</span>
-            )}
+            )} */}
           </label>
 
           <label htmlFor="">
@@ -350,9 +350,9 @@ const CreateSpot = () => {
               value={image4}
               onChange={(e) => setImage4(e.target.value)}
             />
-            {validationErrors.image4 && (
+            {/* {validationErrors.image4 && (
               <span className="error-message">{validationErrors.image4}</span>
-            )}
+            )} */}
           </label>
         </div>
         <br />

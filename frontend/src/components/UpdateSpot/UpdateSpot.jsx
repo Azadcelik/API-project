@@ -30,27 +30,27 @@ const {spotId} = useParams()
 
 const navigate = useNavigate()
 
-const spotsData = useSelector(state => state.spots)
+const spotsData = useSelector(state => state.spots[spotId])
 
 
-console.log('in update section component ',spotsData)
-const data = Object.values(spotsData)
-const updatedSpotId = data[0]?.id
-console.log('in update section component ',updatedSpotId)
+// console.log('in update section component ',spotsData)
+// const data = Object.values(spotsData)
+// const updatedSpotId = data[0]?.id
+// console.log('in update section component ',updatedSpotId)
 
 
 const dispatch = useDispatch()
 
 
-const [country,setCountry] = useState(data[0]?.country)
-const [address,setAdress] = useState(data[0]?.address)
-const [city,setCity] = useState(data[0]?.city)
-const [state,setState] = useState(data[0]?.state)
-const [latitude,setLatitude] = useState(data[0]?.latitude)
-const [longitude,setLongitude] = useState(data[0]?.longitude)
-const [body,setBody] = useState(data[0]?.body)
-const [name,setName] = useState(data[0]?.name)
-const [price,setPrice] = useState(data[0]?.price)
+const [country,setCountry] = useState(spotsData?.country)
+const [address,setAdress] = useState(spotsData?.address)
+const [city,setCity] = useState(spotsData?.city)
+const [state,setState] = useState(spotsData?.state)
+const [latitude,setLatitude] = useState(spotsData?.lat)
+const [longitude,setLongitude] = useState(spotsData?.lng)
+const [body,setBody] = useState(spotsData?.body)
+const [name,setName] = useState(spotsData?.name)
+const [price,setPrice] = useState(spotsData?.price)
 const [error,setError] = useState(null)
 
 

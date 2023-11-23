@@ -1,11 +1,15 @@
 
+import { thunkCreateReview } from '../../store/postReview';
 import './PostReview.css'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
 
-const PostReview = () => { 
+const PostReview = ({spotsId,onReviewPosted}) => { 
 const [text,setText] = useState("")
+const [error,setError] = useState(null)
 
-
+const dispatch = useDispatch()
 
 const isButtonDisabled = text.length < 10
 
@@ -17,7 +21,7 @@ const [hoverRating, setHoverRating] = useState(0);
 const [currentRating, setCurrentRating] = useState(0);
 
 
-
+const {closeModal} = useModal()
 
 
 // handleMouseOver: This function is called when the mouse pointer is over a star.
@@ -53,10 +57,31 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
   }
 
 
+  const submitYourReview = async () => { 
+    const reviewForm = { 
+      review: text,
+      stars: currentRating
+    }
+   
+   const reviewData = await dispatch(thunkCreateReview(spotsId,reviewForm))
+   if (reviewData.errors) { 
+      setError("Please try again");
+   }
+   if (reviewData.message) { 
+    setError(reviewData.message)
+   }
+
+   onReviewPosted();
+   closeModal()
+  }
+
+
   return (
-    <>
+    <div>
+       {error && <p>{error}</p>}
       <h1>How was your Stay</h1>
-      <textarea cols="30" rows="10" placeholder="Leave your review here..." onChange={e => setText(e.target.value)}></textarea>
+      {error && <p>{error}</p>}
+      <textarea cols="30" rows="10" placeholder="Leave your review here..." value={text} onChange={e => setText(e.target.value)}></textarea>
       <div className="star-rating">
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
@@ -68,8 +93,8 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
           />
         ))}
       </div>
-      <button disabled={isButtonDisabled}>Submit Your Review</button>
-    </>
+      <button disabled={isButtonDisabled} onClick={submitYourReview}>Submit Your Review</button>
+    </div>
   );
 }
 

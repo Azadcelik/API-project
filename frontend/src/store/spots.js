@@ -272,27 +272,18 @@ export const spotsReducer = (state = spotsInitialState, action) => {
         [spotId]: mergedSpotData
       };
     }
-
     case CREATE_SPOT: {
       const newSpotData = action.payload;
       const spotId = newSpotData.id;
-      const existingSpotData = state[spotId];
-      if (!existingSpotData) {
-        
-        return state;
-      }
-      const mergedSpotData = {
-        ...existingSpotData,
-        ...newSpotData,
-        // Explicitly retain SpotImages and Owner from existing data
-        SpotImages: existingSpotData.SpotImages,
-        Owner: existingSpotData.Owner
-      };
+    
+      // Directly add the new spot data to the state
+      // No need to check for existing data as its a create operation
       return {
         ...state,
-        [spotId]: newSpotData // Add the new spot to the state
+        [spotId]: newSpotData, // Add the new spot to the state
       };
     }
+
     case DELETE_SPOT: {
       console.log('Before deletion in reducer:', state);
     
@@ -308,3 +299,25 @@ export const spotsReducer = (state = spotsInitialState, action) => {
     }
   }
 };
+
+
+
+   // case CREATE_SPOT: {
+    //   const newSpotData = action.payload;
+    //   const spotId = newSpotData.id;
+    //   const existingSpotData = state[spotId];
+    //   if (!existingSpotData) {
+    //     return state;
+    //   }
+    //   const mergedSpotData = {
+    //     ...existingSpotData,
+    //     ...newSpotData,
+    //     // Explicitly retain SpotImages and Owner from existing data
+    //     SpotImages: existingSpotData.SpotImages,
+    //     Owner: existingSpotData.Owner
+    //   };
+    //   return {
+    //     ...state,
+    //     [spotId]: newSpotData // Add the new spot to the state
+    //   };
+    // }
