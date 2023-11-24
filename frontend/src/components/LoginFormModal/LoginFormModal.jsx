@@ -37,10 +37,35 @@ function LoginFormModal() {
       });
   };
 
+
+
+  const demoUserFunction = () => { 
+
+    const credential = 'demo@user.io'
+    const password = 'password'
+    setErrors({}); 
+    dispatch(sessionActions.login({ credential, password }))
+    .then(() => {
+      closeModal();
+    })
+    .catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    });
+};
+
+
+  
+  
   return (
     <div className='login-container' >
       
       <h1>Log In</h1>
+      {errors.credential && (
+          <p>{errors.credential}</p>
+        )}
       <form onSubmit={handleSubmit}>
       <div className="input-group">
         <label>
@@ -65,12 +90,11 @@ function LoginFormModal() {
           />
         </label>
         </div>
-        {errors.credential && (
-          <p>{errors.credential}</p>
-        )}
+      
          <div className="input-group">
-        <button type="submit" disabled={isButtonDisabled}>Log In</button>
+        <button type="submit" disabled={isButtonDisabled} className='button-login'>Log In</button>
         </div>
+        <button className='demo-user' onClick={demoUserFunction}>Demo User</button>
       </form>
     </div>
   );

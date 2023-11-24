@@ -28,11 +28,29 @@ h1 {
     text-align: center;
 }
 
-button  { 
-    width: 260px;
+.button-login { 
+    width: 250px;
     padding: 10px;
+    margin-left: 0px;
+
 }
 
 .hidden { 
     display: none;
+}
+
+
+.button-login:disabled { 
+  background-color: white;
+  color: #666666;
+  
+}
+
+.demo-user { 
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  background: none;
+  color: black;
+  text-decoration: underline;
 }
