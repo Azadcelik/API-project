@@ -84,7 +84,7 @@ const SpotDetails = () => {
   };
 
   return (
-    <div>
+    <div className="spot-details-container">
       {error && <p>{error}</p>}
 
       <div key={spotDetails.id}>
@@ -114,11 +114,11 @@ const SpotDetails = () => {
 
           <div className="second">
             <div className="price">
-              <h2>
-                ${spotDetails.price} <span className="night">night</span>
+              <h2 className="nightt">
+                ${spotDetails.price} <span className="text-night">night</span>
               </h2>
 
-              <h3>{newReview}</h3>
+              <h3 className="star-review">{newReview}</h3>
             </div>
             <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
           </div>

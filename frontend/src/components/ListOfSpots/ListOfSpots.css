@@ -1,26 +1,29 @@
 .grid-container {
     display: grid;
+    padding-left: 40px;
     grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
-    grid-gap: 20px; /* Space between grid items */
+    grid-gap: 20px;
+    
 }
 
 .grid-item img {
-    width: 90%; /* Make images responsive */
+    
+    width: 80%; /* Make images responsive */
     height: auto; /* Maintain aspect ratio */
     display: block; /* Remove any extra space below the image */
 }
 
 .grid-item {
     position: relative; /* Needed for absolute positioning of the tooltip */
-    /* Other styles... */
+    cursor: pointer;
 }
 
 .tooltip {
     display: none; /* Initially hidden */
     position: absolute;
     z-index: 1;
-    bottom: 90%; /* Position above the item */
-    left: 50%; /* Center horizontally */
+    bottom: 85%; /* Position above the item */
+    left: 40%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust horizontal centering */
     background-color: black;
     color: white;

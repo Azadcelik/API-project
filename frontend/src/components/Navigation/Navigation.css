@@ -15,8 +15,10 @@
     width: 80px;
     border: solid 2px;
     border-radius: 15px;
-
-    
+    margin-top: 20px;
+    margin-bottom: 30px;
+    cursor: pointer;
+   
 }
 
 .profile-button { 
@@ -26,13 +28,16 @@
 }
 
 .login-page { 
+    position: relative; /* Add this line */
     display: flex;
     justify-content: end;
+    
 }
 
 .profile-container { 
     display: flex;
     justify-content: end;
+   
 }
 
 .main-container { 
@@ -66,8 +71,8 @@
   /* Dropdown menu styles */
   .profile-dropdown {
     position: absolute;
-    top: 40px; 
-    right: 1px;
+    top: 60%; /* Position it below the login page element */
+    right: 0;
     z-index: 1000; 
     border: 2px solid black;
     
@@ -97,3 +102,24 @@
    
 }
 
+.logo-link {
+    z-index: 1001;
+    margin-top: 25px;
+    display: flex;
+    text-decoration: none;
+    
+  }
+  
+  .fa-airbnb {
+    font-size: 24px; /* Adjust this value as needed */
+    color: red;
+    
+  }
+  
+  .logo-text {
+    margin-left: 8px; /* Space between logo and text */
+    font-size: 20px; /* Adjust this value as needed */
+    color: red;
+    font-weight: bold; /* Text color, adjust as needed */
+
+  } 

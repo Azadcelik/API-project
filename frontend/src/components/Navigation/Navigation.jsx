@@ -42,7 +42,7 @@ function Navigation({ isLoaded }) {
       </button>
        <ul className={ulClassName} ref={ulRef}>
           <li> 
-            <OpenModalButton className="hey"
+            <OpenModalButton 
               buttonText="Log In"
               modalComponent={<LoginFormModal />}
             />
@@ -59,14 +59,18 @@ function Navigation({ isLoaded }) {
 
     );
   }
-
   return (
+  <div className="nav-container">
     <ul>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" className="logo-link">
+          <i className="fa-brands fa-airbnb"></i>
+          <span className="logo-text">airbnb</span>
+        </NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
+  </div>
   );
 }
 

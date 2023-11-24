@@ -5,8 +5,7 @@ import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal} from '../../context/Modal';
 import './LoginForm.css';
-
-
+import { useNavigate } from 'react-router-dom';
 
 function LoginFormModal() {
 
@@ -16,7 +15,7 @@ function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  
+  const navigate = useNavigate()
 
   
   const isButtonDisabled = credential.length < 4 || password.length < 6;
@@ -28,7 +27,10 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
-      .then( () => closeModal())
+      .then( () => {
+        closeModal()
+        navigate('/')
+      })
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
@@ -47,6 +49,7 @@ function LoginFormModal() {
     dispatch(sessionActions.login({ credential, password }))
     .then(() => {
       closeModal();
+      navigate('/')
     })
     .catch(async (res) => {
       const data = await res.json();

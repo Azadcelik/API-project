@@ -9,6 +9,7 @@
 import {useSelector,useDispatch } from "react-redux"
 import { getAllSpots } from "../../store/spots"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 import './ListOfSpots.css'
 
@@ -19,9 +20,10 @@ const ListOfSpots = () => {
 
 const [error,setError] = useState(null)
 const dispatch = useDispatch()
-
+const navigate = useNavigate()
 
 const spots = useSelector(state => state.spots) 
+
 console.log('spots in before object key', spots)
  const spotsData = Object.values(spots)
  console.log('in get spot section',spotsData) //array of objects id discarded
@@ -42,10 +44,16 @@ useEffect(() => {
     setError(null)
 }, [dispatch]);
 
+
+const navigateToSpotDetailsPage = (spotId) => { 
+  
+  navigate(`/spots/${spotId}`)
+}
+
 return (
     <div className="grid-container">
       {spotsData.map((spot) => (
-        <div key={spot.id} className="grid-item">
+        <div key={spot.id} className="grid-item"  onClick={() => navigateToSpotDetailsPage(spot.id)}>
              <span className="tooltip">{spot.name}</span> 
           <img src={spot.previewImage} className="spot-thumbnail"/>
           <div className="spot-info">

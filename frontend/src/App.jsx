@@ -8,8 +8,9 @@ import CreateSpot from "./components/CreateSpot/CreateSpot";
 import CurrentSpot from "./components/CurrentSpot/CurrentSpot";
 import UpdateSpot from "./components/UpdateSpot/UpdateSpot";
 import ListOfSpots from "./components/ListOfSpots/ListOfSpots";
+import { Routes, Route } from 'react-router-dom'; // Ensure that Routes is imported
 
-function Layout() {
+function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -22,41 +23,17 @@ function Layout() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Outlet />}
+      {isLoaded && (
+        <Routes> {/* Define routes here */}
+          <Route path="/" element={<ListOfSpots />} />
+          <Route path="/spots/:spotId" element={<SpotDetails />} />
+          <Route path="/spots/new" element={<CreateSpot />} />
+          <Route path="/spots/current" element={<CurrentSpot />} />
+          <Route path="/spots/:spotId/edit" element={<UpdateSpot />} />
+        </Routes>
+      )}
     </>
   );
 }
 
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <ListOfSpots />,
-      },
-      {
-        path: "/spots/:spotId",
-        element: <SpotDetails />,
-      },
-      {
-        path: "/spots/new",
-        element: <CreateSpot />,
-      },
-      {
-        path: "/spots/current",
-        element: <CurrentSpot />,
-      },
-      
-      { path: "/spots/:spotId/edit", 
-        element: <UpdateSpot /> 
-      }
-    ],
-  },
-]);
-
-function App() {
-  return <RouterProvider router={router} />;
-}
-
-export default App;
+export default App; // This line exports the App component
