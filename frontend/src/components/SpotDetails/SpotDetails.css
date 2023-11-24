@@ -64,3 +64,7 @@ button {
 .numRev { 
     margin-left: 20px; /* Adjust the value as needed */
 }
+
+.reserve-button { 
+    width: 350px;
+}

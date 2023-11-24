@@ -15,39 +15,31 @@ import { useModal } from "../../context/Modal";
 import { thunkFetchReviewsForSpot } from "../../store/postReview";
 import ReviewList from "../ReviewList/ReviewList";
 
-
-
 const SpotDetails = () => {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const [error, setError] = useState(null);
-  const [hasUserReviewed,setHasUserReviewed] = useState(false)
+  const [hasUserReviewed, setHasUserReviewed] = useState(false);
 
   const spotDetails = useSelector((state) => state.spots[spotId]); // Retrieve specific spot details
-  console.log("spotdetails in spotdetails section",spotDetails);
+  console.log("spotdetails in spotdetails section", spotDetails);
 
-  const currentUser = useSelector(state => state.session?.user)
-  const reviewsObject = useSelector(state => state.reviews[spotId] || {});
+  const currentUser = useSelector((state) => state.session?.user);
+  const reviewsObject = useSelector((state) => state.reviews[spotId] || {});
   const reviews = Object.values(reviewsObject); // Convert the object to an array
 
+  const userId = currentUser?.id;
+  const ownerId = spotDetails?.Owner?.id;
+  const spotDetailsId = spotDetails?.id;
 
-  const userId = currentUser?.id
-  const ownerId = spotDetails?.Owner?.id
-  const spotDetailsId = spotDetails?.id
-
-
-  console.log('is this userId lol', userId,ownerId,spotDetailsId)
-
-  
-
-
+  console.log("is this userId lol", userId, ownerId, spotDetailsId);
 
   const canPostReview = () => {
     if (!currentUser || userId === ownerId) return false;
 
     const reviews = Object.values(reviewsObject); // Convert the object to an array
-    const hasReviewed = reviews.find(review => review.userId === userId);
-  
+    const hasReviewed = reviews.find((review) => review.userId === userId);
+
     return !hasReviewed;
   };
 
@@ -56,14 +48,13 @@ const SpotDetails = () => {
 
   const handleOpenModalContent = () => {
     const onReviewPosted = async () => {
-     await dispatch(getSpotDetails(spotId)); // Re-fetch spot details
+      await dispatch(getSpotDetails(spotId)); // Re-fetch spot details
     };
-  
-    setModalContent(<PostReview spotsId={spotDetailsId} onReviewPosted={onReviewPosted} />);
+
+    setModalContent(
+      <PostReview spotsId={spotDetailsId} onReviewPosted={onReviewPosted} />
+    );
   };
-  
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,11 +62,11 @@ const SpotDetails = () => {
       if (fetchError) {
         setError("Please try again");
       }
-  
+
       // Dispatch action to fetch reviews
-      dispatch(thunkFetchReviewsForSpot(spotId)); 
+      dispatch(thunkFetchReviewsForSpot(spotId));
     };
-  
+
     fetchData();
   }, [dispatch, spotId]);
 
@@ -83,12 +74,14 @@ const SpotDetails = () => {
     return <div>Please try again</div>; // Or any other loading state
   }
 
+  const ssss = spotDetails.numReviews < 2 ? "Review" : "Reviews";
+  const newReview = spotDetails.numReviews < 1
+  ? "★ New"
+  : `★ ${spotDetails.avgRating?.toFixed(2)} · ${spotDetails.numReviews} ${ssss}`;
 
-  
-
-  const ssss = spotDetails.numReviews < 2 ? 'review' : 'reviews'
-  const newReview = spotDetails.numReviews < 1 ? "☆  " + ' New' : "☆ " + `${spotDetails.avgRating.toFixed(2)}  `+ ` ${spotDetails.numReviews}` + `${ssss}`
-
+  const handleReserveClick = () => {
+    alert('Feature coming soon');
+  };
 
   return (
     <div>
@@ -115,7 +108,8 @@ const SpotDetails = () => {
 
         <div className="name-review">
           <h2>
-            Hosted by {spotDetails?.Owner?.firstName} {spotDetails?.Owner?.lastName}
+            Hosted by {spotDetails?.Owner?.firstName}{" "}
+            {spotDetails?.Owner?.lastName}
           </h2>
 
           <div className="second">
@@ -124,22 +118,22 @@ const SpotDetails = () => {
                 ${spotDetails.price} <span className="night">night</span>
               </h2>
 
-              <h3>
-                {newReview}
-              </h3>
+              <h3>{newReview}</h3>
             </div>
-            <button>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
           </div>
         </div>
-           <h2>{newReview}</h2>
+        <h2>{newReview}</h2>
         <hr />
-         
+
         {canPostReview() && (
-      <button onClick={handleOpenModalContent}>Post Your Review</button>
-    )}
-    <p>{spotDetails.numReviews < 1 ? 'Be the first to post a review!' : ""}</p>
+          <button onClick={handleOpenModalContent}>Post Your Review</button>
+        )}
+        {spotDetails.numReviews < 1 && canPostReview() && (
+          <p>Be the first to post a review!</p>
+        )}
       </div>
-        <ReviewList reviews={reviews} spotId={spotId} />
+      <ReviewList reviews={reviews} spotId={spotId} />
     </div>
   );
 };

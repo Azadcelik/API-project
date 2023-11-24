@@ -42,21 +42,30 @@ useEffect(() => {
     setError(null)
 }, [dispatch]);
 
-
 return (
-    <div className="grid-container">   
-        {error && <p className="error-message">{error}</p>} {/* Display error message */}
-        {spotsData.map(spot => (
-            <div key={spot.id} className="grid-item">
-                <span className="tooltip">{spot.name}</span> 
-                <img src={spot.previewImage} alt={spot.name}/>
-                <h2>{spot.state}</h2>
-                <h2>{spot.price}</h2>
+    <div className="grid-container">
+      {spotsData.map((spot) => (
+        <div key={spot.id} className="grid-item">
+             <span className="tooltip">{spot.name}</span> 
+          <img src={spot.previewImage} className="spot-thumbnail"/>
+          <div className="spot-info">
+            <div className="spot-location">
+              <span className="spot-city">{spot.city},</span>
+              <span className="spot-state">{spot.state}</span>
             </div>
-        ))}
+            <div className="spot-rating">
+              <span className="star-icon">★</span>
+              <span className="rating-value">{spot.avgRating?.toFixed(2)}</span>
+            </div>
+          </div>
+          <div className="spot-price">${spot.price} <span>night</span></div>
+        </div>
+      ))}
     </div>
-)
+  );
+};
 
-}
+
+
 
 export default ListOfSpots
