@@ -27,14 +27,16 @@ const handleReviewButton = async () => {
 const keepReviewButton = () => { 
     closeModal()
 }
+
     return (
 
-   <div>
-       <h1>Confirm Delete</h1>
-       <h2>Are you sure you want to delete this review?</h2>
-       <button onClick={handleReviewButton}>Yes (Delete Review) </button>
-       <button onClick={keepReviewButton}>No (Keep Review)</button>
+    <div className="modal">
+        <div className="modal-header">Confirm Delete</div>
+        <div className="modal-body">Are you sure you want to delete this review?</div>
+        <button className="modal-button delete" onClick={handleReviewButton}>Yes (Delete Spot)</button>
+        <button className="modal-button cancel" onClick={keepReviewButton}>No (Keep Spot)</button>
     </div>
+ 
     )
 }
 

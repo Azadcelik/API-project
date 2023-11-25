@@ -1,7 +1,30 @@
-.main-delete {
-
-width: 500px;
-height: 240px;
-
+.modal { 
+    height: 200px;
+    padding: 20px;
 
 }
+
+/* Modal header */
+.modal-header {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.modal-header { 
+    text-align: center;
+
+}
+
+/* Buttons */
+.modal-button {
+    width: 275px;
+    margin-top: 20px;
+    padding-left: 40px;
+    padding: 6px;
+    margin-left: -4px;
+    height: 40px;
+}
+
+.modal-button.cancel {
+    background-color: grey;
+}
+

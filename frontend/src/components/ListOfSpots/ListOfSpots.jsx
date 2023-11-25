@@ -58,7 +58,7 @@ return (
           <img src={spot.previewImage} className="spot-thumbnail"/>
           <div className="spot-info">
             <div className="spot-location">
-              <span className="spot-city">{spot.city},</span>
+              <span className="spot-city">{spot.city},&nbsp;</span>
               <span className="spot-state">{spot.state}</span>
             </div>
             <div className="spot-rating">

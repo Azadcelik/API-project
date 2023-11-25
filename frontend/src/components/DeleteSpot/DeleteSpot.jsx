@@ -29,17 +29,20 @@ const dispatch = useDispatch()
  console.log('response in delete', response)
 
  }
+
+ const handleKeepButton = () => { 
+     closeModal()
+ }
+
     return (
 
-<div className="main-delete">
-        <h1>Confrm Delete</h1>
-
-        <h2>Are you sure you want to remove this spot
-        from the listings?</h2>
-
-        <button onClick ={handleDeleteButton}>Yes (Delete Spot)</button>
-        <button>No (Keep Spot)</button>
-</div>
+    <div className="modal">
+        <div className="modal-header">Confirm Delete</div>
+        <div className="modal-body">Are you sure you want to remove this spot <br />
+from the listings?</div>
+        <button className="modal-button delete" onClick={handleDeleteButton}>Yes (Delete Spot)</button>
+        <button className="modal-button cancel" onClick={handleKeepButton}>No (Keep Spot)</button>
+    </div>
     )
 }
 
