@@ -1,7 +1,25 @@
-.form { 
-
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: flex-start; 
+.button:disabled {
+   background-color: grey
 }
+
+
+
+form .sign-up-form  {
+ 
+   border: 1px solid #ccc; /* Example border */
+   margin-left: 20px;
+   width: 300px;
+   margin-right: 20px;
+ } 
+
+ .button { 
+
+   width: 300px;
+   height: 30px;
+   margin-bottom: 20px;
+ }
+ 
+ .error  {
+   color: red;
+   padding-left: 20px;
+ }

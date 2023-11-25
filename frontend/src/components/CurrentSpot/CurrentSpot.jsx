@@ -41,22 +41,27 @@ const handleDeleteOpenModel = (spotId) => {
  }
 
 
+const navigateDetailedPage = (spotId) => { 
 
+  navigate(`/spots/${spotId}`)
+}
 
   return (
     <div className="main-current-container">
+      
       {data.map((current) => (
         
-        <div className="second-container" key={current.id}>
+        <div className="second-container" key={current.id} >
             {console.log('currentssalo ', current.previewImage)}
           <h2>Manage Your Spots</h2>
           <button>Create a New Spot</button>
-
+          <div onClick={() => navigateDetailedPage(current.id)}>
           <img src={current.previewImage} alt="image not found" />
 
           <p>{current.city} {current.state}</p>
           <h2>{current.price } {current.night}</h2>
           <h3> *{current.avgRating }  ##</h3>
+          </div>
           <div className="update-delete-button">
             <button onClick={() => handleUpdateClick(current.id)}>Update</button>
             <button onClick={() => handleDeleteOpenModel(current.id)}>Delete</button>

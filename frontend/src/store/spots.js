@@ -124,7 +124,7 @@ export const thunkCurrentSpot = () => async dispatch => {
   
       if (response.ok) {
           const jsonData = await response.json();
-          console.log('Fetched jsonData:', jsonData);  // Check the structure
+          console.log('Fetched jsonData:in currrentttt', jsonData);  // Check the structure
           dispatch(actionCurrentSpot(jsonData));
         } else {
           const errorData = await response.json();

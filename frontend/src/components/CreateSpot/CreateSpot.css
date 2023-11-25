@@ -57,3 +57,37 @@ textarea {
   color: red;
 }
 
+
+.main-contain {
+  display: flex;
+  flex-direction: column;
+  
+
+  min-height: 100vh; /* This ensures that the container will at least be the full height of the viewport */
+  padding: 20px;
+}
+
+.create-form {
+  width: 100%; /* Adjust this as needed */
+  max-width: 500px; /* Adjust this to match the width you want */
+  margin: auto; /* This will help in centering if the width is less than 100% */
+}
+
+.main-contain h1,
+.main-contain h2,
+.main-contain h3,
+.main-contain h4{
+  margin: 0;
+  padding-left: /* same value as the padding or text-indent of your inputs */;
+  margin-bottom: 20px;
+}
+
+
+.h1-h2 { 
+   padding-left: 300px;
+   margin-bottom: 20px;
+}
+
+.create-button { 
+ margin-left: 200px;
+}

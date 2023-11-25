@@ -138,13 +138,14 @@ const CreateSpot = () => {
   return (
     <div className="main-contain">
       {error && <p>{error}</p>}
-      <h1>Create a New Spot</h1>
-      <h2>Where&apos;s your place located?</h2>
-      <h3>
+      <div className="h1-h2">
+      <h2>Create a New Spot</h2>
+      <h3>Where&apos;s your place located?</h3>
+      <h4>
         Guests will only get your exact address once they booked a reservation.
-      </h3>
-
-      <form onSubmit={handleSubmit}>
+      </h4>
+      </div>
+      <form onSubmit={handleSubmit} className="create-form">
         <label>
           Country
           <input
@@ -230,9 +231,11 @@ const CreateSpot = () => {
                 {validationErrors.longitude}
               </span>
             )}
+          
           </label>
+          
         </div>
-        <br />
+        <hr />
         <h2>Describe your place to guests</h2>
         <h3>
           Mention the best features of your space, any special amentities like
@@ -252,7 +255,7 @@ const CreateSpot = () => {
             <span className="error-message">{validationErrors.body}</span>
           )} */}
         </label>
-        <br />
+        <hr />
 
         <h2>Create a title for your spot</h2>
         <h3>
@@ -270,7 +273,7 @@ const CreateSpot = () => {
             <span className="error-message">{validationErrors.name}</span>
           )}
         </label>
-        <br />
+        <hr />
 
         <h2>Set a base price for your spot</h2>
         <h3>
@@ -291,7 +294,7 @@ const CreateSpot = () => {
             )}
           </label>
         </div>
-        <br />
+        <hr />
 
         <h2>Liven up your spot with photos</h2>
         <h3>Submit a link to at least one photo to publish your spot</h3>
@@ -355,8 +358,8 @@ const CreateSpot = () => {
             )} */}
           </label>
         </div>
-        <br />
-        <button>Create Spot</button>
+         <hr />
+        <button className="create-button">Create Spot</button>
       </form>
     </div>
   );

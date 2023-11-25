@@ -39,6 +39,9 @@ function LoginFormModal() {
       });
   };
 
+  if (Object.values(errors).length > 0) {    //this help to show multiple errors but did not understand hundred percent why
+    return; 
+  }
 
 
   const demoUserFunction = () => { 

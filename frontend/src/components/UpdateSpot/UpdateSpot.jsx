@@ -119,6 +119,7 @@ const handleSubmit = async (e) => {
 
     const newSpotId = updateSpotResponse?.id;  //use question mark in case of undefined or nul not throw and error 
 
+    //todo: do not worry about update picture in update because you have no data for that!!
     if (newSpotId) {
     //   Create an array of all images including the preview image
       const allImages = [preview, image1, image2, image3, image4];

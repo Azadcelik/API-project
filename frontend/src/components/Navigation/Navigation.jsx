@@ -41,6 +41,7 @@ function Navigation({ isLoaded }) {
         
       </button>
        <ul className={ulClassName} ref={ulRef}>
+        <div className='logino'>
           <li> 
             <OpenModalButton 
               buttonText="Log In"
@@ -53,6 +54,7 @@ function Navigation({ isLoaded }) {
               modalComponent={<SignupFormModal />}
             />
           </li>
+          </div>
         </ul>
     </div>
  </>

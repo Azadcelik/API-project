@@ -6,10 +6,10 @@
     margin-right: 10px;
 }
 
-.logout-button { 
+/* .logout-button { 
     border: 2px solid gray;
     border-radius: 10px;
-}
+} */
 
 .button-navigation { 
     width: 80px;
@@ -35,14 +35,14 @@
 }
 
 .profile-container { 
-    display: flex;
-    justify-content: end;
+  position: relative;
    
 }
 
 .main-container { 
     display: flex;
     justify-content: end;
+    margin-bottom: 20px;
 }
 
 
@@ -60,21 +60,22 @@
 
 
 
-* {
+/* * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
   }
-  
+   */
 
   
   /* Dropdown menu styles */
   .profile-dropdown {
     position: absolute;
-    top: 60%; /* Position it below the login page element */
+    top: 120%; /* Position it below the login page element */
     right: 0;
     z-index: 1000; 
-    border: 2px solid black;
+    padding-left: 20px;
+    height: 100px;
     
   }
   
@@ -83,19 +84,14 @@
   
 
   
-  .profile-dropdown li button {
-    
+  /* .profile-dropdown li button {
     background: white;
     color: black;
-    border: none; 
     text-align: left; 
     padding-left: 0; 
-    font-size: 10px;
-    height: px;
-    
-
+    font-size: 16 px;
   }
-  
+   */
 
   ul {
     list-style-type: none; /* Remove bullet points */
@@ -123,3 +119,46 @@
     font-weight: bold; /* Text color, adjust as needed */
 
   } 
+
+
+
+li { 
+  font-size: 13px;
+}
+
+
+.logout-button { 
+  text-align: center;
+  border-radius: 15px;
+  margin-right: 20px;
+  background-color: grey;
+  color: white;
+  width: 60px;
+}
+
+
+
+
+
+
+.logino {
+  margin-top: -40px; /* Pull the login and signup options up */
+  border: 2px solid black;
+  margin-right: 20px;
+}
+.list { 
+  border: 2px black solid;
+
+  padding: 10px 10px;
+}
+
+
+.logino button { 
+  background: none;
+  border: none;
+  cursor: pointer; /* Maintain the pointer to indicate it's clickable */
+  text-decoration: none; /* Remove underlines if they are <a> tags */
+  color: black;
+  box-shadow: none;
+  padding-right: 30px;
+}

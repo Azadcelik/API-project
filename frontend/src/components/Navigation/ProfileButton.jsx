@@ -4,13 +4,15 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { NavLink } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import './Navigation.css'
+import { thunkCurrentSpot } from '../../store/spots';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const navigate = useNavigate()
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
@@ -35,7 +37,16 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate('/')
   };
+
+  const manageSpotsOnClick = async () => {
+    navigate('/spots/current');
+    await dispatch(thunkCurrentSpot()) //why i need to refresh page to navigate.even dispatch does not help.Ask on monday.
+};
+
+
+
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
@@ -56,13 +67,16 @@ function ProfileButton({ user }) {
       </button>
    
       <ul className={ulClassName} ref={ulRef}>
+        <div className='list'>
         <li>Hello, {user.username}</li>
         <li><hr /></li>
-        <li>manage Spots</li>
         <li>{user.email}</li>
-        <li>
-          <button onClick={logout} className='logout-button'>Log Out</button>
-        </li>
+        <li><hr /></li>
+        <li onClick={manageSpotsOnClick}>manage Spots</li>
+        <button onClick={logout} className='logout-button'>Log Out</button>
+        
+        </div>
+
       </ul>
     </div>
   
