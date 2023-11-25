@@ -7,68 +7,85 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { thunkCurrentSpot } from "../../store/spots";
 import { useDispatch } from "react-redux";
- import { useNavigate } from "react-router-dom";
- import { useModal } from "../../context/Modal";
- import DeleteSpot from "../DeleteSpot/DeleteSpot";
+import { useNavigate } from "react-router-dom";
+import { useModal } from "../../context/Modal";
+import DeleteSpot from "../DeleteSpot/DeleteSpot";
 
 import "./CurrentSpot.css";
 
 const CurrentSpot = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-const {setModalContent} = useModal()
+  const { setModalContent } = useModal();
 
-const handleDeleteOpenModel = (spotId) => { 
-  setModalContent(<DeleteSpot spotId={spotId}/>)
-}
-
-
+  const handleDeleteOpenModel = (spotId) => {
+    setModalContent(<DeleteSpot spotId={spotId} />);
+  };
 
   const currentData = useSelector((state) => state.spots);
-
-  const data = Object.values(currentData);
-  
+  console.log('current data in curent ', currentData)
+  const spotsData = Object.values(currentData);
 
   useEffect(() => {
     dispatch(thunkCurrentSpot());
   }, [dispatch]);
 
+  const handleUpdateClick = (spotId) => {
+    navigate(`/spots/${spotId}/edit`);
+  };
 
- const handleUpdateClick = (spotId) => { 
-   
-  navigate(`/spots/${spotId}/edit`)
- }
+  const navigateDetailedPage = (spotId) => {
+    navigate(`/spots/${spotId}`);
+  };
 
-
-const navigateDetailedPage = (spotId) => { 
-
-  navigate(`/spots/${spotId}`)
-}
+  const createSpotButton = () => { 
+    navigate('/spots/new')
+  }
 
   return (
-    <div className="main-current-container">
-      
-      {data.map((current) => (
-        
-        <div className="second-container" key={current.id} >
-            {console.log('currentssalo ', current.previewImage)}
-          <h2>Manage Your Spots</h2>
-          <button>Create a New Spot</button>
-          <div onClick={() => navigateDetailedPage(current.id)}>
-          <img src={current.previewImage} alt="image not found" />
-
-          <p>{current.city} {current.state}</p>
-          <h2>{current.price } {current.night}</h2>
-          <h3> *{current.avgRating }  ##</h3>
+    <>
+      <div>
+      <h1 className="manage">Manage Your Spots</h1>
+      {spotsData.length < 1 && <button onClick={createSpotButton} className="create-current-button">Create a New Spot</button>}
+      </div>
+      <div className="grid-container">
+        {spotsData.map((spot) => (
+          <div
+            key={spot.id}
+            className="grid-item"
+          >
+            <span className="tooltip">{spot.name}</span>
+            <div  onClick={() => navigateDetailedPage(spot.id)}>
+            <img src={spot.previewImage} className="spot-thumbnail" />
+            <div className="spot-info">
+              <div className="spot-location">
+                <span className="spot-city">{spot.city},</span>
+                <span className="spot-state">{spot.state}</span>
+              </div>
+              <div className="spot-rating">
+                <span className="star-icon">★</span>
+                <span className="rating-value">
+                  {spot.avgRating?.toFixed(2)}
+                </span>
+              </div>
+            </div>
+            <div className="spot-price">
+              ${spot.price} <span>night</span>
+            </div>
+            </div>
+            <div className="update-delete-button">
+              <button onClick={() => handleUpdateClick(spot.id)}>
+                Update
+              </button>
+              <button onClick={() => handleDeleteOpenModel(spot.id)}>
+                Delete
+              </button>
+            </div>
           </div>
-          <div className="update-delete-button">
-            <button onClick={() => handleUpdateClick(current.id)}>Update</button>
-            <button onClick={() => handleDeleteOpenModel(current.id)}>Delete</button>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 };
 

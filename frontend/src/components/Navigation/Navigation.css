@@ -134,6 +134,7 @@ li {
   background-color: grey;
   color: white;
   width: 60px;
+  cursor: pointer;
 }
 
 
@@ -161,4 +162,8 @@ li {
   color: black;
   box-shadow: none;
   padding-right: 30px;
+}
+
+.manage-spots-button { 
+  cursor: pointer;
 }

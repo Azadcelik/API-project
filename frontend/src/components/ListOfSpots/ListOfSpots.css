@@ -23,7 +23,7 @@
     display: none; /* Initially hidden */
     position: absolute;
     z-index: 1;
-    bottom: 85%; /* Position above the item */
+    bottom: 70%; /* Position above the item */
     left: 40%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust horizontal centering */
     background-color: black;

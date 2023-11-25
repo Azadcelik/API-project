@@ -59,7 +59,7 @@ const CreateSpot = () => {
     const errors = {};
     if (!country) errors.country = "Country is required";
     if (!address) errors.address = "Address is required";
-    if (body.length < 30)
+    if (body?.length < 30)
       errors.body = "Description needs a minimum of 30 characters";
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
@@ -251,9 +251,9 @@ const CreateSpot = () => {
             onChange={(e) => setBody(e.target.value)}
             placeholder="Please write at least 30 characters"
           ></textarea>
-          {/* {validationErrors.body && (
+          {validationErrors.body && (
             <span className="error-message">{validationErrors.body}</span>
-          )} */}
+          )}
         </label>
         <hr />
 

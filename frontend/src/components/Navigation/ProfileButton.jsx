@@ -69,10 +69,10 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         <div className='list'>
         <li>Hello, {user.username}</li>
-        <li><hr /></li>
         <li>{user.email}</li>
         <li><hr /></li>
-        <li onClick={manageSpotsOnClick}>manage Spots</li>
+        <li onClick={manageSpotsOnClick} className='manage-spots-button' >manage Spots</li>
+        <li><hr /></li>
         <button onClick={logout} className='logout-button'>Log Out</button>
         
         </div>
