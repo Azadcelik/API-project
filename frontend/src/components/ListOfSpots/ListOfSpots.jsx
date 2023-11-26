@@ -67,7 +67,7 @@ return (
               <span className="rating-value">{spot.avgRating ? spot.avgRating.toFixed(2)  : " New"}</span>
             </div>
           </div>
-          <div className="spot-price">${spot.price} <span>night</span></div>
+          <div className="spot-price">${spot.price} <span className="night">night</span></div>
         </div>
       ))}
     </div>

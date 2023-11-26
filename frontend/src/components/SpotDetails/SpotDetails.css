@@ -46,16 +46,17 @@
 .nightt span {
     font-size: 0.7rem; /* Adjust this value to make the 'night' text smaller or keep it at the base size */
   }
-button {
+/* button {
     display: block;
     background-color: red;
     color: white;
     box-shadow: 3px 3px black;
-}
+} */
 
 .name-review { 
     display: flex;
     justify-content: space-between;
+    gap: 30px;
 }
 
 
@@ -63,11 +64,11 @@ button {
     margin-left: 20px; /* Adjust the value as needed */
 }
 
-.reserve-button { 
+/* .reserve-button { 
     width: 350px;
     height: 40px;
     margin-top: 20px;
-}
+} */
 
 .spot-details-container {
     max-width: 1000px; /* Set maximum width */
@@ -91,12 +92,18 @@ button {
 .second { 
     border: 2px solid black;
     margin-top: 20px;
-    padding: 20px 20px;
     border-radius: 15px;
-   
+    height: 90px;
+
 }
 
 /* 
 .desc { 
     display: inline-block;
 } */
+
+.desc { 
+    text-align: justify;
+} 
+
+

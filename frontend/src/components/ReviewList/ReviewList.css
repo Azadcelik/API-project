@@ -8,3 +8,7 @@
 .button-for-delete-review { 
     width: 90px;
 }
+
+.review-text { 
+ text-align: justify;
+}

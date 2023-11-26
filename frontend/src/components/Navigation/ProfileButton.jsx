@@ -51,10 +51,9 @@ function ProfileButton({ user }) {
 
    <div className='main-container'>    
    <div>
-    <NavLink to='/spots/new'>
+    <NavLink to='/spots/new' className='create-navlink'>
     Create a New Spot
     </NavLink>
-
     </div>
     <div className='profile-container'>
       <button onClick={toggleMenu} className='profile-button'>

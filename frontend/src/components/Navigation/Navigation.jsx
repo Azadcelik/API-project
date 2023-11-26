@@ -66,8 +66,8 @@ function Navigation({ isLoaded }) {
     <ul>
       <li>
         <NavLink to="/" className="logo-link">
-          <i className="fa-brands fa-airbnb"></i>
-          <span className="logo-text">airbnb</span>
+        <i className="fa-solid fa-house-user" id='peace-logo'></i>
+          <span className="logo-text">Peaceful Hommy</span>
         </NavLink>
       </li>
       {isLoaded && sessionLinks}

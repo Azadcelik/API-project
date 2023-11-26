@@ -1,4 +1,4 @@
-.button:disabled {
+.sign-up-button:disabled {
    background-color: grey
 }
 
@@ -12,8 +12,8 @@ form .sign-up-form  {
    margin-right: 20px;
  } 
 
- .button { 
-
+ .sign-up-button { 
+   margin-left: 20px;
    width: 300px;
    height: 30px;
    margin-bottom: 20px;

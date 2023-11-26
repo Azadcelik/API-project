@@ -11,21 +11,13 @@
     --color-red: #FF5A5F;
     --color-teal: #00525E;
     --color-light-teal: #E8F0FE;
-    --button-font-size: normal; /* Normal font size */
-  --button-border-width: 2px; /* Example border width, adjust as needed */
-  --button-padding: 10px; /* Example padding, adjust as needed */
-  --button-normal-bg: var(--color-white); /* White background for normal state */
-  --button-normal-text: var(--color-black); /* Black text for normal state */
-  --button-normal-border: var(--color-light-gray); /* Light gray border for normal state */
-  --button-accent-bg: var(--color-dark-gray); /* Dark gray background for accent state */
-  --button-accent-text: var(--color-white); /* White text for accent state */
-  --button-accent-border: var(--color-black); /* Black border for accent state */
+    --font-family: 'Roboto', sans-serif;
 }
 
 
 .grid-container {
     display: grid;
-    padding-left: 40px;
+   padding:  0 100px;
     grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
     grid-gap: 20px;
     
@@ -33,10 +25,10 @@
 
 .grid-item img {
     
-    width: 80%; /* Make images responsive */
+    width: 87%; /* Make images responsive */
     height: auto; /* Maintain aspect ratio */
     display: block; /* Remove any extra space below the image */
-    margin-top: 100px;
+    margin-top: 160px;
 }
 
 .grid-item {
@@ -60,4 +52,23 @@
 
 .grid-item:hover .tooltip {
     display: block; /* Show on hover */
+}
+
+.spot-location {
+    font-family: var(--font-family);
+    padding-top: 10px;
+}
+
+.spot-rating { 
+    font-family: var(--font-family);
+}
+
+.spot-price { 
+    font-family: var(--font-family);
+    font-weight: bold;
+}
+
+.night { 
+    font-family: var(--font-family);
+    font-weight: 400;
 }

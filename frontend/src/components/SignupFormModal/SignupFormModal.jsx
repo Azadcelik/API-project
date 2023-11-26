@@ -123,7 +123,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <button type="submit" className="button" disabled={isButtonDisables}>
+        <button type="submit" className="sign-up-button" disabled={isButtonDisables}>
           Sign Up
         </button>
       </form>
