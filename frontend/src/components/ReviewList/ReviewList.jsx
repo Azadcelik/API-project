@@ -34,7 +34,7 @@ const ReviewList = ({ reviews, spotId }) => {
             </h2>
             <p>{rev.review}</p>
             { currentUser && currentUser?.id == rev.userId && (
-                <button onClick={() => handleOpenModal(rev.id)}>Delete</button>
+                <button onClick={() => handleOpenModal(rev.id)} className="button-for-delete-review">Delete</button>
             )}
             <hr />
           </div>

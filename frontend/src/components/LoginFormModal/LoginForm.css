@@ -53,3 +53,8 @@ h1 {
   color: blue;
   text-decoration: underline;
 }
+
+.login-err { 
+  color: red;
+  padding-left: 20px;
+}

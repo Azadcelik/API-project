@@ -64,6 +64,12 @@ const CreateSpot = () => {
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
     if (!latitude) errors.latitude = "Latitude is required";
+    if (latitude < -90 || latitude > 90) {
+      errors.latitude = "Latitude must be between -90 and 90";
+    }
+    if (longitude < -180 || longitude > 180) {
+    errors.longitude = "Longitude must be between -180 and 180";
+  }
     if (!longitude) errors.longitude = "Longtitude is required";
     if (!name) errors.name = "Name is required";
     if (!price) errors.price = "Price is required";

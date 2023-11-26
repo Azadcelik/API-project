@@ -75,12 +75,15 @@ const SpotDetails = () => {
   }
 
   const ssss = spotDetails.numReviews < 2 ? "Review" : "Reviews";
-  const newReview = spotDetails.numReviews < 1
-  ? "★ New"
-  : `★ ${spotDetails.avgRating?.toFixed(2)} · ${spotDetails.numReviews} ${ssss}`;
+  const newReview =
+    spotDetails.numReviews < 1
+      ? "★ New"
+      : `★ ${spotDetails.avgRating?.toFixed(2)} · ${
+          spotDetails.numReviews
+        } ${ssss}`;
 
   const handleReserveClick = () => {
-    alert('Feature coming soon');
+    alert("Feature coming soon");
   };
 
   return (
@@ -107,10 +110,12 @@ const SpotDetails = () => {
         </div>
 
         <div className="name-review">
-          <h2>
-            Hosted by {spotDetails?.Owner?.firstName}{" "}
-            {spotDetails?.Owner?.lastName}
-          </h2>
+          <div className="host-info">
+            <div className="host-name">
+              <h2>Hosted by {spotDetails?.Owner?.firstName} {" "}{spotDetails?.Owner?.lastName} </h2>
+            </div>
+            <p className="desc">{spotDetails.description}</p>
+          </div>
 
           <div className="second">
             <div className="price">
@@ -120,7 +125,9 @@ const SpotDetails = () => {
 
               <h3 className="star-review">{newReview}</h3>
             </div>
-            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>
+              Reserve
+            </button>
           </div>
         </div>
         <h2>{newReview}</h2>

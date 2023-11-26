@@ -95,19 +95,17 @@ button {
     border-radius: 15px;
    
 }
-.update-delete-button { 
+.update-delete-button  { 
     display: flex;
     margin-top: 25px;
-    margin-left: -30px;  
-   
-    
+    gap: 20px;
     
 }
 
-button { 
-    width: 90px;
+.up-but { 
     cursor: pointer;
 }
+
 
 .manage { 
     display: flex;

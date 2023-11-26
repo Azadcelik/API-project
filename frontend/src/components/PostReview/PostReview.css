@@ -28,7 +28,12 @@ h3 {
   }
 
   .star-rating { 
-    padding-left: 180px;
+    padding-left: 170px;
     margin-bottom: 10px;
    
+  }
+
+  .post-error { 
+    color: red;
+    padding-left: 20px;
   }

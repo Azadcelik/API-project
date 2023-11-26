@@ -79,10 +79,10 @@ const CurrentSpot = () => {
             </div>
             </div>
             <div className="update-delete-button">
-              <button onClick={() => handleUpdateClick(spot.id)}>
+              <button onClick={() => handleUpdateClick(spot.id)} className="up-but">
                 Update
               </button>
-              <button onClick={() => handleDeleteOpenModel(spot.id)}>
+              <button onClick={() => handleDeleteOpenModel(spot.id)} className="up-but">
                 Delete
               </button>
             </div>

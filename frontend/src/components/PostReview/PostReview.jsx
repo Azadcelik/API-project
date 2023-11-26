@@ -64,12 +64,13 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
     }
    
    const reviewData = await dispatch(thunkCreateReview(spotsId,reviewForm))
-   if (reviewData.errors) { 
-      setError("Please try again");
-   }
-   if (reviewData.message) { 
-    setError(reviewData.message)
-   }
+   console.log('adsadsadsadsadsadsasdasasdadadsadsadsadsadsdsads',reviewData)
+    // Check if there are errors in the response
+
+    if (reviewData.error) { 
+        setError(" Something went wrong.Please try again");
+      return;
+    }
 
    onReviewPosted();
    closeModal()
@@ -81,9 +82,8 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
 
   return (
     <div>
-       {error && <p>{error}</p>}
-      <h1>How was your Stay</h1>
-      {error && <p>{error}</p>}
+      <h1>How was your Stay?</h1>
+      {error && <p className='post-error'>{error}</p>}
       <textarea cols="25" rows="10" placeholder="Leave your review here..." value={text} onChange={e => setText(e.target.value)}></textarea>
       <div className="star-rating">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -95,6 +95,7 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
             onClick={() => handleClick(star)}
           />
         ))}
+        <span className="rating-label">{"  "}Stars</span>
       </div>
       <button disabled={isButtonDisabled} onClick={submitYourReview} className='submit-post-button'>Submit Your Review</button>
     </div>
