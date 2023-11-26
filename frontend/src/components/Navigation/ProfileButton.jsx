@@ -45,9 +45,6 @@ function ProfileButton({ user }) {
     await dispatch(thunkCurrentSpot()) //why i need to refresh page to navigate.even dispatch does not help.Ask on monday.
 };
 
-
-
-
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (

@@ -2,13 +2,18 @@ textarea {
    margin: 0 20px;
 }
 
-button { 
+.submit-post-button { 
     margin-left: 25px;
     width: 500px;
+    margin-bottom: 20px;
+    height: 40px;
 }
+.submit-post-button:disabled { 
+  background-color: grey;
+} 
 
 h3 { 
-    margin-left: 170px;
+    margin-left: 140px;
 }
 
 .star {
@@ -23,5 +28,7 @@ h3 {
   }
 
   .star-rating { 
-    padding-left: 140px;
+    padding-left: 180px;
+    margin-bottom: 10px;
+   
   }

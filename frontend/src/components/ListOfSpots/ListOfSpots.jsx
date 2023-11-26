@@ -37,7 +37,7 @@ useEffect(() => {
         const errorMessage = await dispatch(getAllSpots());
         console.log('error message in useeffect function',errorMessage)
         if (errorMessage) {
-            setError('somethinng went wrongg');
+            setError('Please try again');
         }
     };
     fetchData();
@@ -51,7 +51,8 @@ const navigateToSpotDetailsPage = (spotId) => {
 }
 
 return (
-    <div className="grid-container">
+  <div className="grid-container">
+      {error && <p>{error}</p>}
       {spotsData.map((spot) => (
         <div key={spot.id} className="grid-item"  onClick={() => navigateToSpotDetailsPage(spot.id)}>
              <span className="tooltip">{spot.name}</span> 

@@ -1,3 +1,28 @@
+:root { 
+    --heading-font-size: 24pt;
+    --subheading-font-size: 18pt;
+    --subheading-font-weight: bold;
+    --normal-font-size: 14pt;
+    --heading-font-weight: bold;
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+    --color-dark-gray: #999999;
+    --color-light-gray: #CCCCCC;
+    --color-red: #FF5A5F;
+    --color-teal: #00525E;
+    --color-light-teal: #E8F0FE;
+    --button-font-size: normal; /* Normal font size */
+  --button-border-width: 2px; /* Example border width, adjust as needed */
+  --button-padding: 10px; /* Example padding, adjust as needed */
+  --button-normal-bg: var(--color-white); /* White background for normal state */
+  --button-normal-text: var(--color-black); /* Black text for normal state */
+  --button-normal-border: var(--color-light-gray); /* Light gray border for normal state */
+  --button-accent-bg: var(--color-dark-gray); /* Dark gray background for accent state */
+  --button-accent-text: var(--color-white); /* White text for accent state */
+  --button-accent-border: var(--color-black); /* Black border for accent state */
+}
+
+
 .grid-container {
     display: grid;
     padding-left: 40px;

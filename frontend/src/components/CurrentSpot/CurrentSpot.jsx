@@ -25,7 +25,11 @@ const CurrentSpot = () => {
 
   const currentData = useSelector((state) => state.spots);
   console.log('current data in curent ', currentData)
-  const spotsData = Object.values(currentData);
+  const spots = Object.values(currentData);
+  const currentUser = useSelector(state => state.session.user)
+  const spotsData = spots.filter(spot => spot?.ownerId == currentUser?.id)
+  console.log('spotsdata in current spot',spotsData)
+
 
   useEffect(() => {
     dispatch(thunkCurrentSpot());

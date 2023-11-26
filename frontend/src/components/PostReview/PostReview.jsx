@@ -11,7 +11,7 @@ const [error,setError] = useState(null)
 
 const dispatch = useDispatch()
 
-const isButtonDisabled = text.length < 10
+
 
 //hoverRating keeps track of which star the user is currently hovering over.
 // setHoverRating is the function to update hoverRating.
@@ -23,7 +23,7 @@ const [currentRating, setCurrentRating] = useState(0);
 
 const {closeModal} = useModal()
 
-
+const isButtonDisabled = text.length < 10 || currentRating < 1
 // handleMouseOver: This function is called when the mouse pointer is over a star.
 //  It sets the hoverRating to the value of the star being hovered over.
 const handleMouseOver = (ratingValue) => {
@@ -84,7 +84,7 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
        {error && <p>{error}</p>}
       <h1>How was your Stay</h1>
       {error && <p>{error}</p>}
-      <textarea cols="30" rows="10" placeholder="Leave your review here..." value={text} onChange={e => setText(e.target.value)}></textarea>
+      <textarea cols="25" rows="10" placeholder="Leave your review here..." value={text} onChange={e => setText(e.target.value)}></textarea>
       <div className="star-rating">
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
@@ -96,7 +96,7 @@ function Star({ filled, onMouseOver, onMouseLeave, onClick }) {
           />
         ))}
       </div>
-      <button disabled={isButtonDisabled} onClick={submitYourReview}>Submit Your Review</button>
+      <button disabled={isButtonDisabled} onClick={submitYourReview} className='submit-post-button'>Submit Your Review</button>
     </div>
   );
 }
