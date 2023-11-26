@@ -50,7 +50,7 @@ const CurrentSpot = () => {
   return (
     <>
       <div>
-      <h1 className="manage">Manage Your Spots</h1>
+      <h2 className="manage">Manage Your Spots</h2>
       {spotsData.length < 1 && <button onClick={createSpotButton} className="create-current-button">Create a New Spot</button>}
       </div>
       <div className="grid-container">
@@ -75,7 +75,7 @@ const CurrentSpot = () => {
               </div>
             </div>
             <div className="spot-price">
-              ${spot.price} <span>night</span>
+              ${spot.price} <span className="spot-night">night</span>
             </div>
             </div>
             <div className="update-delete-button">

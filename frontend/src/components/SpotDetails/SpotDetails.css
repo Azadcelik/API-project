@@ -1,3 +1,20 @@
+:root { 
+    --heading-font-size: 24pt;
+    --subheading-font-size: 18pt;
+    --subheading-font-weight: bold;
+    --normal-font-size: 14pt;
+    --heading-font-weight: bold;
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+    --color-dark-gray: #999999;
+    --color-light-gray: #CCCCCC;
+    --color-red: #FF5A5F;
+    --color-teal: #00525E;
+    --color-light-teal: #E8F0FE;
+    --font-family: 'Roboto', sans-serif;
+}
+
+
 .image-container {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Split the container into two columns */
@@ -37,15 +54,7 @@
  
 }
 
-  
-.nightt {
-    
-    margin-left: 30px;
-    
-}
-.nightt span {
-    font-size: 0.7rem; /* Adjust this value to make the 'night' text smaller or keep it at the base size */
-  }
+
 /* button {
     display: block;
     background-color: red;
@@ -57,6 +66,9 @@
     display: flex;
     justify-content: space-between;
     gap: 30px;
+   font-family: var(--font-family);
+   font-size: var(--normal-font-size);
+   font-size: small;
 }
 
 
@@ -79,22 +91,19 @@
   .star-review { 
     position: absolute;
     padding-left:90px;
+    
   }
 
 
 
   /* Scale down the text inside the .second container */
-.second h2, .second h3, .second .night {
-    font-size: 0.9rem; /* or any smaller size that fits your design */
-  }
-  
 
 .second { 
     border: 2px solid black;
     margin-top: 20px;
     border-radius: 15px;
     height: 90px;
-
+    font-family: var(--font-family);
 }
 
 /* 
@@ -106,4 +115,22 @@
     text-align: justify;
 } 
 
+.spot-name { 
+    font-size: var(--subheading-font-size);
+    font-family: var(--font-family);
+}
 
+.spot-city-state {
+    font-size: var(--normal-font-size);
+    font-family: var(--font-family);
+}
+
+.nightt { 
+   font-size: larger;
+   font-family: var(--font-family);
+}
+
+.text-night {
+  font-family: var(--font-family);
+  font-weight: lighter;
+}

@@ -1,7 +1,6 @@
 .revieww {
     display: flex;
     flex-direction: column;
-    gap: 20px;
                        
 }
 
@@ -11,4 +10,16 @@
 
 .review-text { 
  text-align: justify;
+ font-weight: bold;
+ 
 }
+
+.review-namee { 
+    font-size: large;
+    font-weight: bold;
+}
+
+.date-review{ 
+    font-size: large;
+    font-weight: normal;
+}   

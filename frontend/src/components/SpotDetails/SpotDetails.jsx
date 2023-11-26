@@ -91,10 +91,10 @@ const SpotDetails = () => {
       {error && <p>{error}</p>}
 
       <div key={spotDetails.id}>
-        <h2>{spotDetails.name}</h2>
-        <h2>
+        <h2 className="spot-name">{spotDetails.name}</h2>
+        <p className="spot-city-state">
           {spotDetails.city}, {spotDetails.state}, {spotDetails.country}
-        </h2>
+        </p>
         <div className="image-container">
           <div className="main-image">
             {spotDetails.SpotImages && spotDetails.SpotImages.length > 0 && (

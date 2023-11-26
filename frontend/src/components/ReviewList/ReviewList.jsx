@@ -25,8 +25,8 @@ const ReviewList = ({ reviews, spotId }) => {
         .map((rev) => (
             
           <div key={rev.id} className="revieww">
-            <h2>{rev.User.firstName}</h2>
-            <h2>
+            <h2 className="review-namee">{rev.User.firstName}</h2>
+            <h2 className="date-review">
               {new Date(rev.createdAt).toLocaleString("default", {
                 month: "long",
                 year: "numeric",

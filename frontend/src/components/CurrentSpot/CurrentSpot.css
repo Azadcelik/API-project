@@ -37,7 +37,7 @@
  
 }
 
-  
+/*   
 .nightt {
     
     margin-left: 30px;
@@ -45,7 +45,9 @@
 }
 .nightt span {
     font-size: 0.7rem; /* Adjust this value to make the 'night' text smaller or keep it at the base size */
-  }
+  /* } */
+
+
 button {
     display: block;
     background-color: red;
@@ -83,9 +85,10 @@ button {
 
 
   /* Scale down the text inside the .second container */
-.second h2, .second h3, .second .night {
+
+/* .second h2, .second h3, .second .night {
     font-size: 0.9rem; /* or any smaller size that fits your design */
-  }
+  /* } */ 
   
 
 .second { 
@@ -111,10 +114,23 @@ button {
     display: flex;
     flex-direction: column;
     align-items: start;
-    margin-left: 30px;
+    margin-left: 100px;
+    font-family: var(--font-family);
+    
 }
 
 .create-current-button { 
     width: 170px;
 }
 
+.spot-price { 
+    font-weight: 800;  
+    font-size: large;
+    font-family: var(font-family);
+}
+
+.spot-night { 
+  font-weight: 500;
+  font-size: small;
+  font-family: var(font-family);
+}
