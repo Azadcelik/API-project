@@ -52,6 +52,7 @@ const [body,setBody] = useState(spotsData?.description)
 const [name,setName] = useState(spotsData?.name)
 const [price,setPrice] = useState(spotsData?.price)
 const [error,setError] = useState(null)
+const  [hasSubmitted, setHasSubmitted] = useState(false);
 const [validationErrors, setValidationErrors] = useState({});
 
 // const [validationErrors,setValidationErrors] = useState({})
@@ -94,6 +95,7 @@ const [previeww,setPreview] = useState('')
 
 const handleSubmit = async (e) => {
     e.preventDefault();
+    setHasSubmitted(true)
     const errors = {};
     if (!country) errors.country = "Country is required";
     if (!address) errors.address = "Address is required";
@@ -102,9 +104,16 @@ const handleSubmit = async (e) => {
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
     if (!latitude) errors.latitude = "Latitude is required";
+     if ( isNaN(latitude) ||  latitude < -90 || latitude > 90) {
+      errors.latitude = "Latitude must be between -90 and 90";
+    }
+    if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+    errors.longitude = "Longitude must be between -180 and 180";
+  }
     if (!longitude) errors.longitude = "Longtitude is required";
     if (!name) errors.name = "Name is required";
     if (!price) errors.price = "Price is required";
+    if (isNaN(price)) errors.price = 'Price is not valid';
     if (!previeww || !/\.(jpg|jpeg|png)$/i.test(previeww)) {
       errors.previeww =
         "Preview image URL is required and must end in .png, .jpg, or .jpeg";
@@ -124,10 +133,11 @@ const handleSubmit = async (e) => {
     if (image4 && !validateImageUrl(image4)) {
       errors.image4 = "Image URL must end in .png, .jpg, or .jpeg";
     }
-    setValidationErrors(errors);
+    
     
 
-    if (Object.values(validationErrors).length > 0) {
+    if (Object.values(errors).length > 0) {
+      setValidationErrors(errors);
       return;
     }
 
@@ -145,13 +155,13 @@ const handleSubmit = async (e) => {
     };
   
   
-      // Dispatch thunkCreateSpot and get the response
-    const updateSpotResponse = await dispatch(thunkUpdateSpot(spotId,updateFormData));
-
+    
     //todo: definetely come back to refactor for error handling  this is very important 
-    if (updateSpotResponse.error) { 
-         setError('Please try again') 
-    }
+    // if (updateSpotResponse.error) { 
+    //   setError('Please try again') 
+    // }
+    // Dispatch thunkCreateSpot and get the response
+  const updateSpotResponse = await dispatch(thunkUpdateSpot(spotId,updateFormData));
     
     // if (!updateSpotResponse) return
 
@@ -205,7 +215,7 @@ return (
           placeholder="Country"
           onChange={(e) => setCountry(e.target.value)}
         />
-        {validationErrors.country && (
+        {hasSubmitted && validationErrors.country && (
           <span className="error-message">{validationErrors.country}</span>
         )}
       </label>
@@ -218,7 +228,7 @@ return (
           value={address}
           onChange={(e) => setAdress(e.target.value)}
         />
-        {validationErrors.address && (
+        {hasSubmitted && validationErrors.address && (
           <span className="error-message">{validationErrors.address}</span>
         )}
       </label>
@@ -233,7 +243,7 @@ return (
             placeholder="City"
             onChange={(e) => setCity(e.target.value)}
           />
-          {validationErrors.city && (
+          {hasSubmitted && validationErrors.city && (
             <span className="error-message">{validationErrors.city}</span>
           )}
         </label>
@@ -247,7 +257,7 @@ return (
             placeholder="STATE"
             onChange={(e) => setState(e.target.value)}
           />
-          {validationErrors.state && (
+          {hasSubmitted && validationErrors.state && (
             <span className="error-message">{validationErrors.state}</span>
           )}
         </label>
@@ -263,7 +273,7 @@ return (
             placeholder="40.730610"
             onChange={(e) => setLatitude(e.target.value)}
           />
-          {validationErrors.latitude && (
+          {hasSubmitted && validationErrors.latitude && (
             <span className="error-message">{validationErrors.latitude}</span>
           )}
         </label>
@@ -277,7 +287,7 @@ return (
             placeholder="-73.935242"
             onChange={(e) => setLongitude(e.target.value)}
           />
-          {validationErrors.longitude && (
+          {hasSubmitted && validationErrors.longitude && (
             <span className="error-message">
               {validationErrors.longitude}
             </span>
@@ -302,7 +312,7 @@ return (
           onChange={(e) => setBody(e.target.value)}
           placeholder="Please write at least 30 characters"
         ></textarea>
-        {validationErrors.body && (
+        {hasSubmitted && validationErrors.body && (
           <span className="error-message">{validationErrors.body}</span>
         )}
       </label>
@@ -320,7 +330,7 @@ return (
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        {validationErrors.name && (
+        {hasSubmitted && validationErrors.name && (
           <span className="error-message">{validationErrors.name}</span>
         )}
       </label>
@@ -340,7 +350,7 @@ return (
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
-          {validationErrors.price && (
+          {hasSubmitted && validationErrors.price && (
             <span className="error-message">{validationErrors.price}</span>
           )}
         </label>
@@ -357,9 +367,9 @@ return (
             value={previeww}
             onChange={(e) => setPreview(e.target.value)}
           />
-          {/* {validationErrors.previeww && (
+          {hasSubmitted && validationErrors.previeww && (
             <span className="error-message">{validationErrors.previeww}</span>
-          )} */}
+          )}
         </label>
 
         <label htmlFor="">

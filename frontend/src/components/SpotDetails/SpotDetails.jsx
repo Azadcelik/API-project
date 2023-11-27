@@ -112,7 +112,7 @@ const SpotDetails = () => {
         <div className="name-review">
           <div className="host-info">
             <div className="host-name">
-              <h2>Hosted by {spotDetails?.Owner?.firstName} {" "}{spotDetails?.Owner?.lastName} </h2>
+              <h2 className="host">Hosted by {spotDetails?.Owner?.firstName} {" "}{spotDetails?.Owner?.lastName} </h2>
             </div>
             <p className="desc">{spotDetails.description}</p>
           </div>
@@ -134,7 +134,7 @@ const SpotDetails = () => {
         <hr />
 
         {canPostReview() && (
-          <button onClick={handleOpenModalContent}>Post Your Review</button>
+          <button onClick={handleOpenModalContent} className="post-review-button">Post Your Review</button>
         )}
         {spotDetails.numReviews < 1 && canPostReview() && (
           <p>Be the first to post a review!</p>

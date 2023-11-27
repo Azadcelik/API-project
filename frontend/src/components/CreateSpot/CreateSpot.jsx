@@ -38,7 +38,7 @@ const CreateSpot = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
   const [error, setError] = useState(null);
-
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
   // const [validationErrors,setValidationErrors] = useState({})
@@ -54,8 +54,17 @@ const CreateSpot = () => {
   //todo: ask if you can syncronously create your error below and set or you need to return error from backend
   // todo: and need to use that error you returned from back end  askkkkkkkkkkk
 
+//   useEffect(() => { 
+//     if (!hasSubmitted) return
+    
+//  },[country,address,body,city,state,latitude,longitude,name,price,previeww,image1,image2,image3,image4])
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setHasSubmitted(true)
     const errors = {};
     if (!country) errors.country = "Country is required";
     if (!address) errors.address = "Address is required";
@@ -64,15 +73,16 @@ const CreateSpot = () => {
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
     if (!latitude) errors.latitude = "Latitude is required";
-    if (latitude < -90 || latitude > 90) {
+    if ( isNaN(latitude) || latitude < -90 || latitude > 90) {
       errors.latitude = "Latitude must be between -90 and 90";
     }
-    if (longitude < -180 || longitude > 180) {
+    if ( isNaN(longitude) || longitude < -180 || longitude > 180) {
     errors.longitude = "Longitude must be between -180 and 180";
   }
     if (!longitude) errors.longitude = "Longtitude is required";
     if (!name) errors.name = "Name is required";
     if (!price) errors.price = "Price is required";
+    if (isNaN(price)) errors.price = 'Price is not valid'
     if (!previeww || !/\.(jpg|jpeg|png)$/i.test(previeww)) {
       errors.previeww =
         "Preview image URL is required and must end in .png, .jpg, or .jpeg";
@@ -92,10 +102,11 @@ const CreateSpot = () => {
     if (image4 && !validateImageUrl(image4)) {
       errors.image4 = "Image URL must end in .png, .jpg, or .jpeg";
     }
-    setValidationErrors(errors);
     
 
-    if (Object.values(validationErrors).length > 0) {
+    if (Object.values(errors).length > 0) {
+    setValidationErrors(errors);
+      
       return;
     }
 
@@ -119,8 +130,8 @@ const CreateSpot = () => {
       // Create an array of all images including the preview image
       const allImages = [previeww, image1, image2, image3, image4];
 
-      //i do not tink i need this one come to refactor
-      const filteredImages = allImages.filter((img) => img); // i think i do not need this section
+      //i do not  need this one come to refactor
+      const filteredImages = allImages.filter((img) => img); //i do not need this section
 
       // Map over the images and create a promise for each upload
       const imageUploadPromises = filteredImages.map((img) => {
@@ -134,6 +145,7 @@ const CreateSpot = () => {
       // await Promise.all(imageUploadPromises);
 
       // Navigate to the newly created spot's page
+      setHasSubmitted(false)
       navigate(`/spots/${newSpotId}`);
     } else {
       // Handle the case where spot creation failed
@@ -160,7 +172,7 @@ const CreateSpot = () => {
             placeholder="Country"
             onChange={(e) => setCountry(e.target.value)}
           />
-          {validationErrors.country && (
+          {hasSubmitted && validationErrors.country && (
             <span className="error-message">{validationErrors.country}</span>
           )}
         </label>
@@ -173,7 +185,7 @@ const CreateSpot = () => {
             value={address}
             onChange={(e) => setAdress(e.target.value)}
           />
-          {validationErrors.address && (
+          {hasSubmitted && validationErrors.address && (
             <span className="error-message">{validationErrors.address}</span>
           )}
         </label>
@@ -188,7 +200,7 @@ const CreateSpot = () => {
               placeholder="City"
               onChange={(e) => setCity(e.target.value)}
             />
-            {validationErrors.city && (
+            {hasSubmitted && validationErrors.city && (
               <span className="error-message">{validationErrors.city}</span>
             )}
           </label>
@@ -202,7 +214,7 @@ const CreateSpot = () => {
               placeholder="STATE"
               onChange={(e) => setState(e.target.value)}
             />
-            {validationErrors.state && (
+            {hasSubmitted && validationErrors.state && (
               <span className="error-message">{validationErrors.state}</span>
             )}
           </label>
@@ -218,7 +230,7 @@ const CreateSpot = () => {
               placeholder="40.730610"
               onChange={(e) => setLatitude(e.target.value)}
             />
-            {validationErrors.latitude && (
+            {hasSubmitted && validationErrors.latitude && (
               <span className="error-message">{validationErrors.latitude}</span>
             )}
           </label>
@@ -232,7 +244,7 @@ const CreateSpot = () => {
               placeholder="-73.935242"
               onChange={(e) => setLongitude(e.target.value)}
             />
-            {validationErrors.longitude && (
+            {hasSubmitted && validationErrors.longitude && (
               <span className="error-message">
                 {validationErrors.longitude}
               </span>
@@ -257,7 +269,7 @@ const CreateSpot = () => {
             onChange={(e) => setBody(e.target.value)}
             placeholder="Please write at least 30 characters"
           ></textarea>
-          {validationErrors.body && (
+          {hasSubmitted && validationErrors.body && (
             <span className="error-message">{validationErrors.body}</span>
           )}
         </label>
@@ -275,7 +287,7 @@ const CreateSpot = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {validationErrors.name && (
+          {hasSubmitted && validationErrors.name && (
             <span className="error-message">{validationErrors.name}</span>
           )}
         </label>
@@ -295,7 +307,7 @@ const CreateSpot = () => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
-            {validationErrors.price && (
+            {hasSubmitted && validationErrors.price && (
               <span className="error-message">{validationErrors.price}</span>
             )}
           </label>
@@ -312,9 +324,9 @@ const CreateSpot = () => {
               value={previeww}
               onChange={(e) => setPreview(e.target.value)}
             />
-            {/* {validationErrors.previeww && (
+            {hasSubmitted && validationErrors.previeww && (
               <span className="error-message">{validationErrors.previeww}</span>
-            )} */}
+            )}
           </label>
 
           <label htmlFor="">

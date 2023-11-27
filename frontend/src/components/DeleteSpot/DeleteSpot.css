@@ -22,9 +22,11 @@
     padding: 6px;
     margin-left: -4px;
     height: 40px;
+    cursor: pointer;
 }
 
 .modal-button.cancel {
     background-color: grey;
+    cursor: pointer;
 }
 

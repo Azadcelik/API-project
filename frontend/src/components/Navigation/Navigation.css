@@ -18,16 +18,19 @@
     margin-top: 0px;
     margin-bottom: 30px;
     cursor: pointer;
-    background-color: purple;
+    background-color: var(--color-dark-gray);
+    cursor: pointer;
+
 }
 
 .profile-button { 
     width: 80px;
     border: solid 2px;
     border-radius: 15px;
-    background-color: purple;
+    background-color: var(--color-dark-gray);
     margin-right: 30px;
     margin-top: -9px;
+    cursor: pointer;
     
 }
 
@@ -81,6 +84,7 @@
     z-index: 1000; 
     padding-left: 20px;
     height: 100px;
+    cursor: pointer;
     
   }
   
@@ -110,7 +114,7 @@
   
   #peace-logo {
     font-size: 24px; /* Adjust this value as needed */
-    color: purple;
+    color: var(--color-dark-gray);
   }
   
   .logo-text {
@@ -118,7 +122,8 @@
     font-size: 20px; /* Adjust this value as needed */
     color: black;
     font-weight: bold; /* Text color, adjust as needed */
-    color: purple;
+    color: var(--color-dark-gray);
+
   } 
 
 

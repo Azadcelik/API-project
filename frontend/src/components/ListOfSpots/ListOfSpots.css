@@ -14,6 +14,9 @@
     --font-family: 'Roboto', sans-serif;
 }
 
+body { 
+   background-color: var(--color-light-teal);
+}
 
 .grid-container {
     display: grid;

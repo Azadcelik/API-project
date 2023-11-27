@@ -14,8 +14,14 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const [validationErrors,setValidationErrors] = useState({})
 
   const handleSubmit = (e) => {
+
+    //todo: ask if this is okay because you can not set multiple error since your backend data only sends one error at one time
+    // const error = {}
+    
+    setValidationErrors(validationErrors)
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors({});
@@ -42,13 +48,13 @@ function SignupFormModal() {
     });
   };
 
-  const isButtonDisables =
-    email.length < 1 ||
-    username.length < 4 ||
-    firstName.length < 1 ||
-    lastName.length < 1 ||
-    password.length < 6 ||
-    confirmPassword.length < 1;
+  // const isButtonDisables =
+  //   email.length < 1 ||
+  //   username.length < 4 ||
+  //   firstName.length < 1 ||
+  //   lastName.length < 1 ||
+  //   password.length < 6 ||
+  //   confirmPassword.length < 1;
 
   
 
@@ -56,12 +62,12 @@ function SignupFormModal() {
     <div>
       <h1>Sign Up</h1>
       <div className="error">
-      {errors.firstName && <p>{errors.firstName}</p>}
-      {errors.lastName && <p>{errors.lastName}</p>}
-      {errors.username && <p>{errors.username}</p>}
-      {errors.email && <p>{errors.email}</p>}
-      {errors.password && <p>{errors.password}</p>}
-      {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+      {errors && <p>{errors.firstName}</p>}
+      {errors && <p>{errors.lastName}</p>}
+      {errors && <p>{errors.username}</p>}
+      {errors && <p>{errors.email}</p>}
+      {errors && <p>{errors.password}</p>}
+      {errors && <p>{errors.confirmPassword}</p>}
       </div>
       <form onSubmit={handleSubmit}>
         <label>
@@ -123,7 +129,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <button type="submit" className="sign-up-button" disabled={isButtonDisables}>
+        <button type="submit" className="sign-up-button" >
           Sign Up
         </button>
       </form>

@@ -16,6 +16,7 @@ import "./CurrentSpot.css";
 const CurrentSpot = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
 
   const { setModalContent } = useModal();
 

@@ -133,7 +133,7 @@ export const thunkCurrentSpot = () => async dispatch => {
   }
   catch (error) {
       console.error('Error in thunkCurrentSpot:', error);
-      throw {error};  // Rethrow the original error, not a new Error
+      return {error};  // Rethrow the original error, not a new Error
     }
   }
 

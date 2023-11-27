@@ -1,25 +1,54 @@
+:root { 
+    --heading-font-size: 24pt;
+    --subheading-font-size: 18pt;
+    --subheading-font-weight: bold;
+    --normal-font-size: 14pt;
+    --heading-font-weight: bold;
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+    --color-dark-gray: #999999;
+    --color-light-gray: #CCCCCC;
+    --color-red: #FF5A5F;
+    --color-teal: #00525E;
+    --color-light-teal: #E8F0FE;
+    --font-family: 'Roboto', sans-serif;
+}
 .revieww {
     display: flex;
-    flex-direction: column;
-                       
+    flex-direction: column;   
+    font-family: var(--font-family);
+    font-size: var(--normal-font-size);
+
 }
 
 .button-for-delete-review { 
     width: 90px;
+    font-family: var(--font-family);
+    cursor: pointer;
+
 }
 
 .review-text { 
  text-align: justify;
- font-weight: bold;
+ font-weight: normal;
+ font-family: var(--font-family);
  
 }
 
 .review-namee { 
     font-size: large;
     font-weight: bold;
+    font-family: var(--font-family);
+    
+
 }
 
 .date-review{ 
-    font-size: large;
+    font-size: small;
+    font-weight: lighter;
     font-weight: normal;
+    color: var(--color-dark-gray);
+    margin-top: -14px;
+    font-family: var(--font-family);   
+
 }   

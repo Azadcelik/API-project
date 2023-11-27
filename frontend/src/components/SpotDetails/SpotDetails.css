@@ -76,11 +76,9 @@
     margin-left: 20px; /* Adjust the value as needed */
 }
 
-/* .reserve-button { 
-    width: 350px;
-    height: 40px;
-    margin-top: 20px;
-} */
+.reserve-button { 
+   cursor: pointer;
+}
 
 .spot-details-container {
     max-width: 1000px; /* Set maximum width */
@@ -113,11 +111,14 @@
 
 .desc { 
     text-align: justify;
+    font-size: 12pt;
+    color: var(--color-black);
 } 
 
 .spot-name { 
     font-size: var(--subheading-font-size);
     font-family: var(--font-family);
+    
 }
 
 .spot-city-state {
@@ -133,4 +134,12 @@
 .text-night {
   font-family: var(--font-family);
   font-weight: lighter;
+}
+
+.host { 
+    font-size: var(--subheading-font-size);
+}
+
+.post-review-button  {
+    cursor: pointer;
 }
