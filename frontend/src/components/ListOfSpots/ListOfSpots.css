@@ -22,7 +22,7 @@ body {
     display: grid;
    padding:  0 100px;
     grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
-    grid-gap: 20px;
+    grid-gap: 80px;
     
 }
 

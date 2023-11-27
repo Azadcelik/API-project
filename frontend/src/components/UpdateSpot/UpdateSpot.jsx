@@ -171,7 +171,7 @@ const handleSubmit = async (e) => {
     if (newSpotId) {
     //   Create an array of all images including the preview image
       const allImages = [previeww, image1, image2, image3, image4];
-  
+     console.log('alliimages aupadte in updateded section',allImages)
      //i do not tink i need this one come to refactor 
       const filteredImages = allImages.filter(img => img); // i think i do not need this section
   
