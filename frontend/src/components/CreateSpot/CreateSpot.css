@@ -93,3 +93,9 @@ textarea {
  cursor: pointer;
 
 }
+
+
+.body-text {
+  margin-left: -3px;
+}
+

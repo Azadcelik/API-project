@@ -259,7 +259,7 @@ const CreateSpot = () => {
           fast wif or parking, and what you love about the neighborhood.
         </h3>
         <label htmlFor="">
-          <textarea
+          <textarea className="body-text"
             name=""
             id=""
             cols="30"

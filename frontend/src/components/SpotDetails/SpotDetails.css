@@ -97,6 +97,7 @@
   /* Scale down the text inside the .second container */
 
 .second { 
+    
     border: 2px solid black;
     margin-top: 20px;
     border-radius: 15px;
