@@ -131,19 +131,17 @@ const CreateSpot = () => {
       const allImages = [previeww, image1, image2, image3, image4];
       console.log('all images in create',allImages)
       //i do not  need this one come to refactor
-      const filteredImages = allImages.filter((img) => img); //i do not need this section
+      const filteredImages = allImages.filter((img) => img); //i do not need this section but in case of not image
 
-      // Map over the images and create a promise for each upload
-      // const imageUploadPromises = 
-  filteredImages.map((img) => {
-        // Mark the image object with preview: true only if it's the preview image
-        // const isPreview = img === preview;
+      // i could not figure it out otherwise  
+     const imageUploadPromises = filteredImages.map((img) => {
+  
         const newImgObj = { url: img, preview: true };
-        return dispatch(thunkaddImage(newSpotId, newImgObj));
+        return  dispatch(thunkaddImage(newSpotId, newImgObj));
       });
 
-      // Wait for all image uploads to complete
-      // await Promise.all(imageUploadPromises);
+      //this does not help most of the time.Do not change your reducer after that.
+      await Promise.all(imageUploadPromises);
 
       // Navigate to the newly created spot's page
       setHasSubmitted(false)
