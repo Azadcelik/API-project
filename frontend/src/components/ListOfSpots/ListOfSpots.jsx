@@ -54,8 +54,9 @@ return (
   <div className="grid-container">
       {error && <p>{error}</p>}
       {spotsData.map((spot) => (
-        <div key={spot.id} className="grid-item"  onClick={() => navigateToSpotDetailsPage(spot.id)}>
+        <div key={spot.id} className="grid-item"  >
              <span className="tooltip">{spot.name}</span> 
+          <div onClick={() => navigateToSpotDetailsPage(spot.id)} className="cursor-pointer-spots" >
           <img src={spot.previewImage} className="spot-thumbnail"/>
           <div className="spot-info">
             <div className="spot-location">
@@ -68,6 +69,7 @@ return (
             </div>
           </div>
           <div className="spot-price">${spot.price} <span className="night">night</span></div>
+          </div>
         </div>
       ))}
     </div>

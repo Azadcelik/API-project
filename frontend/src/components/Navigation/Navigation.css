@@ -18,7 +18,7 @@
     margin-top: 0px;
     margin-bottom: 30px;
     cursor: pointer;
-    background-color: var(--color-dark-gray);
+    background-color: rgb(69, 69, 205);
     cursor: pointer;
 
 }
@@ -27,7 +27,8 @@
     width: 80px;
     border: solid 2px;
     border-radius: 15px;
-    background-color: var(--color-dark-gray);
+    background-color: rgb(69, 69, 205);
+
     margin-right: 30px;
     margin-top: -9px;
     cursor: pointer;
@@ -35,7 +36,7 @@
 }
 
 .login-page { 
-    position: relative; /* Add this line */
+    position: relative;
     display: flex;
     justify-content: end;
     
@@ -60,10 +61,7 @@
 
 
 
-/* //navigation.jsx  */
 
-
-/* CSS for the navigation bar */
 
 
 
@@ -79,7 +77,7 @@
   /* Dropdown menu styles */
   .profile-dropdown {
     position: absolute;
-    top: 120%; /* Position it below the login page element */
+    top: 120%; 
     right: 0;
     z-index: 1000; 
     padding-left: 20px;
@@ -103,7 +101,7 @@
    */
 
   ul {
-    list-style-type: none; /* Remove bullet points */
+    list-style-type: none; 
    
 }
 
@@ -113,16 +111,18 @@
   }
   
   #peace-logo {
-    font-size: 24px; /* Adjust this value as needed */
-    color: var(--color-dark-gray);
+    font-size: 24px; 
+    color: rgb(69, 69, 205);
+
   }
   
   .logo-text {
-    margin-left: 8px; /* Space between logo and text */
-    font-size: 20px; /* Adjust this value as needed */
+    margin-left: 8px; 
+    font-size: 20px; 
     color: black;
-    font-weight: bold; /* Text color, adjust as needed */
-    color: var(--color-dark-gray);
+    font-weight: bold; 
+    color: rgb(69, 69, 205);
+
 
   } 
 
@@ -164,8 +164,8 @@ li {
 .logino button { 
   background: none;
   border: none;
-  cursor: pointer; /* Maintain the pointer to indicate it's clickable */
-  text-decoration: none; /* Remove underlines if they are <a> tags */
+  cursor: pointer; 
+  text-decoration: none; 
   color: black;
   box-shadow: none;
   padding-right: 30px;

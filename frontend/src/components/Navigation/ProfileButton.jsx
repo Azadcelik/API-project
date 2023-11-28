@@ -1,6 +1,6 @@
 // frontend/src/components/Navigation/ProfileButton.jsx
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { NavLink } from 'react-router-dom';
@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import './Navigation.css'
 import { thunkCurrentSpot } from '../../store/spots';
 
-function ProfileButton({ user }) {
+function ProfileButton({ user, showMenu, setShowMenu }) {
   const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
+  // const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const navigate = useNavigate()
 
@@ -32,17 +32,19 @@ function ProfileButton({ user }) {
     document.addEventListener('click', closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  }, [showMenu,setShowMenu]);
 
-  const logout = (e) => {
+  const logout = async (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
-    navigate('/')
+    await dispatch(sessionActions.logout());
+    setShowMenu(false); // Explicitly set to false
+    navigate('/');
   };
 
   const manageSpotsOnClick = async () => {
     navigate('/spots/current');
     await dispatch(thunkCurrentSpot()) //why i need to refresh page to navigate.even dispatch does not help.Ask on monday.
+
 };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");

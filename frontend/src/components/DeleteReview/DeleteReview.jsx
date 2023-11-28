@@ -3,7 +3,7 @@ import { useModal } from "../../context/Modal"
 import { useDispatch } from "react-redux"
 import { useState } from "react"
 import { getSpotDetails } from "../../store/spots"
-    
+import './Delete.Review.css'
 
 const DeleteReview = ({reviewId,spotId}) => { 
 const dispatch = useDispatch()
@@ -19,7 +19,7 @@ const handleReviewButton = async () => {
         await dispatch(getSpotDetails(spotId))
     }
     else if (response.error) {
-        setError(response.error.message || 'Failed to delete the review.');
+        setError('Failed to delete the review.Please try again later');
     }
 
 };
@@ -32,6 +32,7 @@ const keepReviewButton = () => {
 
     <div className="modal">
         <div className="modal-header">Confirm Delete</div>
+        {error && <p className="delete-review-error">{error}</p>}
         <div className="modal-body">Are you sure you want to delete this review?</div>
         <button className="modal-button delete" onClick={handleReviewButton}>Yes (Delete Spot)</button>
         <button className="modal-button cancel" onClick={keepReviewButton}>No (Keep Spot)</button>

@@ -6,17 +6,17 @@
 //todo: critical point is add spotId and data that is going to be posted images exactly same as in your backend data style(obj)here
 //todo: add your state images which is beeing collected to your handle submit so you can send data
 
-import { useEffect, useState } from "react";
-import { ReactReduxContext, useDispatch, useSelector } from "react-redux";
+import {  useState } from "react";
+import {  useDispatch, useSelector } from "react-redux";
 import { thunkCreateSpot } from "../../store/spots";
 import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 import "./CreateSpot.css";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { thunkaddImage } from "../../store/addSpotImage";
 
 const CreateSpot = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ const CreateSpot = () => {
   const [body, setBody] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -59,7 +59,7 @@ const CreateSpot = () => {
     
 //  },[country,address,body,city,state,latitude,longitude,name,price,previeww,image1,image2,image3,image4])
 
-
+ 
 
 
   const handleSubmit = async (e) => {
@@ -134,7 +134,8 @@ const CreateSpot = () => {
       const filteredImages = allImages.filter((img) => img); //i do not need this section
 
       // Map over the images and create a promise for each upload
-      const imageUploadPromises = filteredImages.map((img) => {
+      // const imageUploadPromises = 
+  filteredImages.map((img) => {
         // Mark the image object with preview: true only if it's the preview image
         // const isPreview = img === preview;
         const newImgObj = { url: img, preview: true };
@@ -149,13 +150,13 @@ const CreateSpot = () => {
       navigate(`/spots/${newSpotId}`);
     } else {
       // Handle the case where spot creation failed
-      console.error("Failed to create the spot");
+      console.log("Failed to create the spot");
     }
   };
 
   return (
     <div className="main-contain">
-      {error && <p>{error}</p>}
+      {/* {error && <p>{error}</p>} */}
       <div className="h1-h2">
       <h2>Create a New Spot</h2>
       <h3>Where&apos;s your place located?</h3>

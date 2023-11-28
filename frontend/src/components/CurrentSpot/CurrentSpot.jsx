@@ -44,15 +44,15 @@ const CurrentSpot = () => {
     navigate(`/spots/${spotId}`);
   };
 
-  const createSpotButton = () => { 
-    navigate('/spots/new')
-  }
+  // const createSpotButton = () => { 
+  //   navigate('/spots/new')
+  // }
 
   return (
     <>
       <div>
       <h2 className="manage">Manage Your Spots</h2>
-      {spotsData.length < 1 && <button onClick={createSpotButton} className="create-current-button">Create a New Spot</button>}
+      {/* {spotsData.length < 1 && <button onClick={createSpotButton} className="create-current-button">Create a New Spot</button>} */}
       </div>
       <div className="grid-container">
         {spotsData.map((spot) => (
@@ -61,7 +61,7 @@ const CurrentSpot = () => {
             className="grid-item"
           >
             <span className="tooltip">{spot.name}</span>
-            <div  onClick={() => navigateDetailedPage(spot.id)}>
+            <div  onClick={() => navigateDetailedPage(spot.id)} className="cursor-pointer-current">
             <img src={spot.previewImage} className="spot-thumbnail" />
             <div className="spot-info">
               <div className="spot-location">

@@ -15,14 +15,15 @@
 }
 
 body { 
-   background-color: var(--color-light-teal);
+   background-color:  lightskyblue;
 }
 
 .grid-container {
     display: grid;
    padding:  0 100px;
     grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
-    grid-gap: 80px;
+    grid-gap: 50px;
+
     
 }
 
@@ -36,7 +37,6 @@ body {
 
 .grid-item {
     position: relative; /* Needed for absolute positioning of the tooltip */
-    cursor: pointer;
 }
 
 .tooltip {
@@ -74,4 +74,8 @@ body {
 .night { 
     font-family: var(--font-family);
     font-weight: 400;
+}
+
+.cursor-pointer-spots { 
+    cursor: pointer;
 }

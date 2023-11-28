@@ -48,13 +48,13 @@ function SignupFormModal() {
     });
   };
 
-  // const isButtonDisables =
-  //   email.length < 1 ||
-  //   username.length < 4 ||
-  //   firstName.length < 1 ||
-  //   lastName.length < 1 ||
-  //   password.length < 6 ||
-  //   confirmPassword.length < 1;
+  const isButtonDisables =
+    email.length < 1 ||
+    username.length < 4 ||
+    firstName.length < 1 ||
+    lastName.length < 1 ||
+    password.length < 6 ||
+    confirmPassword.length < 1;
 
   
 
@@ -129,7 +129,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        <button type="submit" className="sign-up-button" >
+        <button type="submit" className="sign-up-button" disabled={isButtonDisables} >
           Sign Up
         </button>
       </form>

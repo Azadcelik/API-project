@@ -12,7 +12,7 @@
 
 
 import { useState } from "react";
-import { ReactReduxContext, useDispatch,useSelector } from "react-redux"
+import {  useDispatch,useSelector } from "react-redux"
 import { thunkUpdateSpot } from "../../store/spots";
 import { useNavigate } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
@@ -51,7 +51,7 @@ const [longitude,setLongitude] = useState(spotsData?.lng)
 const [body,setBody] = useState(spotsData?.description)
 const [name,setName] = useState(spotsData?.name)
 const [price,setPrice] = useState(spotsData?.price)
-const [error,setError] = useState(null)
+// const [error,setError] = useState(null)
 const  [hasSubmitted, setHasSubmitted] = useState(false);
 const [validationErrors, setValidationErrors] = useState({});
 
@@ -176,7 +176,8 @@ const handleSubmit = async (e) => {
       const filteredImages = allImages.filter(img => img); // i think i do not need this section
   
       // Map over the images and create a promise for each upload
-      const imageUploadPromises = filteredImages.map(img => {
+      // const imageUploadPromises = 
+      filteredImages.map(img => {
           // Mark the image object with preview: true only if it's the preview image
           const isPreview = img === previeww;
           const newImgObj = { url: img, previeww: isPreview };
@@ -190,7 +191,7 @@ const handleSubmit = async (e) => {
       navigate(`/spots/${spotId}`);
   } else {
       // Handle the case where spot creation failed
-      console.error('Failed to update the spot');
+      console.log('Failed to update the spot');
  
     }
 

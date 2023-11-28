@@ -19,7 +19,7 @@ const SpotDetails = () => {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const [error, setError] = useState(null);
-  const [hasUserReviewed, setHasUserReviewed] = useState(false);
+  // const [hasUserReviewed, setHasUserReviewed] = useState(false);
 
   const spotDetails = useSelector((state) => state.spots[spotId]); // Retrieve specific spot details
   console.log("spotdetails in spotdetails section", spotDetails);

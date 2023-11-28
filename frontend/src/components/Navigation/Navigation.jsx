@@ -7,7 +7,7 @@ import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import './Navigation.css';
 
 import { useState,useRef } from 'react';
-import ListOfSpots from '../ListOfSpots/ListOfSpots';
+// import ListOfSpots from '../ListOfSpots/ListOfSpots';
 
 
 function Navigation({ isLoaded }) {
@@ -28,7 +28,11 @@ function Navigation({ isLoaded }) {
   if (sessionUser) {
     sessionLinks = (
       <li>
-        <ProfileButton user={sessionUser} />
+         <ProfileButton 
+          user={sessionUser} 
+          showMenu={showMenu} 
+          setShowMenu={setShowMenu} 
+        />
       </li>
     );
   } else {
