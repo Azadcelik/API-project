@@ -1,13 +1,13 @@
 label {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px; /* Adds some space after each label */
+    margin-bottom: 10px; 
   }
 
   .image-url { 
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px; /* Adds some space after each label */
+    margin-bottom: 10px; 
   }
 
   .city-state { 
@@ -30,10 +30,9 @@ label {
 
 
   .main-contain { 
-    /* width: 90%; Or a specific pixel value */
     max-width: 1100px; 
     margin: 0 auto; 
-    padding: 20px; /* Equal padding on all sides */
+    padding: 20px; 
     
   }
 
@@ -63,14 +62,14 @@ textarea {
   flex-direction: column;
   
 
-  min-height: 100vh; /* This ensures that the container will at least be the full height of the viewport */
+  min-height: 100vh; 
   padding: 20px;
 }
 
 .create-form {
-  width: 100%; /* Adjust this as needed */
-  max-width: 500px; /* Adjust this to match the width you want */
-  margin: auto; /* This will help in centering if the width is less than 100% */
+  width: 100%; 
+  max-width: 500px;
+  margin: auto; 
 }
 
 .main-contain h1,
@@ -78,7 +77,6 @@ textarea {
 .main-contain h3,
 .main-contain h4{
   margin: 0;
-  padding-left: /* same value as the padding or text-indent of your inputs */;
   margin-bottom: 20px;
 }
 
