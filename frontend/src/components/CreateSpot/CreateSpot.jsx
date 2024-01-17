@@ -147,7 +147,7 @@ const CreateSpot = () => {
       setHasSubmitted(false)
       navigate(`/spots/${newSpotId}`);
     } else {
-      // Handle the case where spot creation failed
+      // Handle the case where spot creation faile
       console.log("Failed to create the spot");
     }
   };
