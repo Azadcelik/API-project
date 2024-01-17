@@ -36,4 +36,4 @@ function App() {
   );
 }
 
-export default App; // This line exports the App component
+export default App; // This line exports the App componen
